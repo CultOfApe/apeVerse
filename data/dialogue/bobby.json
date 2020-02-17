@@ -1,0 +1,111 @@
+{
+	"name": "Ellie",
+	"background": "background.png",
+	"dialogue": {
+		"a": {
+			"avatar": "res://data/npcs/ellie_talkanim.tscn",
+			"animate": "false",
+			"loop": "false",
+			"frame": 0,
+			"speech": [
+				"Whats´s up? Oh, it´s you..",
+				"What do you want?"
+			],
+			"replies": [{
+					"reply": "Would it hurt you not to be a bitch every second you´re awake? I heard you´re looking for some weed, and I know where to score some",
+					"next": "b",
+					"exit": "false"
+				},
+				{
+					"reply": "By your way of greeting an upstanding citizen like me, I gather you´re not interested in the weed I could possibly procure on your behalf.",
+					"next": "b",
+					"exit": "false"
+				},
+				{
+					"reply": "Nothing. Jeez. bye.",
+					"next": "c",
+					"exit": "false"
+				}
+			]
+		},
+		"b": {
+			"avatar": "res://data/npcs/ellie_talkanim.tscn",
+			"frame": 1,
+			"speech": ["Wait! I might be interested in that, but I don´t have much cash on me"],
+			"replies": [{
+					"reply": "Arrangements could be made to satisfy both our interests",
+					"next": "d",
+					"exit": "false"
+				},
+				{
+					"reply": "That´s aight, papa buzz got the best installment plans in the biz for a small interest, of say 10 percent",
+					"next": "e",
+					"exit": "false"
+				}
+			]
+		},
+		"c": {
+			"avatar": "res://data/npcs/ellie_talkanim.tscn",
+			"frame": 0,
+			"speech": ["Whatever."],
+			"replies": [{
+				"reply": "...",
+				"next": "f",
+				"exit": "true",
+				"bubble": "What a bitch..."
+			}]
+		},
+		"d": {
+			"avatar": "res://data/npcs/ellie_talkanim.tscn",
+			"frame": 3,
+			"speech": ["What the fuck´s that supposed to mean? If you think I´m gonna blow..."],
+			"replies": [{
+				"reply": "Chill baby smurf, papa buzz juz saying he gots the best installment plans in the biz",
+				"next": "e",
+				"exit": "false"
+			}]
+		},
+		"e": {
+			"avatar": "res://data/npcs/ellie_talkanim.tscn",
+			"frame": 2,
+			"speech": ["Fine, could you get me $20 worth?"],
+			"replies": [{
+				"reply": "Thy wish is my command, princess.",
+				"next": "g",
+				"exit": "true",
+				"bubble": "Gotta call Devaun."
+			}]
+		},
+		"f": {
+			"avatar": "res://data/npcs/ellie_talkanim.tscn",
+			"frame": 0,
+			"speech": ["You again? What now?"],
+			"replies": [{
+					"reply": "Would it hurt you not to be a bitch every second you´re awake? I heard you´re looking for some weed, and I know where to score some",
+					"next": "b",
+					"exit": "false"
+				},
+				{
+					"reply": "By your way of greeting an upstanding citizen like me, I gather you´re not interested in the weed I could possibly procure on your behalf.",
+					"next": "b",
+					"exit": "false"
+				},
+				{
+					"reply": "Nothing. Jeez. bye.",
+					"next": "f",
+					"exit": "true"
+				}
+			]
+		},
+		"g": {
+			"avatar": "res://data/npcs/ellie_talkanim.tscn",
+			"frame": 2,
+			"speech": ["You got it yet?"],
+			"replies": [{
+				"reply": "Not yet, apple blossom. Will get right on it.",
+				"next": "g",
+				"exit": "true"
+			}]
+		}
+	}
+}

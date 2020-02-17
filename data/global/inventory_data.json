@@ -1,0 +1,30 @@
+{
+	"tools": [
+		{
+			"id" : "wrench",
+			"description" : "Just your everyday wrench"
+		}
+	],
+	"gifts": [
+		{
+			"id" : "rose",
+			"description" : "a red rose"
+		}
+	],
+	"misc": [
+	],
+	"junk": [
+		{
+			"id" : "shoe",
+			"description" : "smells like someone puked in it"
+		},
+		{
+			"id" : "ticket",
+			"description" : "this ticket has great sentimental value to me"
+		},
+		{
+			"id" : "wrench",
+			"description" : "Just your everyday wrench"
+		},
+	]
+}

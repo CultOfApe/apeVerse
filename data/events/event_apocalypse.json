@@ -1,0 +1,26 @@
+{
+	"event": "apocalypse",
+	"type": "oneoff"
+	"time" : {
+		"day": "saturday"
+		"timeOfDay": "all"
+	},
+	"remove": "all",
+	"alt remove": {
+		"actor": "laura",
+		"from": [
+			"schoolyard",
+			"coffeshop"
+		]
+	}
+	"add": {
+		"location": "graveyard",
+		"actor": "laura",
+		"model": "laura_apocalypse,
+		"animation": "laura_apocalypse",
+		"dialogue": "laura_apocalypse",
+	}
+	"noshow": "none",
+	"cancel": "none",
+	"after" : "default"
+}

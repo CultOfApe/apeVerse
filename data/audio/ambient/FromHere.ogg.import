@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/FromHere.ogg-10b21e31148d99224868cab1f3ea8ced.oggstr"
+
+[deps]
+
+source_file="res://data/audio/ambient/FromHere.ogg"
+dest_files=[ "res://.import/FromHere.ogg-10b21e31148d99224868cab1f3ea8ced.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

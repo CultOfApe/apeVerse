@@ -1,0 +1,418 @@
+[gd_scene load_steps=47 format=2]
+
+[ext_resource path="res://data/scripts/game.gd" type="Script" id=1]
+[ext_resource path="res://data/scripts/ui.gd" type="Script" id=2]
+[ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://data/fonts/segoe.font" type="BitmapFont" id=4]
+[ext_resource path="res://data/graphics/speech_bubble.png" type="Texture" id=5]
+[ext_resource path="res://data/graphics/UI/inventory.png" type="Texture" id=6]
+[ext_resource path="res://data/graphics/UI/phone.png" type="Texture" id=7]
+[ext_resource path="res://data/graphics/UI/map.png" type="Texture" id=8]
+[ext_resource path="res://data/graphics/settings.png" type="Texture" id=9]
+[ext_resource path="res://data/graphics/UI/calendar.png" type="Texture" id=10]
+[ext_resource path="res://data/locations/schoolyard.tscn" type="PackedScene" id=14]
+[ext_resource path="res://data/asset scenes/schoolbag_UI.tscn" type="PackedScene" id=15]
+[ext_resource path="res://data/asset scenes/calendar_UI.tscn" type="PackedScene" id=16]
+[ext_resource path="res://data/asset scenes/dialogue.tscn" type="PackedScene" id=17]
+[ext_resource path="res://data/asset scenes/game_settings.tscn" type="PackedScene" id=18]
+[ext_resource path="res://data/graphics/saves/screenshot.png" type="Texture" id=19]
+[ext_resource path="res://data/asset scenes/player.tscn" type="PackedScene" id=21]
+[ext_resource path="res://data/asset scenes/map_ui.tscn" type="PackedScene" id=22]
+[ext_resource path="res://data/asset scenes/object.tscn" type="PackedScene" id=23]
+[ext_resource path="res://data/scripts/scene.gd" type="Script" id=24]
+[ext_resource path="res://data/npcs/ellie.tscn" type="PackedScene" id=25]
+[ext_resource path="res://data/graphics/white.png" type="Texture" id=26]
+[ext_resource path="res://data/asset scenes/phone_ui.tscn" type="PackedScene" id=27]
+[ext_resource path="res://data/audio/ambient/FromHere.ogg" type="AudioStream" id=28]
+[ext_resource path="res://data/graphics/UI/crosshairs01.png" type="Texture" id=29]
+[ext_resource path="res://data/graphics/UI/crosshairs02.png" type="Texture" id=30]
+[ext_resource path="res://data/graphics/UI/crosshairs03.png" type="Texture" id=31]
+[ext_resource path="res://data/scripts/Editor.gd" type="Script" id=32]
+[ext_resource path="res://data/env.tres" type="Environment" id=33]
+
+[sub_resource type="GIProbeData" id=1]
+bounds = AABB( -14.7751, -12.9545, -14.3391, 29.5502, 25.909, 28.6782 )
+cell_size = 0.230861
+to_cell_xform = Transform( 4.33161, 0, 0, 0, 4.33161, 0, 0, 0, 4.33161, 64, 56.1139, 62.1114 )
+dynamic_data = PoolIntArray( 0, 8, 128, 128, 128, 1, 0, 0, 0, 1098907648, 1098907648, 0, 979252320, 0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 8355711, 0 )
+dynamic_range = 4
+energy = 0.1
+bias = 1.5
+normal_bias = 0.0
+propagation = 0.7
+
+[sub_resource type="ProceduralSky" id=2]
+sky_top_color = Color( 0.0470588, 0.454902, 0.976471, 1 )
+sky_horizon_color = Color( 0.556863, 0.823529, 0.909804, 1 )
+sky_curve = 0.25
+sky_energy = 2.0
+ground_bottom_color = Color( 0.101961, 0.145098, 0.188235, 1 )
+ground_horizon_color = Color( 0.482353, 0.788235, 0.952941, 1 )
+ground_curve = 0.01
+sun_latitude = 50.0
+sun_energy = 32.0
+texture_size = 3
+
+[sub_resource type="Environment" id=3]
+background_mode = 2
+background_sky = SubResource( 2 )
+background_energy = 2.0
+ambient_light_color = Color( 0.729412, 0.94902, 0.890196, 1 )
+tonemap_mode = 2
+ssao_enabled = true
+ssao_color = Color( 0.384314, 0.65098, 0.568627, 1 )
+glow_enabled = true
+
+[sub_resource type="DynamicFont" id=4]
+size = 15
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 30
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 15
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="CircleShape2D" id=7]
+radius = 63.1471
+
+[sub_resource type="CircleShape2D" id=8]
+radius = 56.4041
+
+[sub_resource type="CircleShape2D" id=9]
+radius = 53.0022
+
+[sub_resource type="CircleShape2D" id=10]
+radius = 47.2968
+
+[sub_resource type="CircleShape2D" id=11]
+radius = 52.1685
+
+[sub_resource type="PhysicsMaterial" id=12]
+
+[sub_resource type="PhysicsMaterial" id=13]
+
+[sub_resource type="PlaneShape" id=14]
+
+[sub_resource type="Shader" id=15]
+code = "shader_type canvas_item;
+
+uniform float amount : hint_range(0,5);
+
+void fragment() {
+
+	COLOR.rgb = textureLod(SCREEN_TEXTURE,SCREEN_UV,amount).rgb;
+}"
+
+[sub_resource type="ShaderMaterial" id=16]
+shader = SubResource( 15 )
+shader_param/amount = 4.0
+
+[sub_resource type="SpriteFrames" id=17]
+animations = [ {
+"frames": [ ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="game" type="Node"]
+script = ExtResource( 1 )
+
+[node name="pos3d" type="Position3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="pos3d"]
+environment = ExtResource( 33 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="pos3d"]
+transform = Transform( 0.153615, -0.429527, 0.889893, 0.115044, 0.902232, 0.415623, -0.981411, 0.0385307, 0.188011, 36.4748, 32.3481, 18.0329 )
+light_energy = 0.7
+light_specular = 0.0
+shadow_enabled = true
+
+[node name="GIProbe" type="GIProbe" parent="pos3d"]
+extents = Vector3( 14.7751, 12.9545, 14.3391 )
+energy = 0.1
+data = SubResource( 1 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.83795, 0.233588, -0.493231, 0.104116, 0.818749, 0.564633, 0.535724, -0.524487, 0.66175, -5.25547, 5.74719, 7.60784 )
+fov = 50.0
+
+[node name="env" type="WorldEnvironment" parent="Camera"]
+environment = SubResource( 3 )
+
+[node name="ui" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="dateLabel" type="Label" parent="ui"]
+margin_left = 1500.0
+margin_top = 899.0
+margin_right = 1882.0
+margin_bottom = 961.0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.550763, 0.538559, 0.761719, 1 )
+text = "Monday, 8 AM"
+align = 2
+
+[node name="pointsLabel" type="Label" parent="ui"]
+visible = false
+margin_left = 1764.0
+margin_top = 7.0
+margin_right = 1857.0
+margin_bottom = 69.0
+size_flags_vertical = 0
+custom_fonts/font = ExtResource( 4 )
+text = "240"
+
+[node name="descriptionLabel" type="Label" parent="ui"]
+margin_left = 890.0
+margin_top = 884.0
+margin_right = 1049.0
+margin_bottom = 946.0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="thoughtBubble" type="Label" parent="ui"]
+visible = false
+margin_left = -185.998
+margin_top = 1015.0
+margin_right = -26.9977
+margin_bottom = 1077.0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 6 )
+text = "text"
+align = 1
+
+[node name="bubble" type="Sprite" parent="ui/thoughtBubble"]
+position = Vector2( 77.9949, 17.8947 )
+z_index = -99
+texture = ExtResource( 5 )
+
+[node name="materialize" type="Tween" parent="ui/thoughtBubble"]
+
+[node name="dissolve" type="Tween" parent="ui/thoughtBubble"]
+
+[node name="settings" type="Area2D" parent="ui"]
+visible = false
+position = Vector2( 1816.75, 579.325 )
+
+[node name="Sprite" type="Sprite" parent="ui/settings"]
+position = Vector2( -3.73492, 1.64922 )
+texture = ExtResource( 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/settings"]
+position = Vector2( -2.99091, 0.0382233 )
+shape = SubResource( 7 )
+
+[node name="inventory" type="Area2D" parent="ui" groups=[
+"UI_icons",
+]]
+position = Vector2( 235, 536 )
+
+[node name="Sprite" type="Sprite" parent="ui/inventory"]
+position = Vector2( 579.032, 463.226 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/inventory"]
+position = Vector2( 575.795, 466.592 )
+shape = SubResource( 8 )
+
+[node name="phone" type="Area2D" parent="ui" groups=[
+"UI_icons",
+]]
+position = Vector2( 319, 473 )
+
+[node name="Sprite" type="Sprite" parent="ui/phone"]
+position = Vector2( 652.041, 526.164 )
+texture = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/phone"]
+position = Vector2( 650.415, 519.668 )
+shape = SubResource( 9 )
+
+[node name="map" type="Area2D" parent="ui" groups=[
+"UI_icons",
+]]
+position = Vector2( 550, 407 )
+
+[node name="Sprite" type="Sprite" parent="ui/map"]
+position = Vector2( 568.962, 589.103 )
+texture = ExtResource( 8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/map"]
+position = Vector2( 565.873, 587.915 )
+shape = SubResource( 10 )
+
+[node name="calendar" type="Area2D" parent="ui" groups=[
+"UI_icons",
+]]
+
+[node name="Sprite" type="Sprite" parent="ui/calendar"]
+position = Vector2( 1815.76, 997.246 )
+texture = ExtResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/calendar"]
+position = Vector2( 1821.16, 1004 )
+shape = SubResource( 11 )
+
+[node name="phone_ui" parent="ui" instance=ExtResource( 27 )]
+z_index = 99
+
+[node name="apps" parent="ui/phone_ui" index="3"]
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="full_view" parent="ui/phone_ui/apps" index="6"]
+visible = false
+
+[node name="schoolbag_ui" parent="ui" instance=ExtResource( 15 )]
+position = Vector2( 666.235, 1087.7 )
+z_index = 98
+
+[node name="map_ui" parent="ui" instance=ExtResource( 22 )]
+position = Vector2( 209.654, 1078.39 )
+scale = Vector2( 1.5, 1.6 )
+z_index = 97
+
+[node name="calendar_ui" parent="ui" instance=ExtResource( 16 )]
+position = Vector2( 274.88, 1076.54 )
+z_index = 96
+
+[node name="cursor_default" type="Panel" parent="ui"]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="game_settings" parent="ui" instance=ExtResource( 18 )]
+visible = false
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 1921.0
+margin_bottom = 1081.0
+
+[node name="transition" type="Sprite" parent="ui"]
+visible = false
+position = Vector2( 959.825, 540.366 )
+z_index = 1
+texture = ExtResource( 19 )
+
+[node name="dummy_node" type="Area2D" parent="ui"]
+visible = false
+
+[node name="dummy_tween" type="Tween" parent="ui/dummy_node"]
+
+[node name="npcs" type="Node" parent="."]
+
+[node name="npc" parent="npcs" instance=ExtResource( 25 )]
+physics_material_override = SubResource( 12 )
+
+[node name="objects" type="Node" parent="."]
+
+[node name="object" parent="objects" instance=ExtResource( 23 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.122, 1.70829, 0 )
+physics_material_override = SubResource( 13 )
+
+[node name="dialogue" parent="." instance=ExtResource( 17 )]
+z_index = 95
+
+[node name="scene" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+script = ExtResource( 24 )
+
+[node name="col" type="CollisionShape" parent="scene"]
+transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0 )
+shape = SubResource( 14 )
+
+[node name="Area" parent="scene" instance=ExtResource( 14 )]
+gravity_vec = Vector3( 0, 0, 0 )
+
+[node name="effects" type="Node" parent="."]
+
+[node name="blurfx" type="TextureRect" parent="effects"]
+show_behind_parent = true
+material = SubResource( 16 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -1.94803
+margin_bottom = -1.948
+mouse_filter = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+texture = ExtResource( 26 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fade_in" type="Tween" parent="effects"]
+
+[node name="fade_out" type="Tween" parent="effects"]
+
+[node name="tween" type="Tween" parent="effects"]
+
+[node name="scene_transition" type="Tween" parent="effects"]
+
+[node name="cuttlefish" type="Sprite" parent="effects"]
+visible = false
+
+[node name="player" parent="." instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0621125, 0 )
+
+[node name="rotation_helper" parent="player" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.981376, 0 )
+
+[node name="audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 28 )
+volume_db = -35.0
+
+[node name="cross" type="AnimatedSprite" parent="."]
+position = Vector2( -38.1771, -0.323536 )
+frames = SubResource( 17 )
+frame = 2
+
+[node name="tween" type="Tween" parent="cross"]
+
+[node name="Debug" type="Node2D" parent="."]
+
+[node name="Editor" type="Control" parent="."]
+script = ExtResource( 32 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="tween_completed" from="ui/thoughtBubble/materialize" to="." method="_on_materialize_tween_completed"]
+[connection signal="mouse_entered" from="ui/inventory" to="ui" method="_on_schoolbag_mouse_entered"]
+[connection signal="mouse_exited" from="ui/inventory" to="ui" method="_on_schoolbag_mouse_exited"]
+[connection signal="mouse_entered" from="ui/phone" to="ui" method="_on_phone_mouse_entered"]
+[connection signal="mouse_exited" from="ui/phone" to="ui" method="_on_phone_mouse_exited"]
+[connection signal="mouse_entered" from="ui/map" to="ui" method="_on_map_mouse_entered"]
+[connection signal="mouse_exited" from="ui/map" to="ui" method="_on_map_mouse_exited"]
+[connection signal="mouse_entered" from="ui/calendar" to="ui" method="_on_calendar_mouse_entered"]
+[connection signal="mouse_exited" from="ui/calendar" to="ui" method="_on_calendar_mouse_exited"]
+[connection signal="tween_completed" from="ui/dummy_node/dummy_tween" to="ui" method="_on_dummy_tween_tween_completed"]
+[connection signal="input_event" from="scene" to="player" method="_on_scene_input_event"]
+[connection signal="tween_completed" from="effects/fade_out" to="ui" method="_on_fade_out_tween_completed"]
+[connection signal="tween_completed" from="effects/tween" to="ui" method="_on_tween_tween_completed"]
+
+[editable path="ui/phone_ui"]
+
+[editable path="dialogue"]
+
+[editable path="player"]

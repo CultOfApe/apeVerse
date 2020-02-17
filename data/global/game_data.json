@@ -1,0 +1,46 @@
+{
+	"month": [
+		"january",
+		"february",
+		"march",
+		"april",
+		"may",
+		"june",
+		"july",
+		"august",
+		"september",
+		"oktober",
+		"november",
+		"december"
+	],
+	"weekday": [
+		"monday",
+		"tuesday",
+		"wednesday",
+		"thursday",
+		"friday",
+		"saturday",
+		"sunday"
+	],
+	"time": [
+		"morning",
+		"noon",
+		"evening",
+		"night"
+	],
+	"daycount":{
+		"monday" : 1,
+		"tuesday" : 2,
+		"wednesday" : 3,
+		"thursday" : 4,
+		"friday" : 5,
+		"saturday" : 6,
+		"sunday" : 7
+	},
+	"light":{
+		"morning" : [],
+		"noon" : [],
+		"evening" : [],
+		"night" : []
+	}
+}

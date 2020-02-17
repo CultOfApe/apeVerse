@@ -1,0 +1,581 @@
+[gd_scene load_steps=62 format=2]
+
+[ext_resource path="res://world.gd" type="Script" id=1]
+[ext_resource path="res://data/graphics/white.png" type="Texture" id=2]
+[ext_resource path="res://data/fonts/segoe.font" type="BitmapFont" id=3]
+[ext_resource path="res://data/graphics/phone_ui.png" type="Texture" id=4]
+[ext_resource path="res://data/graphics/char1.png" type="Texture" id=5]
+[ext_resource path="res://data/graphics/char2.png" type="Texture" id=6]
+[ext_resource path="res://data/graphics/char3.png" type="Texture" id=7]
+[ext_resource path="res://data/graphics/settings.png" type="Texture" id=8]
+[ext_resource path="res://data/graphics/schoolbag.png" type="Texture" id=9]
+[ext_resource path="res://data/graphics/mobile.png" type="Texture" id=10]
+[ext_resource path="res://data/graphics/map.png" type="Texture" id=11]
+[ext_resource path="res://data/graphics/calendar_checked.png" type="Texture" id=12]
+[ext_resource path="" type="PackedScene" id=13]
+[ext_resource path="" type="PackedScene" id=14]
+[ext_resource path="" type="PackedScene" id=15]
+[ext_resource path="res://data/npcs/ellie.tscn" type="PackedScene" id=16]
+[ext_resource path="" type="PackedScene" id=17]
+[ext_resource path="" type="PackedScene" id=18]
+[ext_resource path="res://data/asset scenes/player.tscn" type="PackedScene" id=19]
+[ext_resource path="res://data/scripts/player.gd" type="Script" id=20]
+
+[sub_resource type="Environment" id=1]
+
+ambient_light/enabled = true
+ambient_light/color = Color( 0.925781, 0.842606, 0.842606, 1 )
+ambient_light/energy = 0.5
+fxaa/enabled = true
+background/mode = 1
+background/color = Color( 0, 0, 0, 1 )
+background/energy = 1.0
+background/scale = 1.0
+background/glow = 0.0
+background/canvas_max_layer = null
+glow/enabled = false
+glow/blur_passes = 1
+glow/blur_scale = 1
+glow/blur_strength = 1
+glow/blur_blend_mode = null
+glow/bloom = 0.0
+glow/bloom_treshold = 0.5
+dof_blur/enabled = false
+dof_blur/blur_passes = 1
+dof_blur/begin = 100.0
+dof_blur/range = 10.0
+hdr/enabled = false
+hdr/tonemapper = 0
+hdr/exposure = 0.4
+hdr/white = 1.0
+hdr/glow_treshold = 0.95
+hdr/glow_scale = 0.2
+hdr/min_luminance = 0.4
+hdr/max_luminance = 8.0
+hdr/exposure_adj_speed = 0.5
+fog/enabled = false
+fog/begin = 100.0
+fog/begin_color = Color( 0, 0, 0, 1 )
+fog/end_color = Color( 0, 0, 0, 1 )
+fog/attenuation = 1.0
+fog/bg = true
+bcs/enabled = false
+bcs/brightness = 1.0
+bcs/contrast = 1.0
+bcs/saturation = 1.0
+srgb/enabled = false
+
+[sub_resource type="Shader" id=2]
+
+_code = {
+"fragment": "uniform texture vignette;
+float radius = 0.003;
+vec3 col = vec3(0);
+
+col+= texscreen(SCREEN_UV+vec2(-radius,-radius));
+col+= texscreen(SCREEN_UV+vec2(0,-radius));
+col+= texscreen(SCREEN_UV+vec2(radius,-radius));
+
+col+= texscreen(SCREEN_UV+vec2(-radius,0));
+col+= texscreen(SCREEN_UV+vec2(0,0));
+col+= texscreen(SCREEN_UV+vec2(radius,0));
+
+
+col+= texscreen(SCREEN_UV+vec2(-radius,radius));
+col+= texscreen(SCREEN_UV+vec2(0,radius));
+col+= texscreen(SCREEN_UV+vec2(radius,radius));
+
+col/=9.0;
+COLOR.rgb=col;",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+
+[sub_resource type="ShaderMaterial" id=3]
+
+shader/shader = SubResource( 2 )
+shader/shading_mode = 0
+
+[sub_resource type="CircleShape2D" id=4]
+
+custom_solver_bias = 0.0
+radius = 64.6215
+
+[sub_resource type="CircleShape2D" id=5]
+
+custom_solver_bias = 0.0
+radius = 61.0041
+
+[sub_resource type="CircleShape2D" id=6]
+
+custom_solver_bias = 0.0
+radius = 64.1907
+
+[sub_resource type="CircleShape2D" id=7]
+
+custom_solver_bias = 0.0
+radius = 63.1471
+
+[sub_resource type="CircleShape2D" id=8]
+
+custom_solver_bias = 0.0
+radius = 56.4041
+
+[sub_resource type="CircleShape2D" id=9]
+
+custom_solver_bias = 0.0
+radius = 53.0022
+
+[sub_resource type="CircleShape2D" id=10]
+
+custom_solver_bias = 0.0
+radius = 47.2968
+
+[sub_resource type="CircleShape2D" id=11]
+
+custom_solver_bias = 0.0
+radius = 52.1685
+
+[sub_resource type="PlaneShape" id=12]
+
+plane = Plane( 0, 1, 0, 0 )
+
+[node name="Node" type="Node"]
+
+script = ExtResource( 1 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+environment = SubResource( 1 )
+
+[node name="camera" type="Camera" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( -0.75105, 0.437046, -0.494887, 0.125114, 0.830181, 0.543273, 0.648282, 0.346108, -0.678187, -9.92103, 11.4286, -12.6359 )
+projection = 0
+fov = 65.0
+near = 0.1
+far = 100.0
+keep_aspect = 1
+current = false
+visible_layers = 1048575
+environment = null
+h_offset = 0.0
+v_offset = 0.0
+
+[node name="effects" type="Node" parent="."]
+
+
+[node name="tween" type="Tween" parent="effects"]
+
+playback_process_mode = 1
+playback/active = false
+playback_speed = false
+playback_speed = 1.0
+
+[node name="blurfx" type="TextureRect" parent="effects"]
+
+visible = false
+material = SubResource( 3 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags_horizontal = 1
+size_flags_vertical = 1
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 0
+
+[node name="ui" type="Control" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags_horizontal = 1
+size_flags_vertical = 1
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="dateLabel" type="Label" parent="ui"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags_horizontal = 1
+size_flags_vertical = 0
+margin_left = 13.0
+margin_top = 5.0
+margin_right = 335.0
+margin_bottom = 67.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0.550763, 0.538559, 0.761719, 1 )
+text = "Monday, 8 AM"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="pointsLabel" type="Label" parent="ui"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags_horizontal = 1
+size_flags_vertical = 0
+margin_left = 1764.0
+margin_top = 7.0
+margin_right = 1857.0
+margin_bottom = 69.0
+custom_fonts/font = ExtResource( 3 )
+text = "240"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="descriptionLabel" type="Label" parent="ui"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags_horizontal = 1
+size_flags_vertical = 0
+margin_left = 18.0
+margin_top = 1015.0
+margin_right = 177.0
+margin_bottom = 1077.0
+custom_fonts/font = ExtResource( 3 )
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ui_phone" type="Area2D" parent="ui"]
+
+input_pickable = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="Sprite" type="Sprite" parent="ui/ui_phone"]
+
+position = Vector2( 961.087, 1855.43 )
+texture = ExtResource( 4 )
+
+[node name="char1" type="Area2D" parent="ui"]
+
+position = Vector2( 1566.89, 148.554 )
+input_pickable = true
+shapes/0/shape = SubResource( 4 )
+shapes/0/transform = Transform2D( 1, 0, 0, 1, 243.507, -4.08113 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="Sprite" type="Sprite" parent="ui/char1"]
+
+position = Vector2( 246.125, -5.86652 )
+texture = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/char1"]
+
+position = Vector2( 243.507, -4.08113 )
+shape = SubResource( 4 )
+trigger = true
+_update_shape_index = 0
+
+[node name="char2" type="Area2D" parent="ui"]
+
+position = Vector2( 1137, 263 )
+input_pickable = true
+shapes/0/shape = SubResource( 5 )
+shapes/0/transform = Transform2D( 1, 0, 0, 1, 678.827, 39.4509 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="Sprite" type="Sprite" parent="ui/char2"]
+
+position = Vector2( 677.032, 37.5582 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/char2"]
+
+position = Vector2( 678.827, 39.4509 )
+shape = SubResource( 5 )
+trigger = true
+_update_shape_index = 0
+
+[node name="char3" type="Area2D" parent="ui"]
+
+position = Vector2( 1070, 351 )
+input_pickable = true
+shapes/0/shape = SubResource( 6 )
+shapes/0/transform = Transform2D( 1, 0, 0, 1, 748.206, 116.992 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="Sprite" type="Sprite" parent="ui/char3"]
+
+position = Vector2( 747.179, 114.387 )
+texture = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/char3"]
+
+position = Vector2( 748.206, 116.992 )
+shape = SubResource( 6 )
+trigger = true
+_update_shape_index = 0
+
+[node name="settings" type="Area2D" parent="ui"]
+
+position = Vector2( 1144, 484 )
+input_pickable = true
+shapes/0/shape = SubResource( 7 )
+shapes/0/transform = Transform2D( 1, 0, 0, 1, 676.106, 142.839 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="Sprite" type="Sprite" parent="ui/settings"]
+
+position = Vector2( 675.362, 144.45 )
+texture = ExtResource( 8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/settings"]
+
+position = Vector2( 676.106, 142.839 )
+shape = SubResource( 7 )
+trigger = true
+_update_shape_index = 0
+
+[node name="schoolbag" type="Area2D" parent="ui" groups=[
+"UI_icons",
+]]
+
+position = Vector2( 235, 536 )
+input_pickable = true
+shapes/0/shape = SubResource( 8 )
+shapes/0/transform = Transform2D( 1, 0, 0, 1, 575.795, 466.592 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="Sprite" type="Sprite" parent="ui/schoolbag"]
+
+position = Vector2( 579.032, 463.226 )
+texture = ExtResource( 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/schoolbag"]
+
+position = Vector2( 575.795, 466.592 )
+shape = SubResource( 8 )
+trigger = true
+_update_shape_index = 0
+
+[node name="phone" type="Area2D" parent="ui" groups=[
+"UI_icons",
+]]
+
+position = Vector2( 319, 473 )
+input_pickable = true
+shapes/0/shape = SubResource( 9 )
+shapes/0/transform = Transform2D( 1, 0, 0, 1, 650.415, 519.668 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="Sprite" type="Sprite" parent="ui/phone"]
+
+position = Vector2( 652.041, 526.164 )
+texture = ExtResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/phone"]
+
+position = Vector2( 650.415, 519.668 )
+shape = SubResource( 9 )
+trigger = true
+_update_shape_index = 0
+
+[node name="map" type="Area2D" parent="ui" groups=[
+"UI_icons",
+]]
+
+position = Vector2( 550, 407 )
+input_pickable = true
+shapes/0/shape = SubResource( 10 )
+shapes/0/transform = Transform2D( 1, 0, 0, 1, 565.873, 587.915 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="Sprite" type="Sprite" parent="ui/map"]
+
+position = Vector2( 568.962, 589.103 )
+texture = ExtResource( 11 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/map"]
+
+position = Vector2( 565.873, 587.915 )
+shape = SubResource( 10 )
+trigger = true
+_update_shape_index = 0
+
+[node name="calendar" type="Area2D" parent="ui" groups=[
+"UI_icons",
+]]
+
+input_pickable = true
+shapes/0/shape = SubResource( 11 )
+shapes/0/transform = Transform2D( 1, 0, 0, 1, 1821.16, 1004 )
+shapes/0/trigger = true
+gravity_vec = Vector2( 0, 1 )
+gravity = 98.0
+linear_damp = 0.1
+angular_damp = 1.0
+
+[node name="Sprite" type="Sprite" parent="ui/calendar"]
+
+position = Vector2( 1815.76, 997.246 )
+texture = ExtResource( 12 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/calendar"]
+
+position = Vector2( 1821.16, 1004 )
+shape = SubResource( 11 )
+trigger = true
+_update_shape_index = 0
+
+[node name="calendar_ui" parent="ui" instance=ExtResource( 13 )]
+
+position = Vector2( 265.562, 1088.95 )
+
+[node name="schoolbag_ui" parent="ui" instance=ExtResource( 14 )]
+
+position = Vector2( 670.894, 1087.7 )
+
+[node name="map_ui" parent="ui" instance=ExtResource( 15 )]
+
+position = Vector2( 223.631, 1083.05 )
+
+[node name="npcs" type="Node" parent="."]
+
+
+[node name="npc" parent="npcs" instance=ExtResource( 16 )]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.90123, 1.70829, 8.27804 )
+
+[node name="objects" type="Node" parent="."]
+
+editor/display_folded = true
+
+[node name="object" parent="objects" instance=ExtResource( 17 )]
+
+editor/display_folded = true
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.4299, 1.70829, -1.33639 )
+
+[node name="dialogue" parent="." instance=ExtResource( 18 )]
+
+editor/display_folded = true
+
+[node name="scene" type="Area" parent="."]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.555074, 0 )
+input_ray_pickable = true
+input_capture_on_drag = false
+shape_count = 1
+shapes/0/shape = SubResource( 12 )
+shapes/0/transform = Transform( 20, 0, 0, 0, 0.2, 0, 0, 0, 20, 0, 0, 0 )
+shapes/0/trigger = true
+space_override = 0
+gravity_point = false
+gravity_distance_scale = 0.0
+gravity_vec = Vector3( 0, -1, 0 )
+gravity = 9.8
+linear_damp = 0.1
+angular_damp = 1.0
+priority = 0.0
+monitoring = true
+monitorable = true
+collision_layer = 1
+collision_mask = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="scene"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 20, 0, 0, 0, 0.2, 0, 0, 0, 20, 0, 0, 0 )
+shape = SubResource( 12 )
+trigger = true
+_update_shape_index = 0
+
+[node name="ground" type="MeshInstance" parent="scene"]
+
+_import_transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 20, 0, 0, 0, 0.5, 0, 0, 0, 20, 0, -0.555074, 0 )
+layers = 1
+geometry/visible = true
+material_override = null
+cast_shadow = 1
+geometry/receive_shadows = true
+geometry/range_begin = 0.0
+geometry/range_end = 0.0
+extra_cull_margin = 0.0
+geometry/billboard = false
+geometry/billboard_y = false
+geometry/depth_scale = false
+geometry/visible_in_all_rooms = false
+use_in_baked_light = false
+geometry/baked_light_tex_id = 0
+
+[node name="player" parent="." instance=ExtResource( 19 )]
+
+script = ExtResource( 20 )
+
+[node name="geometry" parent="player"]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+
+[node name="CollisionShape" parent="player"]
+
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+
+[connection signal="mouse_entered" from="ui/schoolbag" to="." method="_on_schoolbag_mouse_enter" binds=[  ]]
+
+[connection signal="mouse_exited" from="ui/schoolbag" to="." method="_on_schoolbag_mouse_exit" binds=[  ]]
+
+[connection signal="mouse_entered" from="ui/phone" to="." method="_on_phone_mouse_enter" binds=[  ]]
+
+[connection signal="mouse_exited" from="ui/phone" to="." method="_on_phone_mouse_exit" binds=[  ]]
+
+[connection signal="mouse_entered" from="ui/map" to="." method="_on_map_mouse_enter" binds=[  ]]
+
+[connection signal="mouse_exited" from="ui/map" to="." method="_on_map_mouse_exit" binds=[  ]]
+
+[connection signal="mouse_entered" from="ui/calendar" to="." method="_on_calendar_mouse_enter" binds=[  ]]
+
+[connection signal="mouse_exited" from="ui/calendar" to="." method="_on_calendar_mouse_exit" binds=[  ]]
+
+[connection signal="gui_input" from="scene" to="player" method="_on_scene_input_event" binds=[  ]]
+[editable path="dialogue"]
+[editable path="player"]

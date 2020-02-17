@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://data/UI/editorNode.gd" type="Script" id=1]
+
+[node name="Panel" type="Panel"]
+margin_right = 40.0
+margin_bottom = 40.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="gui_input" from="Label" to="." method="_on_Label_gui_input"]
+[connection signal="mouse_entered" from="Label" to="." method="_on_Label_mouse_entered"]
+[connection signal="mouse_exited" from="Label" to="." method="_on_Label_mouse_exited"]

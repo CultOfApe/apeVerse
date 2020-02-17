@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://data/npcs/ellie.gd" type="Script" id=1]
+[ext_resource path="res://data/npcs/Olga_animated_edit.tscn" type="PackedScene" id=3]
+
+
+[sub_resource type="PhysicsMaterial" id=1]
+
+[sub_resource type="CubeMesh" id=2]
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 0.387505, 1.2143, 0.501323 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.175602, 0.750898, 0.14583 )
+
+[node name="npc" type="StaticBody"]
+physics_material_override = SubResource( 1 )
+script = ExtResource( 1 )
+
+[node name="npc_mesh" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.184989, 0 )
+visible = false
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="npc_trigger" type="Area" parent="."]
+transform = Transform( 1.01, 0, 0, 0, 1.01, 0, 0, 0, 1.01, 0, 0, 0 )
+priority = 5.0
+
+[node name="CollisionShape" type="CollisionShape" parent="npc_trigger"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.22203, 0 )
+shape = SubResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.24705, 0 )
+shape = SubResource( 4 )
+
+[node name="Olga_animated" parent="." instance=ExtResource( 3 )]
+[connection signal="input_event" from="npc_trigger" to="." method="_on_npc_trigger_input_event"]
+[connection signal="mouse_entered" from="npc_trigger" to="." method="_on_npc_trigger_mouse_enter"]
+[connection signal="mouse_exited" from="npc_trigger" to="." method="_on_npc_trigger_mouse_exit"]

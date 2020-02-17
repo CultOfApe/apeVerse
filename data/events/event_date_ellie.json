@@ -1,0 +1,45 @@
+{
+	"event": "date_ellie",
+	"type": "oneoff",
+	"weekday": "friday",
+	"timeofday": "evening",
+	"calendar": {
+		"icon": "date_ellie.png",
+		"mouseover": "Date with Ellie!",
+		"details": "First date with Ellie - don´t screw this up!.",
+		"location": "coffeeshop"
+	},
+	"remove": {
+		"actor": [{
+			"all": {
+				"from": ["coffeeshop"]
+			}
+		}]
+	},
+
+	"add": {
+		"actor": [{
+			"ellie": {
+				"to": ["coffeeshop"],
+				"model": "ellie_date",
+				"animation": "ellie_date",
+				"dialogue": "ellie_date",
+				"branch": "a",
+				"pos": {
+					"x": -6,
+					"y": 1.5,
+					"z": -2
+				},
+				"rot": {
+					"x": 0,
+					"y": 0,
+					"z": 0
+				}
+			}
+		}]
+	},
+
+	"noshow": "date_ellie_noshow",
+	"cancel": "date_ellie_cancel",
+	"after": "default"
+}

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://data/scripts/clickbutton.gd" type="Script" id=1]
+
+[node name="button" type="Label"]
+margin_right = 40.0
+margin_bottom = 14.0
+mouse_filter = 1
+size_flags_vertical = 0
+text = "This is a reply"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="gui_input" from="." to="." method="_on_button_gui_input"]
+[connection signal="mouse_entered" from="." to="." method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_button_mouse_exited"]

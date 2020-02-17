@@ -1,0 +1,97 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://data/npcs/Olga.gd" type="Script" id=1]
+[ext_resource path="res://data/meshes/Olga_animated.escn" type="PackedScene" id=2]
+
+
+[node name="Olga_animated" instance=ExtResource( 2 )]
+
+[node name="AnimationPlayer" parent="Armature" index="0"]
+script = ExtResource( 1 )
+
+[node name="calflBoneAttachment" parent="Armature" index="1"]
+transform = Transform( 1, -0.0015779, 0.00182944, -0.00157547, 0.146515, 0.989208, -0.00189778, -0.989522, 0.14653, 0.0827955, -0.486791, -0.0991313 )
+
+[node name="calfrBoneAttachment" parent="Armature" index="2"]
+transform = Transform( 1, 0.0015779, -0.00182944, 0.00157547, 0.146515, 0.989208, 0.00189771, -0.989522, 0.14653, -0.0823659, -0.486791, -0.0991313 )
+
+[node name="upperArmlBoneAttachment" parent="Armature" index="3"]
+transform = Transform( 0.901035, 0.283651, -0.328144, 0.28365, 0.18701, 0.940515, 0.328144, -0.940516, 0.0880447, 0.169907, 0.530943, -0.10521 )
+
+[node name="upperArmrBoneAttachment" parent="Armature" index="4"]
+transform = Transform( 0.901035, -0.283651, 0.328144, -0.28365, 0.18701, 0.940515, -0.328144, -0.940516, 0.0880447, -0.169478, 0.530943, -0.10521 )
+
+[node name="fingerslBoneAttachment" parent="Armature" index="5"]
+transform = Transform( 0.979033, -0.143273, 0.1448, -0.143274, 0.0209671, 0.98946, -0.1448, -0.989461, 2.2921e-07, 0.356732, -0.0779471, -0.134211 )
+
+[node name="fingersrBoneAttachment" parent="Armature" index="6"]
+transform = Transform( 0.979033, 0.143273, -0.1448, 0.143274, 0.0209671, 0.98946, 0.1448, -0.989461, 2.2921e-07, -0.356302, -0.0779471, -0.134211 )
+
+[node name="footlBoneAttachment" parent="Armature" index="7"]
+transform = Transform( 0.971438, 0.229401, -0.0607405, 0.229404, -0.842281, 0.487789, 0.0606848, -0.487935, -0.871129, 0.0818775, -0.983207, -0.172665 )
+
+[node name="footrBoneAttachment" parent="Armature" index="8"]
+transform = Transform( 0.971438, -0.229402, 0.0607406, -0.229404, -0.842281, 0.487789, -0.0606849, -0.487935, -0.871129, -0.0814479, -0.983207, -0.172665 )
+
+[node name="lowerArmlBoneAttachment" parent="Armature" index="9"]
+transform = Transform( 0.8962, 0.302979, -0.324083, 0.302979, 0.115646, 0.945954, 0.324083, -0.945954, 0.0118455, 0.266616, 0.253758, -0.131158 )
+
+[node name="lowerArmrBoneAttachment" parent="Armature" index="10"]
+transform = Transform( 0.8962, -0.302979, 0.324083, -0.302979, 0.115646, 0.945954, -0.324083, -0.945954, 0.0118455, -0.266187, 0.253758, -0.131158 )
+
+[node name="handlBoneAttachment" parent="Armature" index="11"]
+transform = Transform( 0.994407, 0.0745804, -0.0747897, 0.07458, 0.0055938, 0.997199, 0.0747891, -0.997199, 4.20026e-07, 0.350138, 0.00997035, -0.134211 )
+
+[node name="handrBoneAttachment" parent="Armature" index="12"]
+transform = Transform( 0.994407, -0.0745804, 0.0747897, -0.07458, 0.0055938, 0.997199, -0.0747891, -0.997199, 4.20026e-07, -0.349709, 0.00997035, -0.134211 )
+
+[node name="headBoneAttachment" parent="Armature" index="13"]
+transform = Transform( 1, 0, 0, 0, -0.154798, -0.987946, 0, 0.987946, -0.154798, 0, 0.650936, -0.0964566 )
+
+[node name="hipsBoneAttachment" parent="Armature" index="14"]
+transform = Transform( 1, 0, 0, 0, -0.053813, -0.998551, 0, 0.998551, -0.053813, 0, 0, -0.0706641 )
+
+[node name="thighlBoneAttachment" parent="Armature" index="15"]
+transform = Transform( 0.999999, 0.00203381, -0.00210399, 0.00203614, 0.0342477, 0.999412, 0.00203692, -0.999726, 0.0342264, 0.0818032, -0.0154204, -0.0829885 )
+
+[node name="thighrBoneAttachment" parent="Armature" index="16"]
+transform = Transform( 0.999999, -0.0020338, 0.00210397, -0.00203611, 0.0342477, 0.999412, -0.00203698, -0.999726, 0.0342264, -0.0813736, -0.0154204, -0.0829885 )
+
+[node name="midsectionBoneAttachment" parent="Armature" index="17"]
+transform = Transform( 1, 0, 0, 0, -0.0992642, -0.995061, 0, 0.995061, -0.0992642, 0, 0.163905, -0.0618311 )
+
+[node name="neckBoneAttachment" parent="Armature" index="18"]
+transform = Transform( 1, 0, 0, 0, -0.0807327, -0.996736, 0, 0.996736, -0.0807327, 0, 0.533159, -0.105996 )
+
+[node name="chestBoneAttachment" parent="Armature" index="19"]
+transform = Transform( 1, 0, 0, 0, 0.224581, -0.974456, 0, 0.974456, 0.224581, 0, 0.287869, -0.0494648 )
+
+[node name="chestBoneAttachment001" parent="Armature" index="20"]
+transform = Transform( 1, 0, 0, 0, 0.224581, -0.974456, 0, 0.974456, 0.224581, 0, 0.287869, -0.0494648 )
+
+[node name="thighlBoneAttachment001" parent="Armature" index="21"]
+transform = Transform( 0.999999, 0.00203381, -0.00210399, 0.00203614, 0.0342477, 0.999412, 0.00203692, -0.999726, 0.0342264, 0.0818032, -0.0154204, -0.0829885 )
+
+[node name="thighrBoneAttachment001" parent="Armature" index="22"]
+transform = Transform( 0.999999, -0.0020338, 0.00210397, -0.00203611, 0.0342477, 0.999412, -0.00203698, -0.999726, 0.0342264, -0.0813736, -0.0154204, -0.0829885 )
+
+[node name="thumblBoneAttachment" parent="Armature" index="23"]
+transform = Transform( 0.623473, -0.691959, 0.363971, -0.691958, -0.27164, 0.668882, -0.363971, -0.668883, -0.648167, 0.351019, -0.00988265, -0.110864 )
+
+[node name="thumbrBoneAttachment" parent="Armature" index="24"]
+transform = Transform( 0.623473, 0.691959, -0.363971, 0.691958, -0.27164, 0.668882, 0.363971, -0.668883, -0.648167, -0.350915, -0.00988263, -0.110864 )
+
+[node name="toeslBoneAttachment" parent="Armature" index="25"]
+transform = Transform( 1, 2.94857e-06, -2.19792e-07, 5.67362e-06, -0.993586, 0.113091, -6.81616e-05, -0.113099, -0.9939, 0.0915937, -1.06124, -0.0333155 )
+
+[node name="toesrBoneAttachment" parent="Armature" index="26"]
+transform = Transform( 1, -2.67103e-06, 1.49012e-08, -5.62333e-06, -0.993585, 0.113091, 6.80089e-05, -0.113099, -0.9939, -0.0911642, -1.06124, -0.0333155 )
+
+[node name="chestBoneAttachment002" parent="Armature" index="27"]
+transform = Transform( 1, 0, 0, 0, 0.224581, -0.974456, 0, 0.974456, 0.224581, 0, 0.287869, -0.0494648 )
+
+[node name="upperArmlBoneAttachment001" parent="Armature" index="28"]
+transform = Transform( 0.901035, 0.283651, -0.328144, 0.28365, 0.18701, 0.940515, 0.328144, -0.940516, 0.0880447, 0.169907, 0.530943, -0.10521 )
+
+[node name="upperArmrBoneAttachment001" parent="Armature" index="29"]
+transform = Transform( 0.901035, -0.283651, 0.328144, -0.28365, 0.18701, 0.940515, -0.328144, -0.940516, 0.0880447, -0.169478, 0.530943, -0.10521 )

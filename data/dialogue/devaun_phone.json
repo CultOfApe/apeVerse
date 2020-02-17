@@ -1,0 +1,62 @@
+{
+	"name": "Devaun",
+	"background": "background.png",
+	"dialogue": {
+		"1": {
+			"avatar": "res://data/npcs/devaun_avatar.tscn",
+			"animate": "false",
+			"loop": "false",
+			"frame": 1,
+			"speech": [
+				"bzzzzz....",
+				"This is Devaun speaking."
+			],
+			"replies": [{
+					"reply": "Damn you being formal today, Dev. Need some of that green stuff for a friend.",
+					"next": "2",
+					"exit": "false"
+				}
+			]
+		},
+		"2": {
+			"avatar": "res://data/npcs/devaun_avatar.tscn",
+			"frame": 0,
+			"speech": ["How much we talking?"],
+			"replies": [{
+					"reply": "20",
+					"next": "3",
+					"exit": "false"
+				}
+			]
+		},
+		"3": {
+			"avatar": "res://data/npcs/devaun_avatar.tscn",
+			"frame": 0,
+			"speech": ["K bruv. You know the deal, same bat time, same bat channel. The caped crusader always responds to distress calls."],
+			"replies": [{
+				"reply": "hang up",
+				"next": "4",
+				"exit": "true",
+				"bubble": "Remember: School hall, evening",
+				"event": [{
+						"id": "meeting_devaun"
+				}],
+				"progress": [{
+					"name": "ellie",
+					"dialogue": "res://data/dialogue/ellie.json",
+					"branch": "8"
+				}]
+			}]
+		},
+		"4": {
+			"avatar": "res://data/npcs/devaun_avatar.tscn",
+			"frame": 0,
+			"speech": ["bzzzzz....", "bzzzzz....", "bzzzzz....", "Not picking up.."],
+			"replies": [{
+				"reply": "hang up",
+				"next": "4",
+				"exit": "true"
+			}]
+		}
+	}
+}

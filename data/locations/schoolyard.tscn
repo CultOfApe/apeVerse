@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://data/locations/schoolyard_geometry.tscn" type="PackedScene" id=1]
+
+[node name="Area" type="Area"]
+input_ray_pickable = false
+
+[node name="schoolyard" parent="." instance=ExtResource( 1 )]
