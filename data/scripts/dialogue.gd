@@ -174,16 +174,6 @@ func _pick_reply(n):
 		for item in range(0, replies[n]["progress"].size()):
 			var affected = replies[n]["progress"][item]["name"]
 			
-
-			# CONUNDRUM: not sure what this is for anymore :P
-			# the below conditionals seem redundant. Keep commented out for now, remove if found use or created alternative.
-#			if replies[n]["progress"][item].has("dialogue"):
-#				global.charData[affected]["dialogue"][dialogueType]["path"] = replies[n]["progress"][item]["dialogue"]
-#				global.sceneData[global.currentLocation]["default"][global.timeofday]["actors"][affected]["dialogue"] = replies[n]["progress"][item]["dialogue"]
-#				if global.sceneData[global.currentLocation].has(global.weekday):
-#					if global.sceneData[global.currentLocation][global.weekday][global.timeofday]["actors"].has(affected):
-#						global.sceneData[global.currentLocation][global.weekday][global.timeofday]["actors"][affected]["dialogue"] = replies[n]["progress"][item]["dialogue"]
-			
 			# TODO: allow for dialogue change for specific locations
 			if replies[n]["progress"][item]["dialogue"].ends_with("phone.json"):
 				global.charData[affected]["dialogue"]["phone"]["path"] = replies[n]["progress"][item]["dialogue"]
@@ -199,35 +189,10 @@ func _pick_reply(n):
 	#if "exit" is "false" take value from "next" and start next dialogue
 	if replies[n]["exit"] != "true":
 		if replies[n]["next"].ends_with(".json"):
-			# the below conditionals seem redundant. Keep commented out for now, remove if found use or created alternative.
-#			if global.sceneData[global.currentLocation].has(global.weekday):
-#				if global.sceneData[global.currentLocation][global.weekday][global.timeofday]["actors"].has(npc):
-#					global.sceneData[global.currentLocation][global.weekday][global.timeofday]["actors"][npc]["dialogue"] = replies[n]["next"]
-#				else:
-#					global.charData[npc]["dialogue"][dialogueType]["branch"]["path"] = replies[n]["next"]
-#			else:
-#				if global.sceneData[global.currentLocation]["default"][global.timeofday]["actors"].has(npc):
-#					global.sceneData[global.currentLocation]["default"][global.timeofday]["actors"][npc]["dialogue"] = replies[n]["next"]				
-#				else:
-#					global.charData[npc]["dialogue"][dialogueType]["branch"]["path"] = replies[n]["next"]
-#			global.charData[npc]["dialogue"][dialogueType]["branch"]["path"] = replies[n]["next"]
-#			pageIndex = 0
+
 			# TODO: start_dialogue("res://data/dialogue/" + charData[npc]["dialogue"]) + charData[npc]["relationship"] + (".json")
 			start_dialogue(global.charData[npc]["dialogue"][dialogueType]["path"], dialogueType)
-		else:
-			# the below conditionals seem redundant. Keep commented out for now, remove if found use or created alternative.
-			# this might cause issues if location does not have current day. Need to account for "default"
-#			if global.sceneData[global.currentLocation].has(global.weekday):
-#				if global.sceneData[global.currentLocation][global.weekday][global.timeofday]["actors"].has(npc):
-#					global.sceneData[global.currentLocation][global.weekday][global.timeofday]["actors"][npc]["branch"] = replies[n]["next"]
-#				else:
-#					global.charData[npc]["dialogue"][dialogueType]["branch"] = replies[n]["next"]
-#			else:
-#				if global.sceneData[global.currentLocation]["default"][global.timeofday]["actors"].has(npc):
-#					global.sceneData[global.currentLocation]["default"][global.timeofday]["actors"][npc]["branch"] = replies[n]["next"]
-#				else:
-#					global.charData[npc]["dialogue"][dialogueType]["branch"] = replies[n]["next"]
-					
+		else:					
 			global.charData[npc]["dialogue"][dialogueType]["branch"] = replies[n]["next"]
 			pageIndex = 0
 			start_dialogue(global.charData[npc]["dialogue"][dialogueType]["path"], dialogueType)

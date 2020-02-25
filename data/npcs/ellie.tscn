@@ -3,7 +3,6 @@
 [ext_resource path="res://data/npcs/ellie.gd" type="Script" id=1]
 [ext_resource path="res://data/npcs/Olga_animated_edit.tscn" type="PackedScene" id=3]
 
-
 [sub_resource type="PhysicsMaterial" id=1]
 
 [sub_resource type="CubeMesh" id=2]
@@ -33,7 +32,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.22203, 0 )
 shape = SubResource( 3 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.24705, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000925541, 1.2401, 0.000600815 )
 shape = SubResource( 4 )
 
 [node name="Olga_animated" parent="." instance=ExtResource( 3 )]

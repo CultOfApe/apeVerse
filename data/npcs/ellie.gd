@@ -43,6 +43,7 @@ func _on_npc_trigger_input_event(camera, event, click_position, click_normal, sh
 				global.blocking_ui = true
 				global.sceneCol.disabled = true
 				emit_signal("dialogue", identity, self.get_transform().origin, "default")
+
 			else:
 				var keys = global.inventoryData.keys()
 				var cursor : Object = load("res://data/graphics/cursor_default.png")

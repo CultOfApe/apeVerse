@@ -13,10 +13,17 @@ __meta__ = {
 [node name="Label" type="Label" parent="."]
 margin_right = 40.0
 margin_bottom = 14.0
+mouse_filter = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Edit" type="TextEdit" parent="Label"]
+visible = false
+margin_right = 40.0
+margin_bottom = 40.0
 [connection signal="gui_input" from="Label" to="." method="_on_Label_gui_input"]
 [connection signal="mouse_entered" from="Label" to="." method="_on_Label_mouse_entered"]
 [connection signal="mouse_exited" from="Label" to="." method="_on_Label_mouse_exited"]
+[connection signal="gui_input" from="Label/Edit" to="." method="_on_Edit_gui_input"]

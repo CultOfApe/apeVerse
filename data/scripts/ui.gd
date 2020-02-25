@@ -129,8 +129,6 @@ func advance_time():
 	global.month = global.gameData["month"][month]
 	global.weekday = global.gameData["weekday"][(global.day % ((global.day / 7) * 7)-1)]
 	global.timeofday = global.gameData["time"][time]
-	
-#	print("global.gameday is: " + str(global.gameday))
 
 	get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
 	

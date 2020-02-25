@@ -45,7 +45,6 @@ func _ready():
 #	if global.sceneCol.disabled == true:
 #		global.is_moving = false
 #		$Character/AnimationPlayer.stop()
-	print(helper.get_global_transform().origin)
 
 func _physics_process(delta):
 	if global.gameType == "3D":
@@ -115,7 +114,6 @@ func _on_scene_input_event(camera, event, click_position, click_normal, shape_id
 	if event is InputEventMouseButton and global.blocking_ui != true:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
-				print(helper.get_global_transform().origin)
 				if !global.is_moving:
 					$Character/AnimationPlayer.play("Run")
 					$Oleg/Armature/AnimationPlayer.play("walk")

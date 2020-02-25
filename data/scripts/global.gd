@@ -23,6 +23,7 @@ var charData 		: Dictionary
 var gameVars 		: Dictionary
 var inventoryData 	: Dictionary
 var contactData 	: Dictionary
+var editorData
 
 #var archiveData  : Dictionary = {
 #	"img01" : "res://data/graphics/img01.png",
@@ -68,6 +69,7 @@ var capture
 var editor_running = false
 
 onready var sceneCol 	= get_tree().get_root().get_node("game").get_node("scene").get_node("col")
+onready var sceneGeometry 	= get_tree().get_root().get_node("game").get_node("scene").get_node("Area")
 
 onready var transition 	= get_tree().get_root().get_node("game").get_node("ui/transition")
 
@@ -294,6 +296,14 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 
 	#set eventOverride back to null, as it´s only needed and updated when calling load_scene()
 	eventOverride = {}
+	
+	sceneGeometry 	= get_tree().get_root().get_node("game").get_node("scene").get_node("Area")
+#	for i in sceneGeometry.get_children():
+#		print(i.get_name())
+#
+#	for i in sceneGeometry.get_node("Area").get_children():
+#		print(i.get_name())
+	sceneGeometry.connect("on_click", self, "load_scene")
 		
 #	TODO: how to handle scene specific cameras?
 

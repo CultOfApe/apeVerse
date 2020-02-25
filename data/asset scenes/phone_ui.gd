@@ -7,7 +7,6 @@ var gallery_thumbs : Array
 onready var contactNode = get_node("apps/phone/contact_node")
 
 func _ready():
-	print(contactNode)
 	# TODO: This should only be run when the PhoneUI is envoked and then folder var should be emptied
 	folder = global.list_files_in_directory("res://data/graphics/gallery/")
 	#list all files in given directory and sort into fullsized photos (gallery) and thumbnails (gallery_thumbs) 
@@ -36,15 +35,11 @@ func icon_fx(node, scale):
 func start_phone_app(app, event):
 	if app == "phone":
 		#display phone contacts
-		print(global.contactData)
 		for contact in global.contactData.contacts:
-			print(global.contactData.contacts[str(contact)])
 			var node = load("res://data/asset scenes/contact_node.tscn")
 			node = node.instance()
 			node.set_name("contact" + contact)
 #			node.set_position(Vector2(30, 30))
-#			print(node)
-			print(node.name)
 			self.add_child(node)
 #			get_node(node + str(contact+1)).set_text(global.contactData["c" + str(contact+1)])
 			
