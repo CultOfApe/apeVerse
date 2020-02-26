@@ -62,8 +62,11 @@ text = "show advanced"
 
 [node name="keymap" type="RichTextLabel" parent="."]
 margin_left = 160.0
-margin_top = 600.0
+margin_top = 130.0
 margin_right = 360.0
-margin_bottom = 1000.0
+margin_bottom = 530.0
 text = "LMB to select nodes
 CTRL+LMB to edit node text"
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -194,21 +194,7 @@ func _input(event):
 			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
 				toggle_ui_overlay("schoolbag_ui", "show", schoolbagShowPos)
 		elif hoverNode.get_name() == "map":	
-			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
-				# TODO: investigate ho wo prevent map_ui transition running until screenshot is captured
-				# TEST: run screenshot code after transitioning out of map ui, and only then run scene change?
-#				get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
-#
-#				# so far, tests have shown no reason to use the below, and they make transition to map ui a bit choppy, so..
-#				yield(get_tree(), "idle_frame")
-#				yield(get_tree(), "idle_frame")
-#				yield(get_tree(), "idle_frame")
-#
-#				trans_capture = get_viewport().get_texture().get_data()
-#
-#				trans_capture.flip_y()
-#				trans_capture.convert(5)
-				
+			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():				
 				toggle_ui_overlay("map_ui", "show", mapShowPos)
 		elif hoverNode.get_name() == "calendar":	
 			if event is InputEventMouseButton:
@@ -218,6 +204,12 @@ func _input(event):
 						advance_time()	
 			if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
 				toggle_ui_overlay("calendar_ui", "show", calendarShowPos)
+				
+	if event.is_action_pressed("ui_editor") and !global.editor_running:
+		global.blocking_ui = true
+								
+	if event.is_action_pressed("ui_down") and global.editor_running:
+		global.blocking_ui = false
 
 #the below functions handle hover animations for UI icons. This could probably be handled more efficiently in one generic function, not sure how
 func _on_phone_mouse_entered():
