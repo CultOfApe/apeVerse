@@ -1,12 +1,14 @@
 extends Panel
 
-signal on_click(a, b)
+signal on_click(a, b, c)
 signal on_hover(a, b)
 signal on_edit(a)
 
-var id : String = ""
-var branch : String = ""
-var modifier : int = 1
+var id 			: String = ""
+var dialogue	: String	= "" 
+var branch 		: String = ""
+var reply		: String	= ""
+var modifier 	: int = 1
 
 func _ready():
 	pass
@@ -35,4 +37,5 @@ func _on_Edit_gui_input(event):
 		if event.control and event.scancode == KEY_ENTER:
 			$"Label".set_text($"Label/Edit".get_text())
 			$"Label/Edit".hide()
+			$"indicator".show()
 			print("close edit")

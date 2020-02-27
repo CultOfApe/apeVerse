@@ -162,23 +162,23 @@ func _input(event):
 	if event.is_action_pressed("ui_exit"):
 		if !mapOpen and !schoolbagOpen and !phoneOpen and !calendarOpen and !global.dialogue_running and !global.editor_running:
 			toggle_game_settings()
-	if event.is_action_pressed("ui_inventory") and !mapOpen and !phoneOpen and !calendarOpen and !gameSettingsOpen and !global.dialogue_running:
-		if schoolbagOpen!=true:
-			toggle_ui_overlay("schoolbag_ui", "show", schoolbagShowPos)
-		else:
-			toggle_ui_overlay("schoolbag_ui", "hide", schoolbagHidePos)
-	if event.is_action_pressed("ui_mobile") and !schoolbagOpen and !mapOpen and !calendarOpen and !gameSettingsOpen and !global.dialogue_running:
-		if phoneOpen!=true:
-			toggle_ui_overlay("phone_ui", "show", phoneShowPos)
-			for app in $phone_ui/apps.get_children():
-				app.hide()			
-		else:
-			toggle_ui_overlay("phone_ui", "hide", phoneHidePos)
-	if event.is_action_pressed("ui_map") and !schoolbagOpen and !phoneOpen and !calendarOpen and !gameSettingsOpen and !global.dialogue_running:
-		if mapOpen!=true:
-			toggle_ui_overlay("map_ui", "show", mapShowPos)
-		else:
-			toggle_ui_overlay("map_ui", "hide", mapHidePos)
+#	if event.is_action_pressed("ui_inventory") and !mapOpen and !phoneOpen and !calendarOpen and !gameSettingsOpen and !global.dialogue_running:
+#		if schoolbagOpen!=true:
+#			toggle_ui_overlay("schoolbag_ui", "show", schoolbagShowPos)
+#		else:
+#			toggle_ui_overlay("schoolbag_ui", "hide", schoolbagHidePos)
+#	if event.is_action_pressed("ui_mobile") and !schoolbagOpen and !mapOpen and !calendarOpen and !gameSettingsOpen and !global.dialogue_running:
+#		if phoneOpen!=true:
+#			toggle_ui_overlay("phone_ui", "show", phoneShowPos)
+#			for app in $phone_ui/apps.get_children():
+#				app.hide()			
+#		else:
+#			toggle_ui_overlay("phone_ui", "hide", phoneHidePos)
+#	if event.is_action_pressed("ui_map") and !schoolbagOpen and !phoneOpen and !calendarOpen and !gameSettingsOpen and !global.dialogue_running:
+#		if mapOpen!=true:
+#			toggle_ui_overlay("map_ui", "show", mapShowPos)
+#		else:
+#			toggle_ui_overlay("map_ui", "hide", mapHidePos)
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_RIGHT:
 			if event.pressed:
@@ -205,11 +205,11 @@ func _input(event):
 			if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
 				toggle_ui_overlay("calendar_ui", "show", calendarShowPos)
 				
-	if event.is_action_pressed("ui_editor") and !global.editor_running:
-		global.blocking_ui = true
-								
-	if event.is_action_pressed("ui_down") and global.editor_running:
-		global.blocking_ui = false
+#	if event.is_action_pressed("ui_editor") and !global.editor_running:
+#		global.blocking_ui = true
+#
+#	if event.is_action_pressed("ui_down") and global.editor_running:
+#		global.blocking_ui = false
 
 #the below functions handle hover animations for UI icons. This could probably be handled more efficiently in one generic function, not sure how
 func _on_phone_mouse_entered():

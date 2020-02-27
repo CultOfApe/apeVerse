@@ -10,7 +10,6 @@ var currentPath
 var currentBranch
 var previousBranch = null
 
-#TODO: make dictionary, enabling storing editor nodechain of more than one dialogue tree
 var nodeChain = {}# Array containing reference to all current nodes in dialogue tree, hierarchically
 
 var JSONfiles 			: Array
@@ -101,7 +100,7 @@ func _pop_nodes(id, branch, reset, modifier):
 		nodeChain["active"] += modifier
 		
 	if nodeChain[currentDialogue].size() > 1:
-		previousBranch = str(nodeChain[currentDialogue].size() -1)
+		previousBranch = str(nodeChain[currentDialogue][(nodeChain.active) - 1])
 	
 	currentBranch 	= branch
 	
@@ -119,46 +118,61 @@ func _pop_nodes(id, branch, reset, modifier):
 	
 	get_node("nodes/" + branch + "/dialogue/Label/Edit").set_size(Vector2(380,280))
 	get_node("nodes/" + branch + "/dialogue/Label/Edit").set_text(node["dialogue"][branch]["speech"][0])
-	get_node("nodes/" + branch + "/dialogue/Label/Edit").wrap_enabled = true
+	get_node("nodes/" + branch + "/dialogue/Label/Edit").grab_focus()
 
 	var numReplies = node["dialogue"][branch]["replies"].size()
 
 	var offset = (numReplies * 100 + numReplies * 25 - 25) / 2
 	
-	if nodeChain.has(currentDialogue) and nodeChain[currentDialogue].size() != 1:
-#		print("more than one")
+	if nodeChain.has(currentDialogue): #and nodeChain[currentDialogue].size() != 1:
+		
 #		print(nodeChain)
 #		print("This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and I want node no. " + str(nodeChain[currentDialogue].size() -1))
-#		print("node no. " + str(nodeChain[currentDialogue].size() -1) + " has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 2])
+#		print("node no. " + str(nodeChain[currentDialogue].size() -1) + " has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
+#
 #		print(node["dialogue"]["1"]["replies"].size())
 #		print("and has " + node["dialogue"][nodeChain[currentDialogue][0]["replies"].size()] + " replies")
-		# find number of replies of previous branch, and display on the left of current dialogue
-		var prevnumReplies = node["dialogue"][str(nodeChain[currentDialogue].size() -1)]["replies"].size()
-		var prevoffset = (prevnumReplies * 100 + prevnumReplies * 25 - 25) / 2
-#		print(prevnumReplies)
-
-		for i in prevnumReplies:
-			var oldroot = Node2D.new()
-			oldroot.set_name(previousBranch)
-			$"nodes".add_child(oldroot)
-			var next = node["dialogue"][previousBranch]["replies"][i]["next"]
-			print(next)
-
-			_create_instanced_UI_element(str(i), editorNode, get_node("nodes/" + previousBranch), 300, 100, SCREENSIZE.x/2 -600, SCREENSIZE.y/2 + (i * 125) - prevoffset, 10)
-			get_node("nodes/" + previousBranch + "/" + str(i)).branch = next
-			get_node("nodes/" + previousBranch + "/" + str(i)).modifier = -1
-			get_node("nodes/" + previousBranch + "/" + str(i) + "/Label").set_size(Vector2(280,80))
-			get_node("nodes/" + previousBranch + "/" + str(i) + "/Label").set_position(Vector2(10,10))
-			get_node("nodes/" + previousBranch + "/" + str(i) + "/Label").set_text(node["dialogue"][previousBranch]["replies"][i]["reply"]) #crashes if one reply only. Rethink
-			get_node("nodes/" + previousBranch + "/" + str(i) + "/Label/Edit").set_size(Vector2(280,80))
-			get_node("nodes/" + previousBranch + "/" + str(i) + "/Label/Edit").set_text(node["dialogue"][previousBranch]["replies"][i]["reply"])
-			get_node("nodes/" + previousBranch + "/" + str(i) + "/Label/Edit").wrap_enabled = true
+		
+		if nodeChain.active != 0: # calc by active-1 instead
+#			print("previous nodes value is: " + nodeChain[currentDialogue][(nodeChain.active) - 1])
+#			print("but previousBranch value is: " + previousBranch) 
+#			print(nodeChain[currentDialogue][(nodeChain.active) - 1])
+#			var prevnumReplies = node["dialogue"][str(nodeChain[currentDialogue].size() -1)]["replies"].size()
+			var prevnumReplies = node["dialogue"][nodeChain[currentDialogue][(nodeChain.active) - 1]]["replies"].size()
+			var prevoffset = (prevnumReplies * 100 + prevnumReplies * 25 - 25) / 2
+	
+			for i in prevnumReplies:
+				var oldroot = Node2D.new()
+				oldroot.set_name(previousBranch)
+				$"nodes".add_child(oldroot)
+				var next = node["dialogue"][previousBranch]["replies"][i]["next"]
+	#			print(next)
+				
+				# This is not working as well as I thought. While it displays previous replies, clicking around sometimes produces unexpected results...
+				# need variable for last reply, make so when you click it, it takes you back, whereas the other replies don´t
+				_create_instanced_UI_element(str(i), editorNode, get_node("nodes/" + previousBranch), 300, 100, SCREENSIZE.x/2 -600, SCREENSIZE.y/2 + (i * 125) - prevoffset, 10)
+				
+				get_node("nodes/" + previousBranch + "/" + str(i)).dialogue = ""
+				if next != currentBranch:
+					get_node("nodes/" + previousBranch + "/" + str(i)).branch = next
+				else:
+					get_node("nodes/" + previousBranch + "/" + str(i)).branch = previousBranch
+				get_node("nodes/" + previousBranch + "/" + str(i)).reply = ""
+				get_node("nodes/" + previousBranch + "/" + str(i)).modifier = -1
+				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label").set_size(Vector2(280,80))
+				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label").set_position(Vector2(10,10))
+				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label").set_text(node["dialogue"][previousBranch]["replies"][i]["reply"]) #crashes if one reply only. Rethink
+				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label/Edit").set_size(Vector2(280,80))
+				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label/Edit").set_text(node["dialogue"][previousBranch]["replies"][i]["reply"])
+				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label/Edit").grab_click_focus()
 
 	for i in numReplies:
 		var next = node["dialogue"][branch]["replies"][i]["next"]
 
 		_create_instanced_UI_element(str(i), editorNode, get_node("nodes/" + branch), 300, 100, SCREENSIZE.x/2 + 300, SCREENSIZE.y/2 + (i * 125) - offset, 10)
+		get_node("nodes/" + branch + "/" + str(i)).dialogue = ""
 		get_node("nodes/" + branch + "/" + str(i)).branch = next
+		get_node("nodes/" + branch + "/" + str(i)).reply = ""
 		get_node("nodes/" + branch + "/" + str(i)).modifier = 1
 		get_node("nodes/" + branch + "/" + str(i) + "/Label").set_size(Vector2(280,80))
 		get_node("nodes/" + branch + "/" + str(i) + "/Label").set_position(Vector2(10,10))
@@ -166,7 +180,7 @@ func _pop_nodes(id, branch, reset, modifier):
 
 		get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_size(Vector2(280,80))
 		get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_text(node["dialogue"][branch]["replies"][i]["reply"])
-		get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").wrap_enabled = true
+		get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").grab_click_focus()
 		
 		#save editor session to cache, only save to file if explicitly stated
 #		global.editorData[currentDialogue] = nodeChain

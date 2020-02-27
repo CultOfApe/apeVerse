@@ -23,6 +23,15 @@ __meta__ = {
 visible = false
 margin_right = 40.0
 margin_bottom = 40.0
+wrap_enabled = true
+
+[node name="indicator" type="Label" parent="."]
+visible = false
+margin_left = -0.157776
+margin_top = -11.8334
+margin_right = 66.8422
+margin_bottom = 2.16658
+text = "MODIFIED"
 [connection signal="gui_input" from="Label" to="." method="_on_Label_gui_input"]
 [connection signal="mouse_entered" from="Label" to="." method="_on_Label_mouse_entered"]
 [connection signal="mouse_exited" from="Label" to="." method="_on_Label_mouse_exited"]
