@@ -5,6 +5,7 @@ signal on_hover(a, b)
 signal on_edit(a)
 
 var id 			: String = ""
+var nodetype	: String = ""
 var dialogue	: String	= "" 
 var branch 		: String = ""
 var reply		: String	= ""
@@ -23,13 +24,16 @@ func _on_Label_gui_input(event):
 					print("edit text")
 #					emit_signal("on_edit", id, true)
 				else:
-					emit_signal("on_click", branch, true, modifier)
+					if nodetype == "reply":
+						emit_signal("on_click", branch, true, modifier)
 
 func _on_Label_mouse_entered():
-	pass
+	if nodetype == "reply":
+		$"Label".add_color_override("font_color", Color(1,10,10))
 
 func _on_Label_mouse_exited():
-	pass # Replace with function body.
+	if nodetype == "reply":
+		$"Label".add_color_override("font_color", Color(1,1,1))
 
 # key input to finalize and save edit. Enter, or CTRl+Enter
 func _on_Edit_gui_input(event):

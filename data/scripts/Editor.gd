@@ -9,6 +9,7 @@ var currentDialogue
 var currentPath
 var currentBranch
 var previousBranch = null
+var reverse = false
 
 var nodeChain = {}# Array containing reference to all current nodes in dialogue tree, hierarchically
 
@@ -95,14 +96,18 @@ func _pop_nodes(id, branch, reset, modifier):
 	if !nodeChain.has(currentDialogue):
 		nodeChain = {currentDialogue : [branch],
 					"active" : 0}
-	elif nodeChain[currentDialogue].back() != branch:
+					
+	# FIX: this shouldn´t be run if we traverse backwards in the nodetree. Do we need another flag? :P
+	elif nodeChain[currentDialogue].back() != branch and reverse != true:
 		nodeChain[currentDialogue].push_back(branch)
-		nodeChain["active"] += modifier
+		
+	nodeChain["active"] += modifier
 		
 	if nodeChain[currentDialogue].size() > 1:
 		previousBranch = str(nodeChain[currentDialogue][(nodeChain.active) - 1])
 	
-	currentBranch 	= branch
+	reverse = false
+	currentBranch 	= str(nodeChain[currentDialogue][nodeChain.active])
 	
 	var node = global.load_json("res://data/dialogue/" + id)
 	
@@ -115,6 +120,8 @@ func _pop_nodes(id, branch, reset, modifier):
 	get_node("nodes/" + branch + "/dialogue/Label").set_size(Vector2(380,280))
 	get_node("nodes/" + branch + "/dialogue/Label").set_position(Vector2(10,10))
 	get_node("nodes/" + branch + "/dialogue/Label").set_text(node["dialogue"][branch]["speech"][0])
+	get_node("nodes/" + branch + "/dialogue").nodetype = "dialogue"
+	get_node("nodes/" + branch + "/dialogue").id = branch
 	
 	get_node("nodes/" + branch + "/dialogue/Label/Edit").set_size(Vector2(380,280))
 	get_node("nodes/" + branch + "/dialogue/Label/Edit").set_text(node["dialogue"][branch]["speech"][0])
@@ -126,16 +133,16 @@ func _pop_nodes(id, branch, reset, modifier):
 	
 	if nodeChain.has(currentDialogue): #and nodeChain[currentDialogue].size() != 1:
 		
-#		print(nodeChain)
-#		print("This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and I want node no. " + str(nodeChain[currentDialogue].size() -1))
-#		print("node no. " + str(nodeChain[currentDialogue].size() -1) + " has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
-#
+		print(nodeChain)
+		print("This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and I want node no. " + str(nodeChain[currentDialogue].size() -1))
+		print("node no. " + str(nodeChain[currentDialogue].size() -1) + " has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
+
 #		print(node["dialogue"]["1"]["replies"].size())
 #		print("and has " + node["dialogue"][nodeChain[currentDialogue][0]["replies"].size()] + " replies")
 		
 		if nodeChain.active != 0: # calc by active-1 instead
-#			print("previous nodes value is: " + nodeChain[currentDialogue][(nodeChain.active) - 1])
-#			print("but previousBranch value is: " + previousBranch) 
+			print("previous nodes value is: " + nodeChain[currentDialogue][(nodeChain.active) - 1])
+			print("but previousBranch value is: " + previousBranch) 
 #			print(nodeChain[currentDialogue][(nodeChain.active) - 1])
 #			var prevnumReplies = node["dialogue"][str(nodeChain[currentDialogue].size() -1)]["replies"].size()
 			var prevnumReplies = node["dialogue"][nodeChain[currentDialogue][(nodeChain.active) - 1]]["replies"].size()
@@ -157,11 +164,14 @@ func _pop_nodes(id, branch, reset, modifier):
 					get_node("nodes/" + previousBranch + "/" + str(i)).branch = next
 				else:
 					get_node("nodes/" + previousBranch + "/" + str(i)).branch = previousBranch
+					get_node("nodes/" + previousBranch + "/" + str(i) + "/Label").add_color_override("font_color", Color(1,0,0))
 				get_node("nodes/" + previousBranch + "/" + str(i)).reply = ""
 				get_node("nodes/" + previousBranch + "/" + str(i)).modifier = -1
 				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label").set_size(Vector2(280,80))
 				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label").set_position(Vector2(10,10))
 				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label").set_text(node["dialogue"][previousBranch]["replies"][i]["reply"]) #crashes if one reply only. Rethink
+				get_node("nodes/" + previousBranch + "/" + str(i)).nodetype = "reply"
+				get_node("nodes/" + previousBranch + "/" + str(i)).id = str(i)
 				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label/Edit").set_size(Vector2(280,80))
 				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label/Edit").set_text(node["dialogue"][previousBranch]["replies"][i]["reply"])
 				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label/Edit").grab_click_focus()
@@ -177,7 +187,8 @@ func _pop_nodes(id, branch, reset, modifier):
 		get_node("nodes/" + branch + "/" + str(i) + "/Label").set_size(Vector2(280,80))
 		get_node("nodes/" + branch + "/" + str(i) + "/Label").set_position(Vector2(10,10))
 		get_node("nodes/" + branch + "/" + str(i) + "/Label").set_text(node["dialogue"][branch]["replies"][i]["reply"])
-
+		get_node("nodes/" + branch + "/" + str(i)).nodetype = "reply"
+		get_node("nodes/" + branch + "/" + str(i)).id = str(i)
 		get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_size(Vector2(280,80))
 		get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_text(node["dialogue"][branch]["replies"][i]["reply"])
 		get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").grab_click_focus()
@@ -187,6 +198,12 @@ func _pop_nodes(id, branch, reset, modifier):
 
 func _on_node_click(branch, null, modifier):
 	#TODO: shouldn´t be called if node has same id as current branch
+	print("modifier is: " + str(modifier))
+	print("-------------------------------")
+	if modifier == -1:
+		reverse = true
+	else:
+		reverse = false
 	_pop_nodes(currentDialogue, branch, true, modifier)
 	
 func _reply_clicked(a):
