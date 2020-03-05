@@ -1,14 +1,15 @@
 extends StaticBody
 
-signal look_at(a)
+signal look_at(a,b)
 signal highlight(a)
 signal dialogue(a,b,c)
 
 #will just carry character name, all other data will be moved to charData in global.gd
-var identity : String = "ellie"
-var branch : String = "1"
+var identity 	: String 		= "ellie"
+var branch 		: String 		= "1"
+var gender		: Array			= ["she", "her"]
 
-var inventory : Array = [
+var inventory 	: Array = [
 	"clothes",
 	"glasses",
 	"bag"
@@ -40,8 +41,6 @@ func _on_npc_trigger_input_event(camera, event, click_position, click_normal, sh
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and global.blocking_ui!=true:
 		if event.is_pressed():
 			if global.itemInHand == "":	
-				global.blocking_ui = true
-				global.sceneCol.disabled = true
 				emit_signal("dialogue", identity, self.get_transform().origin, "default")
 
 			else:

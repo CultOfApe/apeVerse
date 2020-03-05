@@ -57,7 +57,7 @@ func connect_stuff():
 func _process(delta):
 	#This should only be called when the thought bubbl is actually showing?
 		if global.gameType == "3D":
-			thought_bubble.set_position($Camera.unproject_position((get_node("player").translation) + Vector3(0,4.6,0)) - Vector2(30,0))
+			thought_bubble.set_position($Camera.unproject_position((get_node("player").translation) + Vector3(0,2.5,0)) - Vector2(30,0))
 
 func change_location(location):
 	global.scene = location
@@ -69,10 +69,14 @@ func change_location(location):
 func _input(event):
 	pass
 
+func _look_at(text):
+	pass
+
 func thought_bubble(text):
-	if text != "" and isLookingAt == false:
+	if text != "": # and isLookingAt == false:
+		print("bubble!")
 		thought_bubble.show()
-		materialize.interpolate_property(thought_bubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		materialize.interpolate_property(thought_bubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		materialize.start()
 		isLookingAt = true
 

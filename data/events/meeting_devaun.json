@@ -25,9 +25,9 @@
 				"dialogue": "devaun_weed",
 				"branch": "a",
 				"pos": {
-					"x": -6,
+					"x": -3,
 					"y": 1,
-					"z": -2
+					"z": 0
 				},
 				"rot": {
 					"x": 0,

@@ -180,4 +180,5 @@ func _on_page3_input_event(viewport, event, shape_idx):
 func _on_call(id):
 	get_parent().ui_exit(null)
 	global.blocking_ui = true
-	get_node("../../dialogue")._talk_to("devaun", Vector3(1,1,1), "phone")
+	var playerPos = get_tree().get_root().get_node("game").get_node("player").get_global_transform().origin
+	get_node("../../dialogue")._talk_to("devaun", playerPos, "phone")

@@ -3,7 +3,6 @@
 	"background": "background.png",
 	"dialogue": {
 		"1": {
-			"avatar": "res://data/npcs/devaun_talkanim.tscn",
 			"animate": "false",
 			"loop": "false",
 			"frame": 0,
@@ -18,7 +17,6 @@
 			]
 		},
 		"2": {
-			"avatar": "res://data/npcs/devaun_talkanim.tscn",
 			"frame": 0,
 			"speech": ["Sorry, that´s all I had. Call me tomorrow for more."],
 			"replies": [{

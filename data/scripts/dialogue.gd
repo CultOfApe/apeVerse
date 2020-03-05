@@ -88,13 +88,20 @@ func _dialogue_clicked():
 		global.dialogue_running = false
 		kill_dialogue()
 
-func _talk_to(id, clickPos, type):
-	npc = id
-	dialogueType = type
-	global.blocking_ui = true
-	effectBlurUI.interpolate_property(screenBlur, "modulate", Color(1, 1, 1, 0), Color(1, 1, 1, 1), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
-	get_parent().get_node("ui").toggle_ui_icons("hide")
-	start_dialogue(global.charData[id]["dialogue"][dialogueType]["path"], dialogueType)
+func _talk_to(id, npcPos, type):
+	#TODO: only able to speak to NPCs within arbitrary distance. If not able, notify player (thought bubble?)
+	var player_pos 	: Vector3 = get_parent().get_node("player").get_global_transform().origin
+	#TODO: Ideally, if player is too far from NPC, he should move closer and then start dialogue, but this is enough for now
+	if player_pos.distance_to(npcPos) < 4:
+		global.blocking_ui = true
+		npc = id
+		dialogueType = type
+		effectBlurUI.interpolate_property(screenBlur, "modulate", Color(1, 1, 1, 0), Color(1, 1, 1, 1), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		get_parent().get_node("ui").toggle_ui_icons("hide")
+		start_dialogue(global.charData[id]["dialogue"][dialogueType]["path"], dialogueType)
+	else:
+		get_parent().thought_bubble("Too far away for that.")
+		print("Too far away for that.")
 
 func _pick_reply(n):
 	replyCurrent =-1

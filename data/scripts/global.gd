@@ -1,10 +1,22 @@
 extends Node
 
-onready var gameRoot = get_tree().get_root().get_node("game")
+#TODO: add typing to these
+onready var gameRoot 		= get_tree().get_root().get_node("game")
+onready var sceneCol 		= get_tree().get_root().get_node("game").get_node("scene").get_node("col")
+onready var sceneGeometry 	= get_tree().get_root().get_node("game").get_node("scene").get_node("Area")
+onready var transition 		= get_tree().get_root().get_node("game").get_node("ui/transition")
+onready var audio 			= get_tree().get_root().get_node("game").get_node("audio")
+onready var locLabel 		= get_tree().get_root().get_node("game").get_node("ui/location")
+onready var locTweenIn 		= get_tree().get_root().get_node("game").get_node("ui/location/tween_in")
+onready var locTweenOut 	= get_tree().get_root().get_node("game").get_node("ui/location/tween_out")
+onready var worldEnv 		= get_tree().get_root().get_node("game").get_node("Camera/env")
+onready var lightDir 		= get_tree().get_root().get_node("game").get_node("pos3d/DirectionalLight")
+onready var lightDummy 		= get_tree().get_root().get_node("game").get_node("pos3d")
 
 var gameType 		: String
-var playerMove		: bool
 
+
+#TODO: these variables are confusing. Go over and add clarifying comments to each
 var day 			: int
 var gameday 		: int
 var weekday 		: String
@@ -15,24 +27,30 @@ var firstofmonth	: int
 var date 			: int
 var calendarOffset  : int
 
+var scene 				: String
+var locations 			: Array
+var currentLocation 	: String
+var previous_location 	: String
+
 var tempData
 var sceneData 		: Dictionary
+var locationData	: Dictionary
+var locData			: Dictionary # locationData should cover same function
 var gameData 		: Dictionary
 var eventData 		: Dictionary
 var charData 		: Dictionary
 var gameVars 		: Dictionary
 var inventoryData 	: Dictionary
 var contactData 	: Dictionary
-var editorData
-
-#var archiveData  : Dictionary = {
-#	"img01" : "res://data/graphics/img01.png",
-#	"img02" : "res://data/graphics/img02.png",
-#	"img03" : "res://data/graphics/img03.png",
-#	"img04" : "res://data/graphics/img04.png",
-#	"img05" : "res://data/graphics/img05.png",
-#	"img06" : "res://data/graphics/img06.png"
-#}
+var editorData		: Dictionary
+var galleryData  	: Dictionary = {
+	"img01" : "res://data/graphics/img01.png",
+	"img02" : "res://data/graphics/img02.png",
+	"img03" : "res://data/graphics/img03.png",
+	"img04" : "res://data/graphics/img04.png",
+	"img05" : "res://data/graphics/img05.png",
+	"img06" : "res://data/graphics/img06.png"
+}
 
 var saveData  : Dictionary = {
 		"save1" : [{
@@ -42,47 +60,29 @@ var saveData  : Dictionary = {
 		}]	
 	}
 
+# REFACTOR: remove _running suffix from all
 var dialogue_running 	: bool
 var blocking_ui 		: bool 		= false
 var phone_app_running 	: bool		= false
-var is_moving 			: bool		= false
+var editor				: bool		= false # Not yet used
+var editor_running		: bool		= false # replace with editor
+var settings			: bool		= false # Not yet used
+var playerMove			: bool		= false
+var is_moving 			: bool		= false # playerMove should cover same function
 var calendarUpdate		: bool		= false
 var itemInHand 			: String 	= ""
 
 var gallery_page 		: int 		= 1
 var save_page 			: int 		= 1
-var scene 				: String
-var locations 			: Array
-var locData				: Dictionary
-var locationData		: Dictionary
-var currentLocation 	: String
-var previous_location 	: String
 var eventOverride = {}
 
 var files 				: Array
 var removedActors		: Array
 	
 var playerScript : Script = preload("res://data/scripts/player.gd")
+var playerPos
 
 var capture
-
-var editor_running = false
-
-onready var sceneCol 	= get_tree().get_root().get_node("game").get_node("scene").get_node("col")
-onready var sceneGeometry 	= get_tree().get_root().get_node("game").get_node("scene").get_node("Area")
-
-onready var transition 	= get_tree().get_root().get_node("game").get_node("ui/transition")
-
-onready var audio 		= get_tree().get_root().get_node("game").get_node("audio")
-
-onready var locLabel 	= get_tree().get_root().get_node("game").get_node("ui/location")
-onready var locTweenIn 	= get_tree().get_root().get_node("game").get_node("ui/location/tween_in")
-onready var locTweenOut = get_tree().get_root().get_node("game").get_node("ui/location/tween_out")
-
-onready var worldEnv 	= get_tree().get_root().get_node("game").get_node("Camera/env")
-
-onready var lightDir 	= get_tree().get_root().get_node("game").get_node("pos3d/DirectionalLight")
-onready var lightDummy 	= get_tree().get_root().get_node("game").get_node("pos3d")
 
 func _ready():
 	set_process(true)
@@ -249,7 +249,7 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 		child.set_name("DELETED")
 		child.queue_free()
 	
-	if eventOverride.has("remove"):
+	if eventOverride and eventOverride.has("remove"):
 		if eventOverride["remove"].has("actor"): #and eventOverride["remove"]["actor"][0] != "all"    <-gives string/array error...
 			for i in eventOverride["remove"]["actor"]:
 				removedActors.push_back(i)

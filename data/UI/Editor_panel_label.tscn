@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://data/UI/editorNode.gd" type="Script" id=1]
+[ext_resource path="res://data/graphics/UI/add.png" type="Texture" id=2]
 
 [node name="Panel" type="Panel"]
 margin_right = 40.0
@@ -32,6 +33,11 @@ margin_top = -11.8334
 margin_right = 66.8422
 margin_bottom = 2.16658
 text = "MODIFIED"
+
+[node name="add" type="Sprite" parent="."]
+visible = false
+position = Vector2( 48.7245, 39.9624 )
+texture = ExtResource( 2 )
 [connection signal="gui_input" from="Label" to="." method="_on_Label_gui_input"]
 [connection signal="mouse_entered" from="Label" to="." method="_on_Label_mouse_entered"]
 [connection signal="mouse_exited" from="Label" to="." method="_on_Label_mouse_exited"]

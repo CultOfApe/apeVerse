@@ -5,10 +5,11 @@ signal highlight(a)
 signal dialogue(a,b,c)
 
 #will just carry character name, all other data will be moved to charData in global.gd
-var identity 	: String = "devaun"
-var branch 		: String = "1"
+var identity 	: String 	= "devaun"
+var branch 		: String 	= "1"
+var gender		: Array		= ["she", "her"]
 
-var inventory 	: Array = [
+var inventory 	: Array 	= [
 	"clothes",
 	"glasses",
 	"bag"

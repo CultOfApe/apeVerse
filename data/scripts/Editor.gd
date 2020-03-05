@@ -98,7 +98,7 @@ func _pop_nodes(id, branch, reset, modifier):
 					"active" : 0}
 					
 	# FIX: this shouldn´t be run if we traverse backwards in the nodetree. Do we need another flag? :P
-	elif nodeChain[currentDialogue].back() != branch and reverse != true:
+	elif nodeChain[currentDialogue].back() != branch: #and reverse != true:
 		nodeChain[currentDialogue].push_back(branch)
 		
 	nodeChain["active"] += modifier
@@ -134,15 +134,15 @@ func _pop_nodes(id, branch, reset, modifier):
 	if nodeChain.has(currentDialogue): #and nodeChain[currentDialogue].size() != 1:
 		
 		print(nodeChain)
-		print("This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and I want node no. " + str(nodeChain[currentDialogue].size() -1))
-		print("node no. " + str(nodeChain[currentDialogue].size() -1) + " has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
+		print("This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and the current node has index no. " + str(nodeChain[currentDialogue].size() -1))
+		print("current node has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
 
 #		print(node["dialogue"]["1"]["replies"].size())
 #		print("and has " + node["dialogue"][nodeChain[currentDialogue][0]["replies"].size()] + " replies")
 		
 		if nodeChain.active != 0: # calc by active-1 instead
-			print("previous nodes value is: " + nodeChain[currentDialogue][(nodeChain.active) - 1])
-			print("but previousBranch value is: " + previousBranch) 
+			print("previous node has value: " + previousBranch)
+#			print("but previousBranch value is: " + previousBranch) 
 #			print(nodeChain[currentDialogue][(nodeChain.active) - 1])
 #			var prevnumReplies = node["dialogue"][str(nodeChain[currentDialogue].size() -1)]["replies"].size()
 			var prevnumReplies = node["dialogue"][nodeChain[currentDialogue][(nodeChain.active) - 1]]["replies"].size()
@@ -204,6 +204,8 @@ func _on_node_click(branch, null, modifier):
 		reverse = true
 	else:
 		reverse = false
+	if branch == currentBranch:
+		modifier = 0
 	_pop_nodes(currentDialogue, branch, true, modifier)
 	
 func _reply_clicked(a):
