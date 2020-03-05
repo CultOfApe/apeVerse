@@ -160,8 +160,9 @@ func _input(event):
 	#these need checks so you can´t press the same key twice, or the overlays will continue upwards
 	#pressing a second time should hide the overlays again 
 	if event.is_action_pressed("ui_exit"):
-		if !mapOpen and !schoolbagOpen and !phoneOpen and !calendarOpen and !global.dialogue_running and !global.editor_running:
+		if !mapOpen and !schoolbagOpen and !phoneOpen and !calendarOpen and !global.dialogue_running and !global.editor:
 			toggle_game_settings()
+#   The below is disabled for now, but will be refactored at a later time
 #	if event.is_action_pressed("ui_inventory") and !mapOpen and !phoneOpen and !calendarOpen and !gameSettingsOpen and !global.dialogue_running:
 #		if schoolbagOpen!=true:
 #			toggle_ui_overlay("schoolbag_ui", "show", schoolbagShowPos)

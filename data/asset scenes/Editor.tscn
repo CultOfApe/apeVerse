@@ -9,7 +9,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="topMenu" type="HBoxContainer" parent="."]
 margin_left = 160.0
 margin_right = 1160.0
 margin_bottom = 40.0
@@ -17,30 +17,30 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Button" type="Button" parent="HBoxContainer"]
+[node name="Button" type="Button" parent="topMenu"]
 margin_right = 94.0
 margin_bottom = 40.0
 text = "Save session"
 
-[node name="Button2" type="Button" parent="HBoxContainer"]
+[node name="Button2" type="Button" parent="topMenu"]
 margin_left = 98.0
 margin_right = 180.0
 margin_bottom = 40.0
 text = "save to file"
 
-[node name="Button4" type="Button" parent="HBoxContainer"]
+[node name="Button4" type="Button" parent="topMenu"]
 margin_left = 184.0
 margin_right = 383.0
 margin_bottom = 40.0
 text = "set current dialogue to active"
 
-[node name="Button3" type="Button" parent="HBoxContainer"]
+[node name="Button3" type="Button" parent="topMenu"]
 margin_left = 387.0
 margin_right = 508.0
 margin_bottom = 40.0
 text = "reset gamecache"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="options" type="VBoxContainer" parent="."]
 margin_left = 160.0
 margin_top = 60.0
 margin_right = 285.0
@@ -49,12 +49,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckBox" type="CheckBox" parent="VBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="options"]
 margin_right = 125.0
 margin_bottom = 24.0
 text = "show help"
 
-[node name="CheckBox2" type="CheckBox" parent="VBoxContainer"]
+[node name="CheckBox2" type="CheckBox" parent="options"]
 margin_top = 28.0
 margin_right = 125.0
 margin_bottom = 52.0
@@ -66,7 +66,83 @@ margin_top = 130.0
 margin_right = 360.0
 margin_bottom = 530.0
 text = "LMB to select nodes
-CTRL+LMB to edit node text"
+CTRL+LMB to edit node value
+"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="variables" type="HBoxContainer" parent="."]
+margin_left = 731.076
+margin_top = 340.0
+margin_right = 938.076
+margin_bottom = 380.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="subtract" type="Button" parent="variables"]
+margin_right = 20.0
+margin_bottom = 40.0
+text = "<"
+
+[node name="text" type="Label" parent="variables"]
+margin_left = 24.0
+margin_top = 13.0
+margin_right = 159.0
+margin_bottom = 27.0
+text = " add 1 to myVariable "
+
+[node name="add" type="Button" parent="variables"]
+margin_left = 163.0
+margin_right = 183.0
+margin_bottom = 40.0
+text = ">"
+
+[node name="new" type="Button" parent="variables"]
+margin_left = 187.0
+margin_right = 207.0
+margin_bottom = 40.0
+text = "+"
+
+[node name="events" type="HBoxContainer" parent="."]
+margin_left = 954.019
+margin_top = 340.0
+margin_right = 1178.02
+margin_bottom = 380.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="text" type="Label" parent="events"]
+margin_top = 13.0
+margin_right = 200.0
+margin_bottom = 27.0
+rect_pivot_offset = Vector2( 948.673, -299.158 )
+text = " Trigger event: meetingDevaun "
+
+[node name="Button" type="Button" parent="events"]
+margin_left = 204.0
+margin_right = 224.0
+margin_bottom = 40.0
+text = "+"
+
+[node name="create" type="HBoxContainer" parent="."]
+margin_left = 830.717
+margin_top = 700.0
+margin_right = 1094.72
+margin_bottom = 740.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="variable" type="Button" parent="create"]
+margin_right = 137.0
+margin_bottom = 40.0
+text = "Create new variable"
+
+[node name="event" type="Button" parent="create"]
+margin_left = 141.0
+margin_right = 264.0
+margin_bottom = 40.0
+text = "Create new event"

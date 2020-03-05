@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://data/scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://data/scripts/ui.gd" type="Script" id=2]
@@ -8,7 +8,7 @@
 [ext_resource path="res://data/graphics/UI/inventory.png" type="Texture" id=6]
 [ext_resource path="res://data/graphics/UI/phone.png" type="Texture" id=7]
 [ext_resource path="res://data/graphics/UI/map.png" type="Texture" id=8]
-[ext_resource path="res://data/graphics/settings.png" type="Texture" id=9]
+[ext_resource path="res://data/asset scenes/settings.tscn" type="PackedScene" id=9]
 [ext_resource path="res://data/graphics/UI/calendar.png" type="Texture" id=10]
 [ext_resource path="res://data/asset scenes/Editor.tscn" type="PackedScene" id=11]
 [ext_resource path="res://data/locations/schoolyard.tscn" type="PackedScene" id=14]
@@ -78,9 +78,6 @@ font_data = ExtResource( 3 )
 size = 15
 use_filter = true
 font_data = ExtResource( 3 )
-
-[sub_resource type="CircleShape2D" id=7]
-radius = 63.1471
 
 [sub_resource type="CircleShape2D" id=8]
 radius = 56.4041
@@ -210,17 +207,7 @@ texture = ExtResource( 5 )
 
 [node name="dissolve" type="Tween" parent="ui/thoughtBubble"]
 
-[node name="settings" type="Area2D" parent="ui"]
-visible = false
-position = Vector2( 1816.75, 579.325 )
-
-[node name="Sprite" type="Sprite" parent="ui/settings"]
-position = Vector2( -3.73492, 1.64922 )
-texture = ExtResource( 9 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ui/settings"]
-position = Vector2( -2.99091, 0.0382233 )
-shape = SubResource( 7 )
+[node name="settings" parent="ui" instance=ExtResource( 9 )]
 
 [node name="inventory" type="Area2D" parent="ui" groups=[
 "UI_icons",

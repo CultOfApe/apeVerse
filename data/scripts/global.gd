@@ -64,11 +64,9 @@ var saveData  : Dictionary = {
 var dialogue_running 	: bool
 var blocking_ui 		: bool 		= false
 var phone_app_running 	: bool		= false
-var editor				: bool		= false # Not yet used
-var editor_running		: bool		= false # replace with editor
+var editor				: bool		= false
 var settings			: bool		= false # Not yet used
-var playerMove			: bool		= false
-var is_moving 			: bool		= false # playerMove should cover same function
+var playerMoving		: bool		= false
 var calendarUpdate		: bool		= false
 var itemInHand 			: String 	= ""
 

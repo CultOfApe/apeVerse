@@ -43,7 +43,7 @@ func _ready():
 #needs a separate flag because right now this stops player even if I´m only hovering a UI icon	
 #func _process(delta):
 #	if global.sceneCol.disabled == true:
-#		global.is_moving = false
+#		global.playerMoving = false
 #		$Character/AnimationPlayer.stop()
 
 func _physics_process(delta):
@@ -51,21 +51,21 @@ func _physics_process(delta):
 		#move and rotate player towards set target
 		if isRotating:
 			pass
-		if global.is_moving:
+		if global.playerMoving:
 			if global.blocking_ui != true:
 				$Character/AnimationPlayer.play("Run")
 				$Oleg/Armature/AnimationPlayer.play("walk")
 				turn_towards()
 				move_and_slide(Vector3(playerFacing) * get_physics_process_delta_time() * SPEED)
 				if player_pos.distance_to(target_pos) < 0.5:
-					global.is_moving = false
+					global.playerMoving = false
 					
-		elif global.is_moving == false and run_anim == true:
+		elif global.playerMoving == false and run_anim == true:
 			$Character/AnimationPlayer.play("Idle-loop")
 			$Oleg/Armature/AnimationPlayer.play("idle")
 			run_anim = false
 			
-		if global.is_moving and global.blocking_ui == true:
+		if global.playerMoving and global.blocking_ui == true:
 				$Character/AnimationPlayer.stop()
 				$Oleg/Armature/AnimationPlayer.stop()
 
@@ -114,11 +114,11 @@ func _on_scene_input_event(camera, event, click_position, click_normal, shape_id
 	if event is InputEventMouseButton and global.blocking_ui != true:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
-				if !global.is_moving:
+				if !global.playerMoving:
 					$Character/AnimationPlayer.play("Run")
 					$Oleg/Armature/AnimationPlayer.play("walk")
 					
-				global.is_moving = true
+				global.playerMoving = true
 				
 				turnIter = 0 
 				player_pos = player.get_global_transform().origin

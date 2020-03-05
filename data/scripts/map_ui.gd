@@ -28,7 +28,7 @@ func _on_map01_mouse_exited():
 func _on_map01_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
 		if global.currentLocation != "schoolyard":
-			global.is_moving = false
+			global.playerMoving = false
 			emit_signal("location_chosen", "schoolyard")
 
 func _on_map02_mouse_entered():
@@ -45,7 +45,7 @@ func _on_map02_mouse_exited():
 func _on_map02_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
 		if global.currentLocation != "schoolhall":
-			global.is_moving = false
+			global.playerMoving = false
 			emit_signal("location_chosen", "schoolhall")
 
 func _on_map03_mouse_entered():
@@ -62,5 +62,5 @@ func _on_map03_mouse_exited():
 func _on_map03_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
 		if global.currentLocation != "myroom":
-			global.is_moving = false
+			global.playerMoving = false
 			emit_signal("location_chosen", "myroom")

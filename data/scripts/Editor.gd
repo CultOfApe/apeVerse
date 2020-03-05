@@ -19,11 +19,11 @@ func _ready():
 	pass
 
 func _input(event):
-	if event.is_action_pressed("ui_editor") and !global.editor_running:
+	if event.is_action_pressed("ui_editor") and !global.editor:
 		self.show()
 		_setup_editor()
 								
-	if event.is_action_pressed("ui_down") and global.editor_running:
+	if event.is_action_pressed("ui_down") and global.editor:
 		_kill_editor()
 		screenBlur.modulate = Color(1, 1, 1, 0)
 
@@ -32,7 +32,7 @@ func _setup_editor():
 	
 	screenBlur.modulate = Color(1, 1, 1, 1)
 	
-	global.editor_running = true
+	global.editor = true
 		
 	global.files = []
 	var folder : Array = global.list_files_in_directory("res://data/dialogue/")
@@ -56,7 +56,7 @@ func _kill_editor():
 		for x in self.get_children():
 			x.set_name("DELETED") #to make sure node doesn´t cause issues before being deleted
 			x.queue_free()
-		global.editor_running = false
+		global.editor = false
 
 func _create_new_UI_element(id, type, parent, xsize, ysize, xpos, ypos): # add variable to cancel instancing, or instance outside of func(?)
 	var node = type.new()
@@ -136,15 +136,10 @@ func _pop_nodes(id, branch, reset, modifier):
 		print(nodeChain)
 		print("This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and the current node has index no. " + str(nodeChain[currentDialogue].size() -1))
 		print("current node has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
-
-#		print(node["dialogue"]["1"]["replies"].size())
 #		print("and has " + node["dialogue"][nodeChain[currentDialogue][0]["replies"].size()] + " replies")
 		
 		if nodeChain.active != 0: # calc by active-1 instead
 			print("previous node has value: " + previousBranch)
-#			print("but previousBranch value is: " + previousBranch) 
-#			print(nodeChain[currentDialogue][(nodeChain.active) - 1])
-#			var prevnumReplies = node["dialogue"][str(nodeChain[currentDialogue].size() -1)]["replies"].size()
 			var prevnumReplies = node["dialogue"][nodeChain[currentDialogue][(nodeChain.active) - 1]]["replies"].size()
 			var prevoffset = (prevnumReplies * 100 + prevnumReplies * 25 - 25) / 2
 	
@@ -198,7 +193,6 @@ func _pop_nodes(id, branch, reset, modifier):
 
 func _on_node_click(branch, null, modifier):
 	#TODO: shouldn´t be called if node has same id as current branch
-	print("modifier is: " + str(modifier))
 	print("-------------------------------")
 	if modifier == -1:
 		reverse = true
