@@ -49,12 +49,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CheckBox" type="CheckBox" parent="options"]
+[node name="help" type="CheckBox" parent="options"]
 margin_right = 125.0
 margin_bottom = 24.0
 text = "show help"
 
-[node name="CheckBox2" type="CheckBox" parent="options"]
+[node name="advanced" type="CheckBox" parent="options"]
 margin_top = 28.0
 margin_right = 125.0
 margin_bottom = 52.0
@@ -72,7 +72,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="variables" type="HBoxContainer" parent="."]
+[node name="variables" type="HBoxContainer" parent="." groups=[
+"editor_advanced",
+]]
 margin_left = 731.076
 margin_top = 340.0
 margin_right = 938.076
@@ -105,7 +107,9 @@ margin_right = 207.0
 margin_bottom = 40.0
 text = "+"
 
-[node name="events" type="HBoxContainer" parent="."]
+[node name="events" type="HBoxContainer" parent="." groups=[
+"editor_advanced",
+]]
 margin_left = 954.019
 margin_top = 340.0
 margin_right = 1178.02
@@ -127,7 +131,9 @@ margin_right = 224.0
 margin_bottom = 40.0
 text = "+"
 
-[node name="create" type="HBoxContainer" parent="."]
+[node name="create" type="HBoxContainer" parent="." groups=[
+"editor_advanced",
+]]
 margin_left = 830.717
 margin_top = 700.0
 margin_right = 1094.72
@@ -146,3 +152,5 @@ margin_left = 141.0
 margin_right = 264.0
 margin_bottom = 40.0
 text = "Create new event"
+[connection signal="toggled" from="options/help" to="." method="_on_help_toggled"]
+[connection signal="toggled" from="options/advanced" to="." method="_on_advanced_toggled"]

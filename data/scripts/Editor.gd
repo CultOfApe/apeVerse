@@ -30,6 +30,13 @@ func _input(event):
 #TODO: Editor should remember last open session		
 func _setup_editor():
 	
+	for node in get_tree().get_nodes_in_group("editor_advanced"):
+		node.hide()
+	$keymap.hide()
+	$topMenu.hide()
+	$options.hide()
+	
+	
 	screenBlur.modulate = Color(1, 1, 1, 1)
 	
 	global.editor = true
@@ -79,6 +86,9 @@ func _create_instanced_UI_element(name, obj, parent, xsize, ysize, xpos, ypos, m
 
 # TODO: If existing nodes, spawn new nodes at x + 1080, and then move over $"nodes" x -1080
 func _pop_nodes(id, branch, reset, modifier):
+	
+	$topMenu.show()
+	$options.show()
 	
 	if reset:
 		if $"nodes":
@@ -207,3 +217,22 @@ func _reply_clicked(a):
 	
 func _button_hover():
 	pass
+
+
+func _on_help_toggled(button_pressed):
+	if button_pressed:
+		for node in get_tree().get_nodes_in_group("editor_advanced"):
+			$keymap.show()
+	else:
+		for node in get_tree().get_nodes_in_group("editor_advanced"):
+			$keymap.hide()
+
+
+func _on_advanced_toggled(button_pressed):
+	if button_pressed:
+		for node in get_tree().get_nodes_in_group("editor_advanced"):
+			node.show()
+	else:
+		for node in get_tree().get_nodes_in_group("editor_advanced"):
+			node.hide()
+	

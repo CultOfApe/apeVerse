@@ -3,10 +3,10 @@ extends Node
 signal timer_end
 
 #flags/states
-var isMoving 		: bool = false
-var isRotating 		: bool = false
-var noMoveOnClick 	: bool = false
-var dialogueRunning : bool = false
+#var isMoving 		: bool = false
+#var isRotating 		: bool = false
+#var noMoveOnClick 	: bool = false
+#var dialogueRunning : bool = false
 var isLookingAt 	: bool = false
 
 var day 			: int = 2
@@ -14,9 +14,9 @@ var time 			: int = 0
 var month 			: int = 6
 var dayOfMonth 		: int = 1
 
-var thoughts_showing: bool = false
+#var thoughts_showing: bool = false
 
-var sceneData : Dictionary
+#var sceneData : Dictionary
 
 onready var descriptionLabel 	: Node2D = $"ui/descriptionLabel"
 onready var thought_bubble 		: Node2D = $"ui/thoughtBubble"

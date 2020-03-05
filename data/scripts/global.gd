@@ -65,7 +65,7 @@ var dialogue_running 	: bool
 var blocking_ui 		: bool 		= false
 var phone_app_running 	: bool		= false
 var editor				: bool		= false
-var settings			: bool		= false # Not yet used
+var settings			: bool		= false
 var playerMoving		: bool		= false
 var calendarUpdate		: bool		= false
 var itemInHand 			: String 	= ""

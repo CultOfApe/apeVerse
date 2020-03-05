@@ -4,7 +4,7 @@ onready var viewsize = get_viewport().get_visible_rect().size
 
 onready var screenBlur = $"../effects/blurfx"
 
-var clickPos
+#var clickPos
 var hoverNode = null
 
 var blockingUI 		: bool = false
@@ -31,7 +31,6 @@ var phoneOpen 		: bool = false
 var schoolbagOpen 	: bool = false
 var mapOpen 		: bool = false
 var calendarOpen 	: bool = false
-var gameSettingsOpen #Setting this to bool creates issues
 
 #Below are Vector2d, I guess
 onready var phoneHidePos 		: Vector2
@@ -98,7 +97,7 @@ func ui_exit(type):
 		if type != "blocking":
 			global.blocking_ui = false
 		toggle_ui_overlay("map_ui", "hide", mapHidePos)
-#	if gameSettingsOpen == true:
+#	if global.settings == true:
 #		hide_game_settings()
 
 #Replace this in favor of func in global
@@ -163,19 +162,19 @@ func _input(event):
 		if !mapOpen and !schoolbagOpen and !phoneOpen and !calendarOpen and !global.dialogue_running and !global.editor:
 			toggle_game_settings()
 #   The below is disabled for now, but will be refactored at a later time
-#	if event.is_action_pressed("ui_inventory") and !mapOpen and !phoneOpen and !calendarOpen and !gameSettingsOpen and !global.dialogue_running:
+#	if event.is_action_pressed("ui_inventory") and !mapOpen and !phoneOpen and !calendarOpen and !global.settings and !global.dialogue_running:
 #		if schoolbagOpen!=true:
 #			toggle_ui_overlay("schoolbag_ui", "show", schoolbagShowPos)
 #		else:
 #			toggle_ui_overlay("schoolbag_ui", "hide", schoolbagHidePos)
-#	if event.is_action_pressed("ui_mobile") and !schoolbagOpen and !mapOpen and !calendarOpen and !gameSettingsOpen and !global.dialogue_running:
+#	if event.is_action_pressed("ui_mobile") and !schoolbagOpen and !mapOpen and !calendarOpen and !global.settings and !global.dialogue_running:
 #		if phoneOpen!=true:
 #			toggle_ui_overlay("phone_ui", "show", phoneShowPos)
 #			for app in $phone_ui/apps.get_children():
 #				app.hide()			
 #		else:
 #			toggle_ui_overlay("phone_ui", "hide", phoneHidePos)
-#	if event.is_action_pressed("ui_map") and !schoolbagOpen and !phoneOpen and !calendarOpen and !gameSettingsOpen and !global.dialogue_running:
+#	if event.is_action_pressed("ui_map") and !schoolbagOpen and !phoneOpen and !calendarOpen and !global.settings and !global.dialogue_running:
 #		if mapOpen!=true:
 #			toggle_ui_overlay("map_ui", "show", mapShowPos)
 #		else:
@@ -201,7 +200,7 @@ func _input(event):
 			if event is InputEventMouseButton:
 				if event.button_index == BUTTON_LEFT:
 					if event.is_pressed():
-						global.is_moving = false
+						global.playerMoving = false
 						advance_time()	
 			if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
 				toggle_ui_overlay("calendar_ui", "show", calendarShowPos)
@@ -351,12 +350,12 @@ func ui_hide_show(gui_node, move_delta, method1, method2):
 	effectToggleUI.start()
 	
 func toggle_game_settings():
-	if !global.blocking_ui and !gameSettingsOpen:
+	if !global.blocking_ui and !global.settings:
 		sceneCol.disabled = true
 		global.grab_screen()
 		$game_settings.show()
 		global.blocking_ui = true
-		gameSettingsOpen = true
+		global.settings = true
 		fade_in.interpolate_property($game_settings, "modulate", Color(1,1,1,0), Color(1,1,1,1), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		fade_in.start()
 		var cursor = load("res://data/graphics/cursor_arrow.png")
@@ -366,7 +365,7 @@ func toggle_game_settings():
 	else:
 		sceneCol.disabled = false
 		global.blocking_ui = false
-		gameSettingsOpen = false
+		global.settings = false
 		fade_out.interpolate_property($game_settings, "modulate", Color(1,1,1,1), Color(1,1,1,0), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		fade_out.start()
 		var cursor = load("res://data/graphics/cursor_default.png")
