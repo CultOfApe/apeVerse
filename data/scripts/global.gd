@@ -32,6 +32,7 @@ var locations 			: Array
 var currentLocation 	: String
 var previous_location 	: String
 
+# TODO: Eveventually, all these should probably be store in a unified cache, instead of 10+
 var tempData
 var sceneData 		: Dictionary
 var locationData	: Dictionary

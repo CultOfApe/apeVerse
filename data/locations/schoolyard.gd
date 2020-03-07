@@ -15,7 +15,6 @@ func _ready():
 #func _process(delta):
 #	pass
 
-
 func _on_triggers_body_entered(player):
 	global.is_moving = false
 	emit_signal("on_click", "schoolhall")

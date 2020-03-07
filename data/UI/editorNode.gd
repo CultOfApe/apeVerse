@@ -6,9 +6,9 @@ signal on_edit(a)
 
 var id 			: String = ""
 var nodetype	: String = ""
-var dialogue	: String	= "" 
+var dialogue	: Dictionary
 var branch 		: String = ""
-var reply		: String	= ""
+var reply		: int
 var modifier 	: int = 1
 
 func _ready():
@@ -21,8 +21,7 @@ func _on_Label_gui_input(event):
 				# TODO: emit this signal to edit text. $Edit.show - What variables do I need to emit?
 				if event.control:
 					$"Label/Edit".show()
-					print("edit text")
-#					emit_signal("on_edit", id, true)
+					$"Label/Edit".grab_click_focus()
 				else:
 					if nodetype == "reply":
 						emit_signal("on_click", branch, true, modifier)
@@ -42,4 +41,34 @@ func _on_Edit_gui_input(event):
 			$"Label".set_text($"Label/Edit".get_text())
 			$"Label/Edit".hide()
 			$"indicator".show()
+			$"save".show()
 			print("close edit")
+			
+func _on_Area2D_input_event(viewport, event, shape_idx):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT:
+			if event.is_pressed():
+				print("adding!")
+				$"Panel/Label".show()
+				$"Label/Edit".show()
+				$add.hide()
+
+func _on_add_pressed():
+	$"Label".show()
+	$"Label/Edit".show()
+	$add.hide()
+
+# TODO: Doesn´t actually save anything yet
+func _on_save_pressed():
+	if $save.get_text() == "SAVE":
+		$"indicator".set_text("SAVED")
+		$"save".set_text("RESET")
+		print(global.editorData[dialogue["file"]])
+		if nodetype == "reply":
+			global.editorData[dialogue["file"]]["cache"]["dialogue"][branch]["replies"][reply]["reply"]= $"Label".get_text()
+		elif nodetype == "dialogue":
+			global.editorData[dialogue["file"]]["cache"]["dialogue"][branch]["speech"] = $"Label".get_text()
+	else:
+		pass
+#		$"indicator".hide()
+#		$"save".hide()

@@ -139,14 +139,14 @@ func _pop_nodes(id, branch, reset, modifier):
 
 	var numReplies = node["dialogue"][branch]["replies"].size()
 
-	var offset = (numReplies * 100 + numReplies * 25 - 25) / 2
+	var offset = ((numReplies + 1) * 100 + (numReplies + 1) * 25 - 25) / 2
 	
 	if nodeChain.has(currentDialogue): #and nodeChain[currentDialogue].size() != 1:
 		
-		print(nodeChain)
-		print("This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and the current node has index no. " + str(nodeChain[currentDialogue].size() -1))
-		print("current node has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
-#		print("and has " + node["dialogue"][nodeChain[currentDialogue][0]["replies"].size()] + " replies")
+#		print(nodeChain)
+#		print("This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and the current node has index no. " + str(nodeChain[currentDialogue].size() -1))
+#		print("current node has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
+#		print("and has " + node["dialogue"][nodeChain[currentDialogue]["replies"].size()] + " replies")
 		
 		if nodeChain.active != 0: # calc by active-1 instead
 			print("previous node has value: " + previousBranch)
@@ -164,7 +164,7 @@ func _pop_nodes(id, branch, reset, modifier):
 				# need variable for last reply, make so when you click it, it takes you back, whereas the other replies don´t
 				_create_instanced_UI_element(str(i), editorNode, get_node("nodes/" + previousBranch), 300, 100, SCREENSIZE.x/2 -600, SCREENSIZE.y/2 + (i * 125) - prevoffset, 10)
 				
-				get_node("nodes/" + previousBranch + "/" + str(i)).dialogue = ""
+				get_node("nodes/" + previousBranch + "/" + str(i)).dialogue = {"file": id, "branch": previousBranch, "reply": i}
 				if next != currentBranch:
 					get_node("nodes/" + previousBranch + "/" + str(i)).branch = next
 				else:
@@ -181,25 +181,39 @@ func _pop_nodes(id, branch, reset, modifier):
 				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label/Edit").set_text(node["dialogue"][previousBranch]["replies"][i]["reply"])
 				get_node("nodes/" + previousBranch + "/" + str(i) + "/Label/Edit").grab_click_focus()
 
-	for i in numReplies:
-		var next = node["dialogue"][branch]["replies"][i]["next"]
-
-		_create_instanced_UI_element(str(i), editorNode, get_node("nodes/" + branch), 300, 100, SCREENSIZE.x/2 + 300, SCREENSIZE.y/2 + (i * 125) - offset, 10)
-		get_node("nodes/" + branch + "/" + str(i)).dialogue = ""
-		get_node("nodes/" + branch + "/" + str(i)).branch = next
-		get_node("nodes/" + branch + "/" + str(i)).reply = ""
-		get_node("nodes/" + branch + "/" + str(i)).modifier = 1
-		get_node("nodes/" + branch + "/" + str(i) + "/Label").set_size(Vector2(280,80))
-		get_node("nodes/" + branch + "/" + str(i) + "/Label").set_position(Vector2(10,10))
-		get_node("nodes/" + branch + "/" + str(i) + "/Label").set_text(node["dialogue"][branch]["replies"][i]["reply"])
-		get_node("nodes/" + branch + "/" + str(i)).nodetype = "reply"
-		get_node("nodes/" + branch + "/" + str(i)).id = str(i)
-		get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_size(Vector2(280,80))
-		get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_text(node["dialogue"][branch]["replies"][i]["reply"])
-		get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").grab_click_focus()
+	for i in (numReplies + 1):
+		if i < numReplies:
+			var next = node["dialogue"][branch]["replies"][i]["next"]
+		
+			_create_instanced_UI_element(str(i), editorNode, get_node("nodes/" + branch), 300, 100, SCREENSIZE.x/2 + 300, SCREENSIZE.y/2 + (i * 125) - offset, 10)
+			get_node("nodes/" + branch + "/" + str(i)).dialogue = {"file": id, "branch": currentBranch, "reply": i}
+			get_node("nodes/" + branch + "/" + str(i)).branch = next
+			get_node("nodes/" + branch + "/" + str(i)).reply = ""
+			get_node("nodes/" + branch + "/" + str(i)).modifier = 1
+			get_node("nodes/" + branch + "/" + str(i) + "/Label").set_size(Vector2(280,80))
+			get_node("nodes/" + branch + "/" + str(i) + "/Label").set_position(Vector2(10,10))
+			get_node("nodes/" + branch + "/" + str(i) + "/Label").set_text(node["dialogue"][branch]["replies"][i]["reply"])
+			get_node("nodes/" + branch + "/" + str(i)).nodetype = "reply"
+			get_node("nodes/" + branch + "/" + str(i)).id = str(i)
+			get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_size(Vector2(280,80))
+			get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_text(node["dialogue"][branch]["replies"][i]["reply"])
+		else:
+			_create_instanced_UI_element(str(i), editorNode, get_node("nodes/" + branch), 300, 100, SCREENSIZE.x/2 + 300, SCREENSIZE.y/2 + (i * 125) - offset, 10)
+			get_node("nodes/" + branch + "/" + str(i) + "/Label").set_size(Vector2(280,80))
+			get_node("nodes/" + branch + "/" + str(i) + "/Label").set_position(Vector2(10,10))
+			get_node("nodes/" + branch + "/" + str(i)).nodetype = "add"
+			get_node("nodes/" + branch + "/" + str(i)).id = "add"
+			get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_size(Vector2(280,80))
+			get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_text("")
+			get_node("nodes/" + branch + "/" + str(i) + "/Label").hide()
+			get_node("nodes/" + branch + "/" + str(i) + "/add").show()
+		
+		print(get_node("nodes/" + branch + "/" + str(i)).dialogue)
 		
 		#save editor session to cache, only save to file if explicitly stated
-#		global.editorData[currentDialogue] = nodeChain
+		global.editorData[currentDialogue] = nodeChain
+		if !global.editorData[currentDialogue].has("cache"):
+			global.editorData[currentDialogue]["cache"] = global.load_json("res://data/dialogue/" + id)
 
 func _on_node_click(branch, null, modifier):
 	#TODO: shouldn´t be called if node has same id as current branch
@@ -221,11 +235,9 @@ func _button_hover():
 
 func _on_help_toggled(button_pressed):
 	if button_pressed:
-		for node in get_tree().get_nodes_in_group("editor_advanced"):
-			$keymap.show()
+		$keymap.show()
 	else:
-		for node in get_tree().get_nodes_in_group("editor_advanced"):
-			$keymap.hide()
+		$keymap.hide()
 
 
 func _on_advanced_toggled(button_pressed):

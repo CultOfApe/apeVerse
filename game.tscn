@@ -79,25 +79,25 @@ size = 15
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="CircleShape2D" id=8]
+[sub_resource type="CircleShape2D" id=7]
 radius = 56.4041
 
-[sub_resource type="CircleShape2D" id=9]
+[sub_resource type="CircleShape2D" id=8]
 radius = 53.0022
 
-[sub_resource type="CircleShape2D" id=10]
+[sub_resource type="CircleShape2D" id=9]
 radius = 47.2968
 
-[sub_resource type="CircleShape2D" id=11]
+[sub_resource type="CircleShape2D" id=10]
 radius = 52.1685
+
+[sub_resource type="PhysicsMaterial" id=11]
 
 [sub_resource type="PhysicsMaterial" id=12]
 
-[sub_resource type="PhysicsMaterial" id=13]
+[sub_resource type="PlaneShape" id=13]
 
-[sub_resource type="PlaneShape" id=14]
-
-[sub_resource type="Shader" id=15]
+[sub_resource type="Shader" id=14]
 code = "shader_type canvas_item;
 
 uniform float amount : hint_range(0,5);
@@ -107,11 +107,11 @@ void fragment() {
 	COLOR.rgb = textureLod(SCREEN_TEXTURE,SCREEN_UV,amount).rgb;
 }"
 
-[sub_resource type="ShaderMaterial" id=16]
-shader = SubResource( 15 )
+[sub_resource type="ShaderMaterial" id=15]
+shader = SubResource( 14 )
 shader_param/amount = 4.0
 
-[sub_resource type="SpriteFrames" id=17]
+[sub_resource type="SpriteFrames" id=16]
 animations = [ {
 "frames": [ ExtResource( 29 ), ExtResource( 30 ), ExtResource( 31 ) ],
 "loop": true,
@@ -223,7 +223,7 @@ texture = ExtResource( 6 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ui/inventory"]
 position = Vector2( 575.795, 466.592 )
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="phone" type="Area2D" parent="ui" groups=[
 "UI_icons",
@@ -236,7 +236,7 @@ texture = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ui/phone"]
 position = Vector2( 650.415, 519.668 )
-shape = SubResource( 9 )
+shape = SubResource( 8 )
 
 [node name="map" type="Area2D" parent="ui" groups=[
 "UI_icons",
@@ -249,7 +249,7 @@ texture = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ui/map"]
 position = Vector2( 565.873, 587.915 )
-shape = SubResource( 10 )
+shape = SubResource( 9 )
 
 [node name="calendar" type="Area2D" parent="ui" groups=[
 "UI_icons",
@@ -261,7 +261,7 @@ texture = ExtResource( 10 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ui/calendar"]
 position = Vector2( 1821.16, 1004 )
-shape = SubResource( 11 )
+shape = SubResource( 10 )
 
 [node name="phone_ui" parent="ui" instance=ExtResource( 27 )]
 z_index = 99
@@ -312,13 +312,13 @@ visible = false
 [node name="npcs" type="Node" parent="."]
 
 [node name="npc" parent="npcs" instance=ExtResource( 25 )]
-physics_material_override = SubResource( 12 )
+physics_material_override = SubResource( 11 )
 
 [node name="objects" type="Node" parent="."]
 
 [node name="object" parent="objects" instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10.122, 1.70829, 0 )
-physics_material_override = SubResource( 13 )
+physics_material_override = SubResource( 12 )
 
 [node name="dialogue" parent="." instance=ExtResource( 17 )]
 z_index = 95
@@ -329,7 +329,7 @@ script = ExtResource( 24 )
 
 [node name="col" type="CollisionShape" parent="scene"]
 transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0 )
-shape = SubResource( 14 )
+shape = SubResource( 13 )
 
 [node name="Area" parent="scene" instance=ExtResource( 14 )]
 gravity_vec = Vector3( 0, 0, 0 )
@@ -338,7 +338,7 @@ gravity_vec = Vector3( 0, 0, 0 )
 
 [node name="blurfx" type="TextureRect" parent="effects"]
 show_behind_parent = true
-material = SubResource( 16 )
+material = SubResource( 15 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -1.94803
@@ -375,7 +375,7 @@ volume_db = -35.0
 
 [node name="cross" type="AnimatedSprite" parent="."]
 position = Vector2( -38.1771, -0.323536 )
-frames = SubResource( 17 )
+frames = SubResource( 16 )
 frame = 2
 
 [node name="tween" type="Tween" parent="cross"]
