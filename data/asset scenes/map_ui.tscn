@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://data/scripts/map_ui.gd" type="Script" id=1]
+[ext_resource path="res://data/UI/scripts/map_ui.gd" type="Script" id=1]
 [ext_resource path="res://data/graphics/map_placeholder.jpg" type="Texture" id=2]
 [ext_resource path="res://data/graphics/map01.png" type="Texture" id=3]
 [ext_resource path="res://data/graphics/map02.png" type="Texture" id=4]

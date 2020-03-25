@@ -6,7 +6,6 @@
 [ext_resource path="res://data/graphics/avatars/ellie_angry.png" type="Texture" id=4]
 
 [sub_resource type="SpriteFrames" id=1]
-
 animations = [ {
 "frames": [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ) ],
 "loop": false,
@@ -14,10 +13,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[node name="AnimatedSprite" type="AnimatedSprite" index="0"]
+[node name="AnimatedSprite" type="AnimatedSprite"]
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 1 )
-animation = "default"
 frame = 3
-_sections_unfolded = [ "Transform" ]
-

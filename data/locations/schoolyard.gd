@@ -16,5 +16,5 @@ func _ready():
 #	pass
 
 func _on_triggers_body_entered(player):
-	global.is_moving = false
+	global.playerMoving = false
 	emit_signal("on_click", "schoolhall")

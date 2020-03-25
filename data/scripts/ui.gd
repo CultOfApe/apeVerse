@@ -51,7 +51,7 @@ var trans_tex : Texture
 var change_scene : bool
 var next_scene : String
 
-onready var gameSettingsUI = load("res://data/asset scenes/game_settings.tscn")
+onready var gameSettingsUI = load("res://data/ui/nodes/game_settings.tscn")
 
 func _ready():
 	schoolbagShowPos = schoolbagHidePos - Vector2(0, 1000)

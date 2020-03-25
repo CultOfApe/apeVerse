@@ -142,6 +142,9 @@ func grab_screen():
 	capture.convert(5)
 
 func list_files_in_directory(path):
+	
+	files.clear()
+	
 	var dir = Directory.new()
 	dir.open(path)
 	dir.list_dir_begin()

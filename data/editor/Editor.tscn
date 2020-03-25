@@ -1,0 +1,111 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://data/editor/scripts/Editor.gd" type="Script" id=1]
+[ext_resource path="res://data/editor/assets/avatar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://data/editor/assets/avatar_select.tscn" type="PackedScene" id=3]
+
+[node name="Editor" type="Control"]
+visible = false
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="expand" type="Button" parent="." groups=[
+"editor_main",
+]]
+margin_top = 580.0
+margin_right = 149.0
+margin_bottom = 634.0
+rect_rotation = -90.0
+text = "Dialogue files"
+
+[node name="main" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="topMenu" type="HBoxContainer" parent="main" groups=[
+"editor_main",
+]]
+margin_right = 1000.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="saveSession" type="Button" parent="main/topMenu"]
+margin_right = 94.0
+margin_bottom = 40.0
+text = "Save session"
+
+[node name="saveToFile" type="Button" parent="main/topMenu"]
+margin_left = 98.0
+margin_right = 180.0
+margin_bottom = 40.0
+text = "save to file"
+
+[node name="setToActive" type="Button" parent="main/topMenu"]
+margin_left = 184.0
+margin_right = 383.0
+margin_bottom = 40.0
+text = "set current dialogue to active"
+
+[node name="reset" type="Button" parent="main/topMenu"]
+margin_left = 387.0
+margin_right = 508.0
+margin_bottom = 40.0
+text = "reset gamecache"
+
+[node name="options" type="VBoxContainer" parent="main" groups=[
+"editor_main",
+]]
+margin_top = 60.0
+margin_right = 125.0
+margin_bottom = 460.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="help" type="CheckBox" parent="main/options"]
+margin_right = 125.0
+margin_bottom = 24.0
+text = "show help"
+
+[node name="advanced" type="CheckBox" parent="main/options"]
+margin_top = 28.0
+margin_right = 125.0
+margin_bottom = 52.0
+text = "show advanced"
+
+[node name="keymap" type="RichTextLabel" parent="main" groups=[
+"editor_main",
+]]
+margin_top = 130.0
+margin_right = 200.0
+margin_bottom = 530.0
+text = "LMB to select nodes
+CTRL+LMB to edit node value
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="avatar" parent="." instance=ExtResource( 2 )]
+visible = false
+margin_left = 760.0
+margin_top = 180.0
+margin_right = 910.0
+margin_bottom = 385.0
+
+[node name="select" parent="." instance=ExtResource( 3 )]
+visible = false
+margin_left = 863.391
+margin_top = 176.995
+margin_right = 1173.39
+margin_bottom = 597.995
+[connection signal="pressed" from="expand" to="." method="_on_expand_pressed"]
+[connection signal="pressed" from="main/topMenu/saveSession" to="." method="_on_saveSession_pressed"]
+[connection signal="pressed" from="main/topMenu/setToActive" to="." method="_on_setToActive_pressed"]
+[connection signal="toggled" from="main/options/help" to="." method="_on_help_toggled"]
+[connection signal="toggled" from="main/options/advanced" to="." method="_on_advanced_toggled"]
+[connection signal="item_selected" from="select" to="." method="_on_select_item_selected"]

@@ -1,5 +1,8 @@
 extends Panel
 
+# NOTES: all this is hardcoded. Create gallery_node.tscn, load and assign values according to gallery.json
+# Use buttons instead of area2d?
+# STEP 2: make all gallerynodes open to fullscreen photos
 func _ready():
 	pass
 

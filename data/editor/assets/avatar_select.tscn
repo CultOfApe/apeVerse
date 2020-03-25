@@ -1,0 +1,11 @@
+[gd_scene format=2]
+
+[node name="select" type="ItemList"]
+margin_right = 310.0
+margin_bottom = 421.0
+max_columns = 5
+icon_mode = 0
+icon_scale = 0.3
+__meta__ = {
+"_edit_use_anchors_": false
+}

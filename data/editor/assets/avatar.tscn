@@ -1,0 +1,106 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://data/npcs/ellie_talkanim.tscn" type="PackedScene" id=1]
+[ext_resource path="res://data/graphics/UI/add.png" type="Texture" id=2]
+[ext_resource path="res://data/editor/scripts/avatar.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 65.8045, 75.8372 )
+
+[node name="avatar" type="Panel"]
+margin_right = 150.0
+margin_bottom = 205.0
+mouse_filter = 1
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="name" type="Label" parent="."]
+margin_left = 41.0
+margin_top = 7.0
+margin_right = 109.0
+margin_bottom = 21.0
+text = "ELLIE"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="previous" type="Button" parent="."]
+margin_left = 7.0
+margin_top = 177.0
+margin_right = 42.0
+margin_bottom = 197.0
+text = "<"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="next" type="Button" parent="."]
+margin_left = 110.0
+margin_top = 177.0
+margin_right = 145.0
+margin_bottom = 197.0
+text = ">"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="frame" type="Label" parent="."]
+margin_left = 48.0132
+margin_top = 180.471
+margin_right = 107.013
+margin_bottom = 194.471
+text = "FRAME: 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="animated" type="CheckBox" parent="."]
+margin_left = 153.471
+margin_top = 175.763
+margin_right = 233.471
+margin_bottom = 199.763
+text = "animated"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="add" type="Button" parent="."]
+visible = false
+margin_left = 38.582
+margin_top = 71.1624
+margin_right = 114.582
+margin_bottom = 141.162
+icon = ExtResource( 2 )
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="avatar" parent="." instance=ExtResource( 1 )]
+position = Vector2( 76.3067, 96.4477 )
+
+[node name="Node2D" type="Area2D" parent="avatar"]
+position = Vector2( -152.613, -192.895 )
+scale = Vector2( 2, 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="avatar/Node2D"]
+position = Vector2( 75.4052, 97.318 )
+shape = SubResource( 1 )
+
+[node name="Button" type="Button" parent="."]
+margin_left = 9.3067
+margin_top = 20.9477
+margin_right = 272.307
+margin_bottom = 324.948
+flat = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="previous" to="." method="_on_previous_pressed"]
+[connection signal="pressed" from="next" to="." method="_on_next_pressed"]
+[connection signal="input_event" from="avatar/Node2D" to="." method="_on_Node2D_input_event"]
+[connection signal="mouse_entered" from="avatar/Node2D" to="." method="_on_Node2D_mouse_entered"]
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
