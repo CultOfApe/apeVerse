@@ -77,7 +77,6 @@ func _create_instanced_UI_element(name, obj, parent, xsize, ysize, xpos, ypos, m
 	node.set_size(Vector2(xsize, ysize))
 	node.set_position(Vector2(xpos, ypos))
 	node.connect("on_click",self,"_on_node_click")
-#	print(node.name)
 	if parent != null:
 		parent.add_child(node) 
 
@@ -163,14 +162,23 @@ func _pop_nodes(id, branch, reset, modifier):
 	var offset = ((numReplies + 1) * 100 + (numReplies + 1) * 25 - 25) / 2
 	
 	if nodeChain.has(currentDialogue): #and nodeChain[currentDialogue].size() != 1:
-		
-#		print(nodeChain)
-#		print("This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and the current node has index no. " + str(nodeChain[currentDialogue].size() -1))
-#		print("current node has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
-#		print("and has " + node["dialogue"][nodeChain[currentDialogue]["replies"].size()] + " replies")
-		
+
+		print("----------------------------")
+		print("DEBUG Editor.gd")
+		print("----------------------------")
+		print(" ")	
+		print(" " + String(nodeChain))
+		print(" This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and the current node has index no. " + str(nodeChain[currentDialogue].size() -1))
+		print(" current node has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
+		print(" and has " + String(node["dialogue"][nodeChain[currentDialogue][(nodeChain.active) - 1]]["replies"].size()) + " replies")
+		print(" ")	
+		print("----------------------------")
+		print("DEBUG end")
+		print("----------------------------")
+		print(" ")	
+	
 		if nodeChain.active != 0: # calc by active-1 instead
-			print("previous node has value: " + previousBranch)
+#			print("previous node has value: " + previousBranch)
 			var prevnumReplies = node["dialogue"][nodeChain[currentDialogue][(nodeChain.active) - 1]]["replies"].size()
 			var prevoffset = (prevnumReplies * 100 + prevnumReplies * 25 - 25) / 2
 	
@@ -270,7 +278,6 @@ func _setup_avatar_selector():
 	for i in global.list_files_in_directory("res://data/graphics/avatars"):
 		$select.add_icon_item(load("res://data/graphics/avatars/" + i), true)
 		$select.set_item_metadata (iter, i)
-		print("Item: " + str(iter) + " has meta-data: " + $select.get_item_metadata(iter))
 		iter += 1 
 	
 	#WIP: This is how all icons will be added in the future
@@ -279,10 +286,8 @@ func _setup_avatar_selector():
 	for i in face.get_sprite_frames().get_frame_count("default"):
 		$select.add_icon_item(face.get_sprite_frames().get_frame("default", i), true)	
 		$select.set_item_metadata (iter, "ellie_talkanim.tscn")
-		print("Item: " + str(iter) + " has meta-data: " + $select.get_item_metadata(iter))
 		iter += 1 
 	
-#	print($select.get_selected_items())
 	# WIP: if image, add to button, if tscn change the avatar node to this scene
 	# for now. In the future this will only accept animatedsprites.
 	
@@ -328,7 +333,6 @@ func _on_advanced_toggled(button_pressed):
 #TODO: references dictionary local to editorNode.gd. Needs solution.
 func _on_setToActive_pressed():
 	pass
-#	print(global.charData)
 #	var dir = Directory.new()
 #	dir.copy("res://files/sprite_image.tex", "res://sprite_image.tex")
 #	global.charData[npc]["dialogue"][type]["branch"]]["replies"]

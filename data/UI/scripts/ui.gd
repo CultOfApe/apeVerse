@@ -54,7 +54,6 @@ var next_scene : String
 onready var gameSettingsUI = load("res://data/ui/nodes/game_settings.tscn")
 
 func _ready():
-	print("UI ready!")
 	schoolbagShowPos = schoolbagHidePos - Vector2(0, 1000)
 	phoneHidePos = $phone_ui.position
 	phoneShowPos = phoneHidePos - Vector2(0, 1310)	
@@ -116,6 +115,7 @@ func _input(event):
 	if hoverNode:
 		if hoverNode.get_name() == "phone":	
 			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
+				global.UI_lvl = 1
 				toggle_ui_overlay("phone_ui", "show", phoneShowPos)
 				for app in $phone_ui/apps.get_children():
 					app.hide()	
@@ -151,7 +151,6 @@ func exit_map():
 	get_parent().map_location()
 
 func ui_exit(type):
-	print("ui_exit")
 	if phoneOpen == true:	
 		global.phone_app_running = false
 		toggle_ui_overlay("phone_ui", "hide", phoneHidePos)
@@ -297,7 +296,6 @@ func toggle_ui_icons(toggle):
 		ui_hide_show(ui_node, positionDelta, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 
 func toggle_ui_overlay(id, mode, deltaPos):
-	print("toggle UI")
 	var positionDelta
 	var ui_node = get_node(id)
 	

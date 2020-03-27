@@ -71,9 +71,6 @@ var playerMoving		: bool		= false
 var calendarUpdate		: bool		= false
 var itemInHand 			: String 	= ""
 
-# TODO: use as state to determine UI layer lvl, so that ESC can be called without hiding everything
-# TODO: Assign every UI node to a nodegroup (UI_lvl_ 1, UI_lvl_2, UI_lvl_3 etc)
-# TODO: UI_lvl_1 being map, inventory, calendar and phone UI, phone apps being lvl2 and imageviewer lvl 3
 var UI_lvl = 0
 
 var gallery_page 		: int 		= 1
@@ -177,7 +174,14 @@ func goto_scene(scene):
 	get_tree().change_scene("res://"+scene)
 
 func load_scene(sceneLocation): #change this first, see if any conflicts
-		
+	
+	print("----------------------------")
+	print("DEBUG global.gd.gd")
+	print("----------------------------")
+	print(" ")
+	print(" loading: " + sceneLocation)
+	print(" ")
+	
 	var actor
 	var object
 	var pos
@@ -316,6 +320,10 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 
 	if previous_location != currentLocation:
 		pass
+		
+	print("DEBUG end")
+	print("----------------------------")
+	print(" ")
 
 func _add_to_scene(type, id, group, rot, pos):
 	var node = load("res://data/" + group + "/" + id + ".tscn")			

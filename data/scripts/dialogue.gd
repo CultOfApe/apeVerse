@@ -100,8 +100,7 @@ func _talk_to(id, npcPos, type):
 		get_parent().get_node("ui").toggle_ui_icons("hide")
 		start_dialogue(global.charData[id]["dialogue"][dialogueType]["path"], dialogueType)
 	else:
-		get_parent().thought_bubble("Too far away for that.")
-		print("Too far away for that.")
+		get_parent().thought_bubble("I need to get closer.")
 
 func _pick_reply(n):
 	replyCurrent =-1
@@ -170,6 +169,21 @@ func _pick_reply(n):
 				}
 					
 			}
+		
+		print("----------------------------")
+		print("DEBUG dialogue.gd")
+		print("----------------------------")
+		print(" global.eventData:")
+		print(" ")
+		print(" " + String(global.eventData))
+		print(" ")
+		print(" global.eventOverride:")
+		print(" " + String(global.eventOverride))
+		print(" ")
+		print("----------------------------")
+		print("DEBUG end")
+		print("----------------------------")
+		print(" ")
 			
 		# TODO: check if date is already present in eventData, and alert player if so
 		if global.eventData["date"][str(eventDay)][eventCache["timeofday"]]["type"] == "oneoff":	

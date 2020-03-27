@@ -74,7 +74,6 @@ func _look_at(text):
 
 func thought_bubble(text):
 	if text != "": # and isLookingAt == false:
-		print("bubble!")
 		thought_bubble.show()
 		materialize.interpolate_property(thought_bubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		materialize.start()

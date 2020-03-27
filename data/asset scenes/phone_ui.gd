@@ -16,11 +16,6 @@ func _ready():
 		else:
 			gallery.push_back(item)
 			
-	print("gallery:")
-	print(gallery)
-	print("gallery_thumbs:")
-	print(gallery_thumbs)
-			
 	contactNode.connect("call", self, "_on_call")
 
 func _input(event):
