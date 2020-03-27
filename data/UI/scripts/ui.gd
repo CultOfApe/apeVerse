@@ -51,9 +51,10 @@ var trans_tex : Texture
 var change_scene : bool
 var next_scene : String
 
-onready var gameSettingsUI = load("res://data/asset scenes/game_settings.tscn")
+onready var gameSettingsUI = load("res://data/ui/nodes/game_settings.tscn")
 
 func _ready():
+	print("UI ready!")
 	schoolbagShowPos = schoolbagHidePos - Vector2(0, 1000)
 	phoneHidePos = $phone_ui.position
 	phoneShowPos = phoneHidePos - Vector2(0, 1310)	
@@ -65,13 +66,79 @@ func _ready():
 	screenBlur.modulate = Color(1, 1, 1, 0)
 	
 	$map_ui.connect("location_chosen", self, "load_map_location")
-	
-#	debug()
 
-func _process(delta):
-	#if dialogue is running and we press ui_exit, exit dialogue and delete dialogue nodes
-	if Input.is_action_just_pressed("ui_exit"):
-		ui_exit(null)			
+func _input(event):
+	#these need checks so you can´t press the same key twice, or the overlays will continue upwards
+	#pressing a second time should hide the overlays again 
+	if event.is_action_pressed("ui_exit") and global.UI_lvl == 0:
+		if !mapOpen and !schoolbagOpen and !phoneOpen and !calendarOpen and !global.dialogue_running and !global.editor:
+			toggle_game_settings()
+			
+	if event.is_action_pressed("ui_exit") and global.UI_lvl == 1:
+		global.UI_lvl = 0
+		ui_exit(null)	
+			
+	if event.is_action_pressed("ui_exit") and global.UI_lvl == 2:
+		global.UI_lvl = 1
+		global.phone_app_running = false
+		for app in get_tree().get_nodes_in_group("UI_lvl_2"):
+			app.hide()			
+		global.change_cursor("default")
+
+	if event.is_action_pressed("ui_exit") and global.UI_lvl == 3:
+		global.UI_lvl = 2
+		for app in get_tree().get_nodes_in_group("UI_lvl_3"):
+			app.hide()			
+		global.change_cursor("default")
+#   The below is disabled for now, but will be refactored at a later time
+#	if event.is_action_pressed("ui_inventory") and !mapOpen and !phoneOpen and !calendarOpen and !global.settings and !global.dialogue_running:
+#		if schoolbagOpen!=true:
+#			toggle_ui_overlay("schoolbag_ui", "show", schoolbagShowPos)
+#		else:
+#			toggle_ui_overlay("schoolbag_ui", "hide", schoolbagHidePos)
+#	if event.is_action_pressed("ui_mobile") and !schoolbagOpen and !mapOpen and !calendarOpen and !global.settings and !global.dialogue_running:
+#		if phoneOpen!=true:
+#			toggle_ui_overlay("phone_ui", "show", phoneShowPos)
+#			for app in $phone_ui/apps.get_children():
+#				app.hide()			
+#		else:
+#			toggle_ui_overlay("phone_ui", "hide", phoneHidePos)
+#	if event.is_action_pressed("ui_map") and !schoolbagOpen and !phoneOpen and !calendarOpen and !global.settings and !global.dialogue_running:
+#		if mapOpen!=true:
+#			toggle_ui_overlay("map_ui", "show", mapShowPos)
+#		else:
+#			toggle_ui_overlay("map_ui", "hide", mapHidePos)
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_RIGHT:
+			if event.pressed:
+				if global.itemInHand != "":
+					change_cursor("default")
+	if hoverNode:
+		if hoverNode.get_name() == "phone":	
+			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
+				toggle_ui_overlay("phone_ui", "show", phoneShowPos)
+				for app in $phone_ui/apps.get_children():
+					app.hide()	
+		elif hoverNode.get_name() == "inventory":	
+			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
+				toggle_ui_overlay("schoolbag_ui", "show", schoolbagShowPos)
+		elif hoverNode.get_name() == "map":	
+			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():				
+				toggle_ui_overlay("map_ui", "show", mapShowPos)
+		elif hoverNode.get_name() == "calendar":	
+			if event is InputEventMouseButton:
+				if event.button_index == BUTTON_LEFT:
+					if event.is_pressed():
+						global.playerMoving = false
+						advance_time()	
+			if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
+				toggle_ui_overlay("calendar_ui", "show", calendarShowPos)
+				
+#	if event.is_action_pressed("ui_editor") and !global.editor_running:
+#		global.blocking_ui = true
+#
+#	if event.is_action_pressed("ui_down") and global.editor_running:
+#		global.blocking_ui = false
 
 func item_in_hand(a,b):		
 	var tempTex = load(b)
@@ -84,6 +151,7 @@ func exit_map():
 	get_parent().map_location()
 
 func ui_exit(type):
+	print("ui_exit")
 	if phoneOpen == true:	
 		global.phone_app_running = false
 		toggle_ui_overlay("phone_ui", "hide", phoneHidePos)
@@ -154,62 +222,6 @@ func advance_time():
 	global.load_scene(global.scene)
 	get_parent().connect_stuff()
 	get_node("dateLabel").set_text(global.gameData.time[time] + ", " + global.weekday)		
-			
-func _input(event):
-	#these need checks so you can´t press the same key twice, or the overlays will continue upwards
-	#pressing a second time should hide the overlays again 
-	if event.is_action_pressed("ui_exit"):
-		if !mapOpen and !schoolbagOpen and !phoneOpen and !calendarOpen and !global.dialogue_running and !global.editor:
-			toggle_game_settings()
-#   The below is disabled for now, but will be refactored at a later time
-#	if event.is_action_pressed("ui_inventory") and !mapOpen and !phoneOpen and !calendarOpen and !global.settings and !global.dialogue_running:
-#		if schoolbagOpen!=true:
-#			toggle_ui_overlay("schoolbag_ui", "show", schoolbagShowPos)
-#		else:
-#			toggle_ui_overlay("schoolbag_ui", "hide", schoolbagHidePos)
-#	if event.is_action_pressed("ui_mobile") and !schoolbagOpen and !mapOpen and !calendarOpen and !global.settings and !global.dialogue_running:
-#		if phoneOpen!=true:
-#			toggle_ui_overlay("phone_ui", "show", phoneShowPos)
-#			for app in $phone_ui/apps.get_children():
-#				app.hide()			
-#		else:
-#			toggle_ui_overlay("phone_ui", "hide", phoneHidePos)
-#	if event.is_action_pressed("ui_map") and !schoolbagOpen and !phoneOpen and !calendarOpen and !global.settings and !global.dialogue_running:
-#		if mapOpen!=true:
-#			toggle_ui_overlay("map_ui", "show", mapShowPos)
-#		else:
-#			toggle_ui_overlay("map_ui", "hide", mapHidePos)
-	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_RIGHT:
-			if event.pressed:
-				if global.itemInHand != "":
-					change_cursor("default")
-	if hoverNode:
-		if hoverNode.get_name() == "phone":	
-			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
-				toggle_ui_overlay("phone_ui", "show", phoneShowPos)
-				for app in $phone_ui/apps.get_children():
-					app.hide()	
-		elif hoverNode.get_name() == "inventory":	
-			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
-				toggle_ui_overlay("schoolbag_ui", "show", schoolbagShowPos)
-		elif hoverNode.get_name() == "map":	
-			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():				
-				toggle_ui_overlay("map_ui", "show", mapShowPos)
-		elif hoverNode.get_name() == "calendar":	
-			if event is InputEventMouseButton:
-				if event.button_index == BUTTON_LEFT:
-					if event.is_pressed():
-						global.playerMoving = false
-						advance_time()	
-			if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
-				toggle_ui_overlay("calendar_ui", "show", calendarShowPos)
-				
-#	if event.is_action_pressed("ui_editor") and !global.editor_running:
-#		global.blocking_ui = true
-#
-#	if event.is_action_pressed("ui_down") and global.editor_running:
-#		global.blocking_ui = false
 
 #the below functions handle hover animations for UI icons. This could probably be handled more efficiently in one generic function, not sure how
 func _on_phone_mouse_entered():
@@ -285,6 +297,7 @@ func toggle_ui_icons(toggle):
 		ui_hide_show(ui_node, positionDelta, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 
 func toggle_ui_overlay(id, mode, deltaPos):
+	print("toggle UI")
 	var positionDelta
 	var ui_node = get_node(id)
 	
@@ -414,9 +427,6 @@ func load_map_location(location):
 	get_parent().change_location(location)
 	change_scene = false
 	trans_capture = null
-	
-#func debug():
-#	pass
 	
 	
 	

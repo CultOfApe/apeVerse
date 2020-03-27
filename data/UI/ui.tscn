@@ -1,7 +1,7 @@
 [gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://data/UI/nodes/game_settings.tscn" type="PackedScene" id=1]
-[ext_resource path="res://data/scripts/ui.gd" type="Script" id=5]
+[ext_resource path="res://data/UI/scripts/ui.gd" type="Script" id=2]
 [ext_resource path="res://data/graphics/speech_bubble.png" type="Texture" id=6]
 [ext_resource path="res://data/graphics/UI/phone.png" type="Texture" id=7]
 [ext_resource path="res://data/graphics/UI/inventory.png" type="Texture" id=8]
@@ -47,7 +47,7 @@ radius = 52.1685
 [node name="ui" type="Control"]
 margin_right = 40.0
 margin_bottom = 40.0
-script = ExtResource( 5 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -113,6 +113,7 @@ texture = ExtResource( 6 )
 
 [node name="inventory" type="Area2D" parent="." groups=[
 "UI_icons",
+"UI_lvl_1",
 ]]
 position = Vector2( 235, 536 )
 
@@ -126,6 +127,7 @@ shape = SubResource( 4 )
 
 [node name="phone" type="Area2D" parent="." groups=[
 "UI_icons",
+"UI_lvl_1",
 ]]
 position = Vector2( 319, 473 )
 
@@ -139,6 +141,7 @@ shape = SubResource( 5 )
 
 [node name="map" type="Area2D" parent="." groups=[
 "UI_icons",
+"UI_lvl_1",
 ]]
 position = Vector2( 550, 407 )
 
@@ -152,6 +155,7 @@ shape = SubResource( 6 )
 
 [node name="calendar" type="Area2D" parent="." groups=[
 "UI_icons",
+"UI_lvl_1",
 ]]
 
 [node name="Sprite" type="Sprite" parent="calendar"]
@@ -162,19 +166,27 @@ texture = ExtResource( 11 )
 position = Vector2( 1821.16, 1004 )
 shape = SubResource( 7 )
 
-[node name="phone_ui" parent="." instance=ExtResource( 18 )]
+[node name="phone_ui" parent="." groups=[
+"UI_lvl_1",
+] instance=ExtResource( 18 )]
 z_index = 99
 
-[node name="schoolbag_ui" parent="." instance=ExtResource( 19 )]
+[node name="schoolbag_ui" parent="." groups=[
+"UI_lvl_1",
+] instance=ExtResource( 19 )]
 position = Vector2( 666.235, 1087.7 )
 z_index = 98
 
-[node name="map_ui" parent="." instance=ExtResource( 20 )]
+[node name="map_ui" parent="." groups=[
+"UI_lvl_1",
+] instance=ExtResource( 20 )]
 position = Vector2( 209.654, 1078.39 )
 scale = Vector2( 1.5, 1.6 )
 z_index = 97
 
-[node name="calendar_ui" parent="." instance=ExtResource( 15 )]
+[node name="calendar_ui" parent="." groups=[
+"UI_lvl_1",
+] instance=ExtResource( 15 )]
 position = Vector2( 274.88, 1076.54 )
 z_index = 96
 

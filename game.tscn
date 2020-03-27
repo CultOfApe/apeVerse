@@ -1,7 +1,6 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://data/scripts/game.gd" type="Script" id=1]
-[ext_resource path="res://data/UI/scripts/ui.gd" type="Script" id=2]
 [ext_resource path="res://data/UI/ui.tscn" type="PackedScene" id=3]
 [ext_resource path="res://data/editor/Editor.tscn" type="PackedScene" id=11]
 [ext_resource path="res://data/locations/schoolyard.tscn" type="PackedScene" id=14]
@@ -105,7 +104,6 @@ fov = 50.0
 environment = SubResource( 3 )
 
 [node name="ui" parent="." instance=ExtResource( 3 )]
-script = ExtResource( 2 )
 
 [node name="npcs" type="Node" parent="."]
 

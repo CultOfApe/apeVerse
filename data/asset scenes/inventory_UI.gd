@@ -17,11 +17,6 @@ func _ready():
 #	TODO: needs to be run every time the inventory UI is toggled, to update removed and added items for the open tab
 	pop_inventory()
 
-#func _process(delta):
-#	# Called every frame. Delta is time since last frame.
-#	# Update game logic here.
-#	pass
-
 func pop_inventory():
 	var category
 

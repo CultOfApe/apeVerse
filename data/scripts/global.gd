@@ -44,14 +44,14 @@ var gameVars 		: Dictionary
 var inventoryData 	: Dictionary
 var contactData 	: Dictionary
 var editorData		: Dictionary
-var galleryData  	: Dictionary = {
-	"img01" : "res://data/graphics/img01.png",
-	"img02" : "res://data/graphics/img02.png",
-	"img03" : "res://data/graphics/img03.png",
-	"img04" : "res://data/graphics/img04.png",
-	"img05" : "res://data/graphics/img05.png",
-	"img06" : "res://data/graphics/img06.png"
-}
+#var galleryData  	: Dictionary = {
+#	"img01" : "res://data/graphics/img01.png",
+#	"img02" : "res://data/graphics/img02.png",
+#	"img03" : "res://data/graphics/img03.png",
+#	"img04" : "res://data/graphics/img04.png",
+#	"img05" : "res://data/graphics/img05.png",
+#	"img06" : "res://data/graphics/img06.png"
+#}
 
 var saveData  : Dictionary = {
 		"save1" : [{
@@ -70,6 +70,11 @@ var settings			: bool		= false
 var playerMoving		: bool		= false
 var calendarUpdate		: bool		= false
 var itemInHand 			: String 	= ""
+
+# TODO: use as state to determine UI layer lvl, so that ESC can be called without hiding everything
+# TODO: Assign every UI node to a nodegroup (UI_lvl_ 1, UI_lvl_2, UI_lvl_3 etc)
+# TODO: UI_lvl_1 being map, inventory, calendar and phone UI, phone apps being lvl2 and imageviewer lvl 3
+var UI_lvl = 0
 
 var gallery_page 		: int 		= 1
 var save_page 			: int 		= 1

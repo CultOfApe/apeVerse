@@ -8,13 +8,18 @@ onready var contactNode = get_node("apps/phone/contact_node")
 
 func _ready():
 	# TODO: This should only be run when the PhoneUI is envoked and then folder var should be emptied
-	folder = global.list_files_in_directory("res://data/graphics/gallery/")
+	folder = global.list_files_in_directory("res://data/ui/gallery/")
 	#list all files in given directory and sort into fullsized photos (gallery) and thumbnails (gallery_thumbs) 
 	for item in folder:
 		if "thumb" in item:
 			gallery_thumbs.push_back(item)
 		else:
 			gallery.push_back(item)
+			
+	print("gallery:")
+	print(gallery)
+	print("gallery_thumbs:")
+	print(gallery_thumbs)
 			
 	contactNode.connect("call", self, "_on_call")
 
@@ -24,6 +29,7 @@ func _input(event):
 		if event.scancode == KEY_Q:
 			if global.phone_app_running == true:
 				if event.is_pressed():
+					global.UI_lvl = 1
 					for app in $apps.get_children():
 						app.hide()			
 					global.phone_app_running = false
@@ -33,15 +39,15 @@ func icon_fx(node, scale):
 	$fx.start()
 
 func start_phone_app(app, event):
-	if app == "phone":
-		#display phone contacts
-		for contact in global.contactData.contacts:
-			var node = load("res://data/asset scenes/contact_node.tscn")
-			node = node.instance()
-			node.set_name("contact" + contact)
-#			node.set_position(Vector2(30, 30))
-			self.add_child(node)
-#			get_node(node + str(contact+1)).set_text(global.contactData["c" + str(contact+1)])
+#	if app == "phone":
+#		#display phone contacts
+#		for contact in global.contactData.contacts:
+#			var node = load("res://data/asset scenes/contact_node.tscn")
+#			node = node.instance()
+#			node.set_name("contact" + contact)
+##			node.set_position(Vector2(30, 30))
+#			self.add_child(node)
+##			get_node(node + str(contact+1)).set_text(global.contactData["c" + str(contact+1)])
 			
 	if app == "archive":
 		var node = "apps/archive/Sprite"
@@ -64,7 +70,7 @@ func start_phone_app(app, event):
 		for thumb in gallery_thumbs:
 			#Assign thumb textures corresponding to gallery page. If page is 3, assign textures in gallery_thumbs[13] to[18] 
 			if i < global.gallery_page * 6 +1 and i > global.gallery_page * 6 - 6:
-				var image = load("res://data/graphics/gallery/" + thumb)
+				var image = load("res://data/ui/gallery/" + thumb)
 				get_node(node + str(slot)).set_texture(image)
 				get_node(node + str(slot)).show()
 				slot += 1
@@ -73,6 +79,7 @@ func start_phone_app(app, event):
 	if event is InputEventMouseButton and !global.phone_app_running:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
+				global.UI_lvl = 2
 				get_node("apps/" + app).show()
 				global.phone_app_running = true
 				
@@ -152,30 +159,6 @@ func _on_games_input_event(viewport, event, shape_idx):
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
 				 start_phone_app("games", event)
-
-
-func _on_page1_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT:
-			if event.is_pressed():
-				global.gallery_page = 1
-				start_phone_app("archive", event)
-
-
-func _on_page2_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT:
-			if event.is_pressed():
-				global.gallery_page = 2
-				start_phone_app("archive", event)	
-
-
-func _on_page3_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT:
-			if event.is_pressed():
-				global.gallery_page = 3
-				start_phone_app("archive", event)
 
 func _on_call(id):
 	get_parent().ui_exit(null)
