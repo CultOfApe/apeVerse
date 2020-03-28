@@ -1,7 +1,7 @@
 extends Panel
 
 func _ready():
-	pop_game_settings("init")
+	pop_game_settings("init", 0)
 
 func _process(delta):
 	pass
@@ -10,12 +10,11 @@ func save_fx(save, opacity):
 	$fx.interpolate_property(save, "modulate", save.modulate, opacity, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	$fx.start()
 	
-func pop_game_settings(key):
+func pop_game_settings(key, id):
 	for save in range(global.saveData.size()):
 		var save_node = get_node("savegames/save" + str(save+1))
 		var tmp = "save" + str(save+1)
 
-		
 		if global.saveData.has(tmp):
 			if global.saveData[tmp][0].thumb == "save_add":
 				var image = load("res://data/graphics/saves/save_add.png")
@@ -27,14 +26,15 @@ func pop_game_settings(key):
 func save_to_slot(id):
 	var save_name = "save" + str(id)
 	var texture = ImageTexture.new()
-	
+	var tmpdict
 	if get_node("savegames/save" + str(id)).texture.get_path() == "res://data/graphics/saves/save_add.png":
-
-		var tmpdict = [{			
-				"id" : str(id+1),
-				"thumb" : "save_add",
-				"data" : []
-			}]
+		print("Slot has save_add.png")
+		if id < 6:
+			tmpdict = [{			
+					"id" : str(id+1),
+					"thumb" : "save_add",
+					"data" : []
+				}]
 
 		global.saveData["save" + str(id+1)] = tmpdict
 
@@ -45,8 +45,8 @@ func save_to_slot(id):
 
 	global.capture.save_png("res://data/graphics/saves/" + save_name + ".png")
 	global.saveData["save" + str(id)][0].thumb = save_name
-
-	pop_game_settings("refresh")
+	if id < 6:
+		pop_game_settings("refresh", id)
 	
 	global._save_game("save1") # This whole script needs to be refactored, but at least save functionality skeleton taking shape
 			
@@ -62,6 +62,7 @@ func _on_save1_input_event(viewport, event, shape_idx):
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
 				if event.is_pressed():
+					print("Save to slot 1")
 					save_to_slot(1)
 
 func _on_save2_mouse_entered():
@@ -75,6 +76,7 @@ func _on_save2_input_event(viewport, event, shape_idx):
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
 				if event.is_pressed():
+					print("Save to slot 2")
 					save_to_slot(2)
 
 
@@ -89,6 +91,7 @@ func _on_save3_input_event(viewport, event, shape_idx):
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
 				if event.is_pressed():
+					print("Save to slot 3")
 					save_to_slot(3)
 
 
@@ -103,6 +106,7 @@ func _on_save4_input_event(viewport, event, shape_idx):
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
 				if event.is_pressed():
+					print("Save to slot 4")
 					save_to_slot(4)
 
 
@@ -117,6 +121,7 @@ func _on_save5_input_event(viewport, event, shape_idx):
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
 				if event.is_pressed():
+					print("Save to slot 5")
 					save_to_slot(5)
 
 
@@ -131,6 +136,7 @@ func _on_save6_input_event(viewport, event, shape_idx):
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
 				if event.is_pressed():
+					print("Save to slot 6")
 					save_to_slot(6)
 
 
