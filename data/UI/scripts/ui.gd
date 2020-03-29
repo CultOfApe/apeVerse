@@ -377,6 +377,7 @@ func toggle_game_settings():
 		sceneCol.disabled = false
 		global.blocking_ui = false
 		global.settings = false
+		$game_settings.hide()
 		fade_out.interpolate_property($game_settings, "modulate", Color(1,1,1,1), Color(1,1,1,0), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		fade_out.start()
 		var cursor = load("res://data/graphics/cursor_default.png")

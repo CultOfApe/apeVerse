@@ -1,22 +1,18 @@
 extends Panel
 
 func _ready():
-	pop_game_settings("init", 0)
+	pop_nodes("init", 0)
 
 func _process(delta):
 	pass
-
-func save_fx(save, opacity):
-	$fx.interpolate_property(save, "modulate", save.modulate, opacity, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	$fx.start()
 	
-func pop_game_settings(key, id):
-	for save in range(global.saveData.size()):
+func pop_nodes(key, id):
+	for save in range(global.saveData["page" + String(global.save_page)].size()):
 		var save_node = get_node("savegames/save" + str(save+1))
 		var tmp = "save" + str(save+1)
 
-		if global.saveData.has(tmp):
-			if global.saveData[tmp][0].thumb == "save_add":
+		if global.saveData["page1"].has(tmp):
+			if global.saveData["page" + String(global.save_page)][tmp]["thumb"] == "save_add":
 				var image = load("res://data/graphics/saves/save_add.png")
 				save_node.set_texture(image)
 		elif key == "init":
@@ -25,30 +21,30 @@ func pop_game_settings(key, id):
 			
 func save_to_slot(id):
 	var save_name = "save" + str(id)
-	var texture = ImageTexture.new()
 	var tmpdict
-	if get_node("savegames/save" + str(id)).texture.get_path() == "res://data/graphics/saves/save_add.png":
-		print("Slot has save_add.png")
+	
+	if get_node("savegames/" + save_name).texture.get_path() == "res://data/graphics/saves/save_add.png":
 		if id < 6:
-			tmpdict = [{			
-					"id" : str(id+1),
+			tmpdict = {			
+					"id" : save_name,
 					"thumb" : "save_add",
 					"data" : []
-				}]
+				}
 
-		global.saveData["save" + str(id+1)] = tmpdict
+		# add save icon to next node
+		global.saveData["page" + String(global.save_page)]["save" + str(id+1)] = tmpdict
 
 	global.capture.resize(500,281,1)
-
+	var texture = ImageTexture.new()
 	texture.create_from_image(global.capture)
-	get_node("savegames/save" + str(id)).set_texture(texture)
+	get_node("savegames/" + save_name).set_texture(texture)
 
 	global.capture.save_png("res://data/graphics/saves/" + save_name + ".png")
-	global.saveData["save" + str(id)][0].thumb = save_name
+	global.saveData["page" + String(global.save_page)][save_name].thumb = save_name
 	if id < 6:
-		pop_game_settings("refresh", id)
+		pop_nodes("refresh", id)
 	
-	global._save_game("save1") # This whole script needs to be refactored, but at least save functionality skeleton taking shape
+	global._save_game(save_name) # This whole script needs to be refactored, but at least save functionality skeleton taking shape
 			
 func _on_save1_mouse_entered():
 	save_fx($savegames/save1, Color(1,1,1,1))
@@ -58,6 +54,7 @@ func _on_save1_mouse_exited():
 
 
 func _on_save1_input_event(viewport, event, shape_idx):
+	# if get_node("savegames/save1").texture.get_path() == "res://data/graphics/saves/save_add.png":
 	if get_node("savegames/save1").texture:
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
@@ -222,51 +219,55 @@ func _on_page3_input_event(viewport, event, shape_idx):
 	pass # replace with function body
 
 
-func _on_page4_mouse_entered():
-	$savegames/page4/label_background.hide()
-	
-func _on_page4_mouse_exited():
-	$savegames/page4/label_background.show()
+#func _on_page4_mouse_entered():
+#	$savegames/page4/label_background.hide()
+#
+#func _on_page4_mouse_exited():
+#	$savegames/page4/label_background.show()
+#
+#func _on_page4_input_event():
+#	pass # replace with function body
+#
+#
+#func _on_page5_mouse_entered():
+#	$savegames/page5/label_background.hide()
+#
+#func _on_page5_mouse_exited():
+#	$savegames/page5/label_background.show()
+#
+#func _on_page5_input_event(viewport, event, shape_idx):
+#	pass # replace with function body
+#
+#
+#func _on_page6_mouse_entered():
+#	$savegames/page6/label_background.hide()
+#
+#func _on_page6_mouse_exited():
+#	$savegames/page6/label_background.show()
+#
+#func _on_page6_input_event(viewport, event, shape_idx):
+#	pass # replace with function body
+#
+#
+#func _on_page7_mouse_entered():
+#	$savegames/page7/label_background.hide()
+#
+#func _on_page7_mouse_exited():
+#	$savegames/page7/label_background.show()
+#
+#func _on_page7_input_event(viewport, event, shape_idx):
+#	pass # replace with function body
+#
+#
+#func _on_page8_mouse_entered():
+#	$savegames/page8/label_background.hide()
+#
+#func _on_page8_mouse_exited():
+#	$savegames/page8/label_background.show()
+#
+#func _on_page8_input_event(viewport, event, shape_idx):
+#	pass # replace with function body
 
-func _on_page4_input_event():
-	pass # replace with function body
-
-
-func _on_page5_mouse_entered():
-	$savegames/page5/label_background.hide()
-
-func _on_page5_mouse_exited():
-	$savegames/page5/label_background.show()
-
-func _on_page5_input_event(viewport, event, shape_idx):
-	pass # replace with function body
-
-
-func _on_page6_mouse_entered():
-	$savegames/page6/label_background.hide()
-
-func _on_page6_mouse_exited():
-	$savegames/page6/label_background.show()
-
-func _on_page6_input_event(viewport, event, shape_idx):
-	pass # replace with function body
-
-
-func _on_page7_mouse_entered():
-	$savegames/page7/label_background.hide()
-
-func _on_page7_mouse_exited():
-	$savegames/page7/label_background.show()
-
-func _on_page7_input_event(viewport, event, shape_idx):
-	pass # replace with function body
-
-
-func _on_page8_mouse_entered():
-	$savegames/page8/label_background.hide()
-
-func _on_page8_mouse_exited():
-	$savegames/page8/label_background.show()
-
-func _on_page8_input_event(viewport, event, shape_idx):
-	pass # replace with function body
+func save_fx(save, opacity):
+	$fx.interpolate_property(save, "modulate", save.modulate, opacity, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	$fx.start()

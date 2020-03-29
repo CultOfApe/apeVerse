@@ -54,11 +54,38 @@ var editorData		: Dictionary
 #}
 
 var saveData  : Dictionary = {
-		"save1" : [{
-			"id" : "01",
-			"thumb" : "save_add",
+	"page1": {
+		"save1" : {
+			"id" : null,
+			"thumb" : null,
 			"data" : {}
-		}]	
+			},
+		"save2" : {
+			"id" : null,
+			"thumb" : null,
+			"data" : {}
+			},
+		"save3" : {
+			"id" : null,
+			"thumb" : null,
+			"data" : {}
+			},
+		"save4" : {
+			"id" : null,
+			"thumb" : null,
+			"data" : {}
+			},
+		"save5" : {
+			"id" : null,
+			"thumb" : null,
+			"data" : {}
+			},
+		"save6" : {
+			"id" : null,
+			"thumb" : null,
+			"data" : {}
+			}
+		}
 	}
 
 # REFACTOR: remove _running suffix from all
