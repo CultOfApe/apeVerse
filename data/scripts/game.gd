@@ -18,12 +18,12 @@ var dayOfMonth 		: int = 1
 
 #var sceneData : Dictionary
 
-onready var descriptionLabel 	: Node2D = $"ui/descriptionLabel"
-onready var thought_bubble 		: Node2D = $"ui/thoughtBubble"
+onready var descriptionLabel 	: Label = $"ui/descriptionLabel"
+onready var bubble 				: Label = $"ui/bubble"
 
-onready var screenBlur 			: Node2D = $"effects/blurfx"
-onready var materialize 		: Node2D = $"ui/thoughtBubble/materialize"
-onready var dissolve 			: Node2D = $"ui/thoughtBubble/dissolve"
+onready var screenBlur 			: TextureRect = $"effects/blurfx"
+onready var materialize 		: Tween = $"effects/materialize"
+onready var dissolve 			: Tween = $"effects/dissolve"
 
 onready var viewsize = get_viewport().get_visible_rect().size
 
@@ -55,9 +55,7 @@ func connect_stuff():
 		object.connect("highlight", self, "_highlight")
 
 func _process(delta):
-	#This should only be called when the thought bubbl is actually showing?
-		if global.gameType == "3D":
-			thought_bubble.set_position($Camera.unproject_position((get_node("player").translation) + Vector3(0,2.5,0)) - Vector2(30,0))
+	pass
 
 func change_location(location):
 	global.scene = location
@@ -66,45 +64,40 @@ func change_location(location):
 	#issue with map scene changing is in ui_exit, sets global.blocking_ui = false
 	#find alternative solution
 
-func _input(event):
-	pass
-
 func _look_at(text):
 	pass
 
 func thought_bubble(text):
 	if text != "": # and isLookingAt == false:
-		thought_bubble.show()
-		materialize.interpolate_property(thought_bubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		bubble.show()
+		materialize.interpolate_property(bubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		materialize.start()
 		isLookingAt = true
 
-	thought_bubble.add_color_override("font_color", Color(0,0,0,1))
-	thought_bubble.set_text(text)
+	bubble.add_color_override("font_color", Color(0,0,0,1))
+	bubble.set_text(text)
 	
 func _highlight(text):
 #	descriptionLabel.set_position($Camera.unproject_position($player.translation) - Vector2(60,230))
 	descriptionLabel.set_text(text)
 
 #Are the below functions leftovers, or still used? Investigate by commenting out (all of them)
-func _on_tween_tween_completed(object, key):
-	pass # replace with function body
+#func _on_tween_tween_completed(object, key):
+#	pass # replace with function body
 
 func _on_materialize_tween_completed(object, key):
 	_wait(2)
 
 func _wait( seconds ):
-	self._create_timer(self, seconds, true, "dissolve")
+	_create_timer(self, seconds, true, "dissolve")
 	yield(self,"timer_end")
 
 func dissolve():
-	dissolve.interpolate_property(thought_bubble, "modulate", Color(1,1,1,1), Color(1,1,1,0), 1.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	dissolve.interpolate_property(bubble, "modulate", Color(1,1,1,1), Color(1,1,1,0), 1.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	dissolve.start()
 	isLookingAt = false
 
 func _create_timer(object_target, float_wait_time, bool_is_oneshot, string_function):
-	# KidsCanCode suggested yield(get_tree().create_timer(2.0), 'timeout')
-	# will try that version later, but for now this works great
 	var timer = Timer.new()
 	timer.set_one_shot(bool_is_oneshot)
 	timer.set_timer_process_mode(0)

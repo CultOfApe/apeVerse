@@ -2,11 +2,11 @@
 	"ellie": {
 		"dialogue": {
 			"default": {
-				"path": "res://data/dialogue/ellie.json",
+				"path": "res://data/dialogue/json/ellie.json",
 				"branch": "1"
 			},
 			"phone": {
-				"path": "res://data/dialogue/ellie_phone.json",
+				"path": "res://data/dialogue/json/ellie_phone.json",
 				"branch": "1"
 			},
 		"relationship": "3"
@@ -15,11 +15,11 @@
 	"devaun": {
 		"dialogue": {
 			"default": {
-				"path": "res://data/dialogue/devaun.json",
+				"path": "res://data/dialogue/json/devaun.json",
 				"branch": "1"
 			},
 			"phone": {
-				"path": "res://data/dialogue/devaun_phone.json",
+				"path": "res://data/dialogue/json/devaun_phone.json",
 				"branch": "4"
 			},
 		"relationship": "3"

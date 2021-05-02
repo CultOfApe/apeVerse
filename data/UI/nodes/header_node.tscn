@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://data/UI/scripts/header_node.gd" type="Script" id=1]
+[ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=1]
+size = 25
+font_data = ExtResource( 2 )
+
+[node name="Panel" type="Panel"]
+margin_left = -288.941
+margin_top = 142.149
+margin_right = -131.0
+margin_bottom = 177.0
+script = ExtResource( 1 )
+
+[node name="label" type="Label" parent="."]
+margin_left = 11.0264
+margin_top = -3.67546
+margin_right = 146.026
+margin_bottom = 34.3245
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "text text text"
+align = 1

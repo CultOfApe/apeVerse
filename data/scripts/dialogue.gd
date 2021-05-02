@@ -4,7 +4,7 @@ extends Node2D
 #enter automatically choses first reply?
 
 #some of the below cannot be cast as dictionaries, because of array and dictionary mixing in the code
-onready var dialogPanel 	: Object  = load("res://data/asset scenes/dialogue_window.tscn")
+onready var dialogPanel 			  = load("res://data/dialogue/nodes/dialogue_window.tscn")
 onready var replyButton 	: Object  = load("res://data/asset scenes/reply.tscn")
 onready var screenBlur 		: Object = $"../effects/blurfx"
 onready var effectBlurUI 	: Object = $"../effects/tween"
@@ -43,6 +43,9 @@ func _ready():
 		
 	for object in get_parent().get_node("npcs").get_children():
 		object.connect("dialogue", self, "_talk_to")
+	
+	print("chardata: ")
+	print(global.charData)
 		
 func event_handler():
 	pass
@@ -257,7 +260,10 @@ func start_dialogue(json, type):
 	global.dialogue_running = true
 	
 	talkData = global.load_json(json)
+	global.save_file(json, json)
 	
+	
+	branch = talkData["dialogue"][global.charData[npc]["dialogue"][type]["branch"]]
 	branch = talkData["dialogue"][global.charData[npc]["dialogue"][type]["branch"]]
 	replies = talkData["dialogue"][global.charData[npc]["dialogue"][type]["branch"]]["replies"]
 	

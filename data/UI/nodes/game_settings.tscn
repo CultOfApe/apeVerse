@@ -55,6 +55,9 @@ margin_right = 1920.0
 margin_bottom = 1080.0
 mouse_filter = 2
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="footer" type="Label" parent="."]
 margin_left = 101.653
@@ -201,6 +204,7 @@ position = Vector2( 1084.03, 323.77 )
 shape = SubResource( 10 )
 
 [node name="page1" type="Area2D" parent="savegames"]
+visible = false
 position = Vector2( 469.045, 114.063 )
 scale = Vector2( 1.5, 1.5 )
 z_index = 99
@@ -226,6 +230,7 @@ z_index = 100
 shape = SubResource( 13 )
 
 [node name="page2" type="Area2D" parent="savegames"]
+visible = false
 position = Vector2( 534.045, 114.063 )
 scale = Vector2( 1.5, 1.5 )
 z_index = 99
@@ -250,6 +255,7 @@ position = Vector2( 19.8132, 20.1734 )
 shape = SubResource( 13 )
 
 [node name="page3" type="Area2D" parent="savegames"]
+visible = false
 position = Vector2( 599.045, 114.063 )
 scale = Vector2( 1.5, 1.5 )
 z_index = 99
@@ -399,6 +405,7 @@ position = Vector2( 19.8132, 20.1734 )
 shape = SubResource( 13 )
 
 [node name="fx" type="Tween" parent="."]
+
 [connection signal="input_event" from="load game/load" to="." method="_on_load_input_event"]
 [connection signal="mouse_entered" from="load game/load" to="." method="_on_load_mouse_entered"]
 [connection signal="mouse_exited" from="load game/load" to="." method="_on_load_mouse_exited"]

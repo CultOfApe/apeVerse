@@ -10,6 +10,7 @@ var currentPath
 var currentBranch
 var previousBranch = null
 var reverse = false
+var prevSession = false
 
 var nodeChain = {}# Array containing reference to all current nodes in dialogue tree, hierarchically
 var nodesOrigin
@@ -20,27 +21,26 @@ func _ready():
 	pass
 
 func _input(event):
+	#show or hide editor
 	if event.is_action_pressed("ui_editor") and !global.editor:
 		self.show()
-		_setup_editor()
-								
+		_setup_editor()						
 	if event.is_action_pressed("ui_down") and global.editor:
 		_kill_editor()
 		screenBlur.modulate = Color(1, 1, 1, 0)
-
-#TODO: Editor should remember last open session		
+	
 func _setup_editor():
-	
-	for node in get_tree().get_nodes_in_group("editor_main"):
-		node.hide()
-	
+	global.blocking_ui = true
+	global.editor = true
+	global.files = []
 	screenBlur.modulate = Color(1, 1, 1, 1)
 	
-	global.editor = true
-		
-	global.files = []
-	var folder : Array = global.list_files_in_directory("res://data/dialogue/")
-		
+	#if a previous session has been initiated, remember and open with previous nodes visible
+	if prevSession == false:
+		for node in get_tree().get_nodes_in_group("editor_main"):
+			node.hide()
+	
+	var folder : Array = global.list_files_in_directory("res://data/dialogue/json")
 	for item in folder:
 		JSONfiles.push_back(item)
 
@@ -60,6 +60,8 @@ func _kill_editor():
 		for x in self.get_children():
 			x.set_name("DELETED") #to make sure node doesn´t cause issues before being deleted
 			x.queue_free()
+			
+		global.blocking_ui = false
 		global.editor = false
 
 func _create_new_UI_element(id, type, parent, xsize, ysize, xpos, ypos): # add variable to cancel instancing, or instance outside of func(?)
@@ -83,6 +85,7 @@ func _create_instanced_UI_element(name, obj, parent, xsize, ysize, xpos, ypos, m
 # TODO: If existing nodes, spawn new nodes at x + 1080, and then move over $"nodes" x -1080
 func _pop_nodes(id, branch, reset, modifier):
 	
+	prevSession == true
 	$avatar.show()
 	_setup_avatar_selector()
 	$avatar.connect("avatar_clicked",self,"_avatar_clicked")
@@ -125,7 +128,7 @@ func _pop_nodes(id, branch, reset, modifier):
 	reverse = false
 	currentBranch 	= str(nodeChain[currentDialogue][nodeChain.active])
 	
-	var node = global.load_json("res://data/dialogue/" + id)
+	var node = global.load_json("res://data/dialogue/json/" + id)
 	
 	var root = Node2D.new()
 	root.set_name(branch)
@@ -163,19 +166,19 @@ func _pop_nodes(id, branch, reset, modifier):
 	
 	if nodeChain.has(currentDialogue): #and nodeChain[currentDialogue].size() != 1:
 
-		print("----------------------------")
-		print("DEBUG Editor.gd")
-		print("----------------------------")
-		print(" ")	
-		print(" " + String(nodeChain))
-		print(" This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and the current node has index no. " + str(nodeChain[currentDialogue].size() -1))
-		print(" current node has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
-		print(" and has " + String(node["dialogue"][nodeChain[currentDialogue][(nodeChain.active) - 1]]["replies"].size()) + " replies")
-		print(" ")	
-		print("----------------------------")
-		print("DEBUG end")
-		print("----------------------------")
-		print(" ")	
+#		print("----------------------------")
+#		print("DEBUG Editor.gd")
+#		print("----------------------------")
+#		print(" ")	
+#		print(" " + String(nodeChain))
+#		print(" This chain has " + str(nodeChain[currentDialogue].size()) + " nodes and the current node has index no. " + str(nodeChain[currentDialogue].size() -1))
+#		print(" current node has value: " + nodeChain[currentDialogue][nodeChain[currentDialogue].size() - 1])
+#		print(" and has " + String(node["dialogue"][nodeChain[currentDialogue][(nodeChain.active) - 1]]["replies"].size()) + " replies")
+#		print(" ")	
+#		print("----------------------------")
+#		print("DEBUG end")
+#		print("----------------------------")
+#		print(" ")	
 	
 		if nodeChain.active != 0: # calc by active-1 instead
 #			print("previous node has value: " + previousBranch)
@@ -254,6 +257,7 @@ func _pop_nodes(id, branch, reset, modifier):
 #
 #	print(self.get_child_count()) #don´t use self, new subdirectory
 
+#	when clicking on reply node
 func _on_node_click(branch, null, modifier):
 	#TODO: shouldn´t be called if node has same id as current branch
 #	print("-------------------------------")
@@ -344,7 +348,9 @@ func _on_saveSession_pressed():
 	file.store_line(to_json(nodeChain))
 	file.close()
 
+#	expands dialogue tree. Wonky righ now, so TODO
 func _on_expand_pressed():
+
 	$json_files.set_position(Vector2(($json_files.get_position() + Vector2(150, 0))))
 	$nodes.set_position(Vector2($nodes.get_position() + Vector2(150, 0)))
 	$main.set_position(Vector2($main.get_position() + Vector2(150, 0)))

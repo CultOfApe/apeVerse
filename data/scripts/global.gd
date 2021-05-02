@@ -13,6 +13,16 @@ onready var worldEnv 		= get_tree().get_root().get_node("game").get_node("Camera
 onready var lightDir 		= get_tree().get_root().get_node("game").get_node("pos3d/DirectionalLight")
 onready var lightDummy 		= get_tree().get_root().get_node("game").get_node("pos3d")
 
+onready var player 			= get_tree().get_root().get_node("game").get_node("player")
+onready var camera 			= get_tree().get_root().get_node("game").get_node("Camera")
+onready var bubble 			= get_tree().get_root().get_node("game").get_node("ui/bubble")
+onready var materialize : Tween = gameRoot.get_node("effects/materialize")
+onready var dissolve 	: Tween = gameRoot.get_node("effects/dissolve")
+
+#onready var thought_bubble 		: Node2D = $"ui/thoughtBubble"
+#onready var materialize 		: Node2D = $"effects/materialize"
+#onready var dissolve 			: Node2D = $"effects/dissolve"
+
 var gameType 		: String
 
 
@@ -44,49 +54,7 @@ var gameVars 		: Dictionary
 var inventoryData 	: Dictionary
 var contactData 	: Dictionary
 var editorData		: Dictionary
-#var galleryData  	: Dictionary = {
-#	"img01" : "res://data/graphics/img01.png",
-#	"img02" : "res://data/graphics/img02.png",
-#	"img03" : "res://data/graphics/img03.png",
-#	"img04" : "res://data/graphics/img04.png",
-#	"img05" : "res://data/graphics/img05.png",
-#	"img06" : "res://data/graphics/img06.png"
-#}
-
-var saveData  : Dictionary = {
-	"page1": {
-		"save1" : {
-			"id" : null,
-			"thumb" : null,
-			"data" : {}
-			},
-		"save2" : {
-			"id" : null,
-			"thumb" : null,
-			"data" : {}
-			},
-		"save3" : {
-			"id" : null,
-			"thumb" : null,
-			"data" : {}
-			},
-		"save4" : {
-			"id" : null,
-			"thumb" : null,
-			"data" : {}
-			},
-		"save5" : {
-			"id" : null,
-			"thumb" : null,
-			"data" : {}
-			},
-		"save6" : {
-			"id" : null,
-			"thumb" : null,
-			"data" : {}
-			}
-		}
-	}
+var saveData  		: Dictionary 
 
 # REFACTOR: remove _running suffix from all
 var dialogue_running 	: bool
@@ -96,7 +64,13 @@ var editor				: bool		= false
 var settings			: bool		= false
 var playerMoving		: bool		= false
 var calendarUpdate		: bool		= false
+var lookingAt 			: bool 		= false
 var itemInHand 			: String 	= ""
+
+var hover				: Dictionary	= {
+	"id"	: null,
+	"type"	: null
+}
 
 var UI_lvl = 0
 
@@ -110,7 +84,7 @@ var removedActors		: Array
 var playerScript : Script = preload("res://data/scripts/player.gd")
 var playerPos
 
-var capture
+var capture = null
 
 func _ready():
 	set_process(true)
@@ -124,12 +98,12 @@ func _ready():
 	locations 		= load_json("res://data/global/location_data.json")
 		
 	for loc in locations:
-		locData[loc] = load_json("res://data/locations/location_" + loc + ".json")
+		locData[loc] = load_json("res://data/locations/" + loc + ".json")
 		
 	contactData 	= load_json("res://data/global/contact_data.json")
 	
 	for location in locations:
-		sceneData[location] = load_json("res://data/locations/location_" + location + ".json")
+		sceneData[location] = load_json("res://data/locations/" + location + ".json")
 	
 	# To facilitate coding, this game assumes a year of 360 days and 30 day months
 	# weekday and month is calculated based on how many days of 360
@@ -160,6 +134,7 @@ func change_cursor(id):
 
 # Hack solution that doesn´t work very well, but low priority for now
 func grab_screen():
+	capture = null
 	get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
 	
 	yield(get_tree(), "idle_frame")
@@ -169,6 +144,7 @@ func grab_screen():
 	
 	capture.flip_y()
 	capture.convert(5)
+	print("screenshot saved!")
 
 func list_files_in_directory(path):
 	
@@ -348,11 +324,14 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 	if previous_location != currentLocation:
 		pass
 		
+	_add_to_scene("object", "gift", "objects", Vector3(0,0,0), Vector3(-2,1.7,-3.5))
+		
 	print("DEBUG end")
 	print("----------------------------")
 	print(" ")
 
 func _add_to_scene(type, id, group, rot, pos):
+	print("res://data/" + group + "/" + id + ".tscn")
 	var node = load("res://data/" + group + "/" + id + ".tscn")			
 	node = node.instance()
 	node.set_translation(Vector3(pos.x, pos.y, pos.z))
@@ -372,17 +351,23 @@ func event_notifier():
 	
 func setup_grid(type, rows, cols): #type can be text, image or custom (load prefab node)
 	if type == "text":
-		for i in rows:
-			for i in cols:
+		for row in rows:
+			for cols in cols:
 				pass
 	elif type == "image":
-		for i in rows:
-			for i in cols:
+		for rows in rows:
+			for cols in cols:
 				pass
 	else:
-		for i in rows:
-			for i in cols:
+		for rows in rows:
+			for cols in cols:
 				pass
+
+func save_file(filename, data):
+	var file = File.new()
+	file.open("res://data/debug/debug.txt", File.WRITE)
+	file.store_line(to_json(data))
+	file.close()
 	
 func _save_game(id):
 #	saveData["player"]["position"] = gameRoot.get_node("player").get_positon()
@@ -410,3 +395,20 @@ func _load_game(id):
 	saveData["charData"] = charData
 	
 	load_scene(currentLocation)
+	
+func ballon(text):
+	if text != "": # and isLookingAt == false:
+		bubble.show()
+		if global.gameType == "3D":
+			bubble.set_position(gameRoot.get_node("Camera").unproject_position(gameRoot.get_node("player").translation + Vector3(0,2.5,0)) - Vector2(30,0))
+		materialize.interpolate_property(bubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		materialize.start()
+		lookingAt = true
+
+	bubble.add_color_override("font_color", Color(0,0,0,1))
+	bubble.set_text(text)
+
+func dissolve():
+	dissolve.interpolate_property(bubble, "modulate", Color(1,1,1,1), Color(1,1,1,0), 1.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	dissolve.start()
+	lookingAt = false

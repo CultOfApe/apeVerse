@@ -68,12 +68,14 @@ func _ready():
 
 func _input(event):
 	#these need checks so you can´t press the same key twice, or the overlays will continue upwards
-	#pressing a second time should hide the overlays again 
+	#pressing a second time should hide the overlays again 	
+	
 	if event.is_action_pressed("ui_exit") and global.UI_lvl == 0:
 		if !mapOpen and !schoolbagOpen and !phoneOpen and !calendarOpen and !global.dialogue_running and !global.editor:
 			toggle_game_settings()
 			
 	if event.is_action_pressed("ui_exit") and global.UI_lvl == 1:
+		print("UI exit")
 		global.UI_lvl = 0
 		ui_exit(null)	
 			
@@ -121,9 +123,11 @@ func _input(event):
 					app.hide()	
 		elif hoverNode.get_name() == "inventory":	
 			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
+				global.UI_lvl = 1
 				toggle_ui_overlay("schoolbag_ui", "show", schoolbagShowPos)
 		elif hoverNode.get_name() == "map":	
-			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():				
+			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():	
+				global.UI_lvl = 1			
 				toggle_ui_overlay("map_ui", "show", mapShowPos)
 		elif hoverNode.get_name() == "calendar":	
 			if event is InputEventMouseButton:
@@ -132,6 +136,7 @@ func _input(event):
 						global.playerMoving = false
 						advance_time()	
 			if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
+				global.UI_lvl = 1
 				toggle_ui_overlay("calendar_ui", "show", calendarShowPos)
 				
 #	if event.is_action_pressed("ui_editor") and !global.editor_running:

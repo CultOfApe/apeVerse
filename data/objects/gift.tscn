@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://data/meshes/gift_gltf.glb" type="PackedScene" id=1]
+[ext_resource path="res://data/objects/gift.gd" type="Script" id=2]
+
+[sub_resource type="BoxShape" id=1]
+
+[node name="gift" type="StaticBody"]
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.823606, 1.12581, 1.37776 )
+script = ExtResource( 2 )
+
+[node name="gift_gltf" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6154, -2.76611, -4.6386 )
+
+[node name="trigger" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.68911, -3.68001 )
+
+[node name="CollisionShape" type="CollisionShape" parent="trigger"]
+transform = Transform( 1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 2.63164, -0.0444158, -0.972901 )
+shape = SubResource( 1 )

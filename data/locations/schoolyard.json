@@ -1,0 +1,359 @@
+{	
+	"environment": "exterior",
+	"default":{
+		"morning": {
+			"actors": {
+				"ellie": {
+					"dialogue": "res://data/dialogue/json/ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": -6,"y": 1,"z": -4},
+					"rot": {"x": 0,"y": 50,"z": 0}
+				}
+			}
+		},
+		"noon": {
+			"actors": {
+				"ellie": {
+					"dialogue": "res://data/dialogue/json/ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": -6,"y": 1,"z": -4},
+					"rot": {"x": 0,"y": 50,"z": 0}
+				}
+			}
+		},
+		"evening":{
+			"actors": {
+				"ellie": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"night": {
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		}
+	},	
+	"thursday":{
+		"morning": {
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"noon": {
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"evening":{
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"night": {
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		}
+	},
+	"friday":{
+		"morning": {
+			"actors": {
+				"ellie": {
+					"dialogue": "res://data/dialogue/json/ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": -6,"y": 1,"z": -2},
+					"rot": {"x": 0,"y": 0,"z": 0}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"noon": {
+			"actors": {
+				"ellie": {
+					"dialogue": "res://data/dialogue/json/ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": -6,"y": 1,"z": -2},
+					"rot": {"x": 0,"y": 0,"z": 0}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"evening":{
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"night": {
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		}
+	},
+	"saturday":{
+		"morning": {
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"noon": {
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"evening":{
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"night": {
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		}
+	},
+	"sunday":{
+		"morning": {
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"noon": {
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"evening":{
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		},
+		"night": {
+			"actors": {
+				"ellie": {
+					"dialogue": "ellie.json",
+					"branch": "a",
+					"pose": "ellie_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				},
+				"bobby": {
+					"dialogue": "default",
+					"branch": "a",
+					"pose": "bobby_idle.scn",
+					"pos": {"x": 200,"y": 280,"z": 90},
+					"rot": {"x": 200,"y": 280,"z": 90}
+				}
+			}
+		}
+	}
+}

@@ -4,7 +4,7 @@
 [ext_resource path="res://data/UI/ui.tscn" type="PackedScene" id=3]
 [ext_resource path="res://data/editor/Editor.tscn" type="PackedScene" id=11]
 [ext_resource path="res://data/locations/schoolyard.tscn" type="PackedScene" id=14]
-[ext_resource path="res://data/asset scenes/dialogue.tscn" type="PackedScene" id=17]
+[ext_resource path="res://data/dialogue/dialogue.tscn" type="PackedScene" id=17]
 [ext_resource path="res://data/asset scenes/player.tscn" type="PackedScene" id=21]
 [ext_resource path="res://data/asset scenes/object.tscn" type="PackedScene" id=23]
 [ext_resource path="res://data/scripts/scene.gd" type="Script" id=24]
@@ -159,6 +159,10 @@ __meta__ = {
 [node name="cuttlefish" type="Sprite" parent="effects"]
 visible = false
 
+[node name="materialize" type="Tween" parent="effects"]
+
+[node name="dissolve" type="Tween" parent="effects"]
+
 [node name="player" parent="." instance=ExtResource( 21 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0621125, 0 )
 
@@ -179,8 +183,10 @@ frame = 2
 [node name="Debug" type="Node2D" parent="."]
 
 [node name="Editor" parent="." instance=ExtResource( 11 )]
+
 [connection signal="input_event" from="scene" to="player" method="_on_scene_input_event"]
+[connection signal="tween_completed" from="effects/materialize" to="." method="_on_materialize_tween_completed"]
 
 [editable path="dialogue"]
-
 [editable path="player"]
+[editable path="player/Character"]

@@ -15,12 +15,32 @@ var inventory 	: Array = [
 	"bag"
 ]
 
+# handles response to gifts
+var gifts : Dictionary	= {
+	"default" : {
+		"response" 	: "...",
+		"value" 	: null,
+		"event" 	: null,
+		"cutscene" 	: null
+	},
+	"rose" : {
+		"response" 	: "Thank you!",
+		"value" 	: null,
+		"event" 	: null,
+		"cutscene" 	: null
+	}
+}
+
 func _ready():
 	$"Olga_animated/Armature/AnimationPlayer".play()
 #	$Character/AnimationPlayer.autoplay = "Idle-loop"
 	$"Olga_animated/Armature/AnimationPlayer".get_animation("idle").set_loop(true)
 		
 func _on_npc_trigger_mouse_enter():
+	global.hover = {
+		"id"	: "ellie",
+		"type"	: "npc"
+	}
 	if global.itemInHand == "" and global.blocking_ui!=true:
 		var cursor : Object = load("res://data/graphics/cursor_talk.png")
 		Input.set_custom_mouse_cursor(cursor)
@@ -29,13 +49,23 @@ func _on_npc_trigger_mouse_enter():
 	else:
 		if global.blocking_ui!=true:
 			emit_signal("highlight", "Give " + global.itemInHand + " to " + identity + "?")
+			
+# handles response to gifts
+func itemGiven(id):
+	if gifts.has(id):
+		if gifts[id]["response"]:
+			global.ballon(gifts[id]["response"])
+		if gifts[id]["value"]:
+			pass
+		if gifts[id]["event"]:
+			pass
 
 func _on_npc_trigger_mouse_exit():
 	if global.itemInHand == "" and global.blocking_ui != true and global.dialogue_running != true:
 		var cursor : Object = load("res://data/graphics/cursor_default.png")
 		Input.set_custom_mouse_cursor(cursor)
 	emit_signal("highlight", "")
-#	emit_signal("look_at", "")
+	emit_signal("look_at", "")
 
 func _on_npc_trigger_input_event(camera, event, click_position, click_normal, shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and global.blocking_ui!=true:
@@ -47,20 +77,9 @@ func _on_npc_trigger_input_event(camera, event, click_position, click_normal, sh
 				var keys = global.inventoryData.keys()
 				var cursor : Object = load("res://data/graphics/cursor_default.png")
 				Input.set_custom_mouse_cursor(cursor)
+				itemGiven(global.itemInHand)
 				#global.inventoryData["junk"].remove(0)
 				
-				#TODO: this is hardcoded, and should be handled by script
-#				if global.itemInHand == "rose":
-#					var heart = get_tree().get_root().get_node("world").get_node("effects").get_node("cuttlefish")
-#					var texture = load("res://data/graphics/UI/heart.png")
-#					var heartTween = get_tree().get_root().get_node("world").get_node("effects").get_node("tween")
-#					heart.set_texture(texture)
-#					heart.set_position(Vector2(650, 270))
-#					heart.show()
-#					heartTween.interpolate_property(heart, "modulate", Color(1,1,1,1), Color(1,1,1,0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-#					heartTween.interpolate_property(heart, "position", heart.position, Vector2(700, 170), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-#					heartTween.start()
-					
 				global.itemInHand = ""
 		
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT:

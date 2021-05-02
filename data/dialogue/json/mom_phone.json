@@ -1,0 +1,15 @@
+{
+	"name": "Mom",
+	"background": "background.png",
+	"dialogue": {
+		"a": {
+			"avatar": "res://data/npcs/ellie_talkanim.tscn",
+			"animate": "false",
+			"loop": "false",
+			"frame": 0,
+			"speech": [
+				"Leave a message after the tone"
+			]
+		}
+	}
+}

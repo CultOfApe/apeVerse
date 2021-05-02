@@ -36,6 +36,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000925541, 1.2401, 0.0006008
 shape = SubResource( 4 )
 
 [node name="Olga_animated" parent="." instance=ExtResource( 3 )]
+
 [connection signal="input_event" from="npc_trigger" to="." method="_on_npc_trigger_input_event"]
 [connection signal="mouse_entered" from="npc_trigger" to="." method="_on_npc_trigger_mouse_enter"]
 [connection signal="mouse_exited" from="npc_trigger" to="." method="_on_npc_trigger_mouse_exit"]

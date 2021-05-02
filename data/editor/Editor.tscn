@@ -103,6 +103,7 @@ margin_left = 863.391
 margin_top = 176.995
 margin_right = 1173.39
 margin_bottom = 597.995
+
 [connection signal="pressed" from="expand" to="." method="_on_expand_pressed"]
 [connection signal="pressed" from="main/topMenu/saveSession" to="." method="_on_saveSession_pressed"]
 [connection signal="pressed" from="main/topMenu/setToActive" to="." method="_on_setToActive_pressed"]
