@@ -54,7 +54,8 @@ func _on_npc_trigger_mouse_enter():
 func itemGiven(id):
 	if gifts.has(id):
 		if gifts[id]["response"]:
-			global.ballon(gifts[id]["response"])
+			global.playerMoving = false
+			global.balloon(gifts[id]["response"], self, "npc")
 		if gifts[id]["value"]:
 			pass
 		if gifts[id]["event"]:

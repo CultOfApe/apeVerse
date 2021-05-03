@@ -161,6 +161,8 @@ visible = false
 
 [node name="materialize" type="Tween" parent="effects"]
 
+[node name="materialize2" type="Tween" parent="effects"]
+
 [node name="dissolve" type="Tween" parent="effects"]
 
 [node name="player" parent="." instance=ExtResource( 21 )]
@@ -186,6 +188,7 @@ frame = 2
 
 [connection signal="input_event" from="scene" to="player" method="_on_scene_input_event"]
 [connection signal="tween_completed" from="effects/materialize" to="." method="_on_materialize_tween_completed"]
+[connection signal="tween_completed" from="effects/materialize2" to="." method="_on_materialize2_tween_completed"]
 
 [editable path="dialogue"]
 [editable path="player"]

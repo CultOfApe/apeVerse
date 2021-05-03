@@ -87,7 +87,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="bubble" type="Label" parent="."]
+[node name="bubble" type="Label" parent="." groups=[
+"bubbles",
+]]
 visible = false
 margin_left = -185.998
 margin_top = 1015.0
@@ -99,6 +101,24 @@ text = "text"
 align = 1
 
 [node name="bubble" type="Sprite" parent="bubble"]
+position = Vector2( 77.9949, 17.8947 )
+z_index = -99
+texture = ExtResource( 6 )
+
+[node name="NPCbubble" type="Label" parent="." groups=[
+"bubbles",
+]]
+visible = false
+margin_left = -185.998
+margin_top = 1015.0
+margin_right = -26.9977
+margin_bottom = 1077.0
+size_flags_vertical = 0
+custom_fonts/font = SubResource( 3 )
+text = "text"
+align = 1
+
+[node name="bubble" type="Sprite" parent="NPCbubble"]
 position = Vector2( 77.9949, 17.8947 )
 z_index = -99
 texture = ExtResource( 6 )

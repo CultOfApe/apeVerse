@@ -15,8 +15,10 @@ onready var lightDummy 		= get_tree().get_root().get_node("game").get_node("pos3
 
 onready var player 			= get_tree().get_root().get_node("game").get_node("player")
 onready var camera 			= get_tree().get_root().get_node("game").get_node("Camera")
-onready var bubble 			= get_tree().get_root().get_node("game").get_node("ui/bubble")
+onready var playerBubble 	= get_tree().get_root().get_node("game").get_node("ui/bubble")
+onready var npcBubble 	= get_tree().get_root().get_node("game").get_node("ui/NPCbubble")
 onready var materialize : Tween = gameRoot.get_node("effects/materialize")
+onready var materialize2 : Tween = gameRoot.get_node("effects/materialize2")
 onready var dissolve 	: Tween = gameRoot.get_node("effects/dissolve")
 
 #onready var thought_bubble 		: Node2D = $"ui/thoughtBubble"
@@ -396,19 +398,39 @@ func _load_game(id):
 	
 	load_scene(currentLocation)
 	
-func ballon(text):
+func balloon(text, target, type):
+	#TODO: add another value: "type", with possibilities "player" or "npc"
+	#TODO: use separate bubble for NPCs, or better, create dynamically, as main bubble always follows player.
+#	if text != "": # and isLookingAt == false:
+#		playerBubble.show()
+#		if global.gameType == "3D":
+#			playerBubble.set_position(gameRoot.get_node("Camera").unproject_position(target.translation + Vector3(0,2.5,0)) - Vector2(30,0))
+##		elif global.gameType == "3D" and type = "npc":
+##			NPCbubble.set_position(gameRoot.get_node("Camera").unproject_position(target.translation + Vector3(0,2.5,0)) - Vector2(30,0))
+#		materialize.interpolate_property(playerBubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+#		materialize.start()
+#		lookingAt = true
+
+#	playerBubble.add_color_override("font_color", Color(0,0,0,1))
+#	playerBubble.set_text(text)
 	if text != "": # and isLookingAt == false:
-		bubble.show()
-		if global.gameType == "3D":
-			bubble.set_position(gameRoot.get_node("Camera").unproject_position(gameRoot.get_node("player").translation + Vector3(0,2.5,0)) - Vector2(30,0))
-		materialize.interpolate_property(bubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		materialize.start()
+		if global.gameType == "3D" and type == "player":
+			playerBubble.show()
+			playerBubble.set_position(gameRoot.get_node("Camera").unproject_position(target.translation + Vector3(0,2.5,0)) - Vector2(30,0))
+			materialize.interpolate_property(playerBubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			materialize.start()
+			playerBubble.add_color_override("font_color", Color(0,0,0,1))
+			playerBubble.set_text(text)
+		elif global.gameType == "3D" and type == "npc":
+			npcBubble.show()
+			npcBubble.set_position(gameRoot.get_node("Camera").unproject_position(target.translation + Vector3(0,2.5,0)) - Vector2(30,0))
+			materialize2.interpolate_property(npcBubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			materialize2.start()
+			npcBubble.add_color_override("font_color", Color(0,0,0,1))
+			npcBubble.set_text(text)
 		lookingAt = true
 
-	bubble.add_color_override("font_color", Color(0,0,0,1))
-	bubble.set_text(text)
-
-func dissolve():
-	dissolve.interpolate_property(bubble, "modulate", Color(1,1,1,1), Color(1,1,1,0), 1.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	dissolve.start()
-	lookingAt = false
+#func dissolve():
+#	dissolve.interpolate_property(bubble, "modulate", Color(1,1,1,1), Color(1,1,1,0), 1.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+#	dissolve.start()
+#	lookingAt = false

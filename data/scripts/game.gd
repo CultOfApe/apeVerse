@@ -14,6 +14,8 @@ var time 			: int = 0
 var month 			: int = 6
 var dayOfMonth 		: int = 1
 
+var tNode 		
+
 #var thoughts_showing: bool = false
 
 #var sceneData : Dictionary
@@ -55,7 +57,8 @@ func connect_stuff():
 		object.connect("highlight", self, "_highlight")
 
 func _process(delta):
-	pass
+	if global.gameType == "3D" and global.playerMoving:
+		bubble.set_position($Camera.unproject_position((get_node("player").translation) + Vector3(0,2.5,0)) - Vector2(30,0))
 
 func change_location(location):
 	global.scene = location
@@ -67,35 +70,37 @@ func change_location(location):
 func _look_at(text):
 	pass
 
-func thought_bubble(text):
-	if text != "": # and isLookingAt == false:
-		bubble.show()
-		materialize.interpolate_property(bubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		materialize.start()
-		isLookingAt = true
-
-	bubble.add_color_override("font_color", Color(0,0,0,1))
-	bubble.set_text(text)
+#func thought_bubble(text):
+#	if text != "": # and isLookingAt == false:
+#		bubble.show()
+#		materialize.interpolate_property(bubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+#		materialize.start()
+#		isLookingAt = true
+#
+#	bubble.add_color_override("font_color", Color(0,0,0,1))
+#	bubble.set_text(text)
 	
 func _highlight(text):
-#	descriptionLabel.set_position($Camera.unproject_position($player.translation) - Vector2(60,230))
 	descriptionLabel.set_text(text)
 
-#Are the below functions leftovers, or still used? Investigate by commenting out (all of them)
-#func _on_tween_tween_completed(object, key):
-#	pass # replace with function body
-
-func _on_materialize_tween_completed(object, key):
-	_wait(2)
-
-func _wait( seconds ):
-	_create_timer(self, seconds, true, "dissolve")
-	yield(self,"timer_end")
-
 func dissolve():
-	dissolve.interpolate_property(bubble, "modulate", Color(1,1,1,1), Color(1,1,1,0), 1.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	dissolve.interpolate_property(tNode, "modulate", Color(1,1,1,1), Color(1,1,1,0), 1.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	dissolve.start()
 	isLookingAt = false
+
+# when materialize tween is finished,wait 1.5 seconds, and then run dissolve tween on same object
+func _on_materialize_tween_completed(object, key):
+	_wait(1.5)
+	tNode = global.playerBubble
+
+func _on_materialize2_tween_completed(object, key):
+	_wait(1.5)
+	tNode = global.npcBubble
+	
+func _wait( seconds ):
+	#create and run timer only once, then run function dissolve()
+	_create_timer(self, seconds, true, "dissolve")
+	yield(self,"timer_end")
 
 func _create_timer(object_target, float_wait_time, bool_is_oneshot, string_function):
 	var timer = Timer.new()
@@ -105,3 +110,6 @@ func _create_timer(object_target, float_wait_time, bool_is_oneshot, string_funct
 	timer.connect("timeout", object_target, string_function)
 	self.add_child(timer)
 	timer.start()
+
+
+

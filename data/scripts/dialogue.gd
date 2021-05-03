@@ -103,7 +103,7 @@ func _talk_to(id, npcPos, type):
 		get_parent().get_node("ui").toggle_ui_icons("hide")
 		start_dialogue(global.charData[id]["dialogue"][dialogueType]["path"], dialogueType)
 	else:
-		get_parent().thought_bubble("I need to get closer.")
+		global.balloon("I need to get closer.", get_tree().get_root().get_node("game").get_node("player"), "player")
 
 func _pick_reply(n):
 	replyCurrent =-1
