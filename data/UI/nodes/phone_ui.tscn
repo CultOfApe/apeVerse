@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://data/UI/scripts/phone_ui.gd" type="Script" id=1]
 [ext_resource path="res://data/graphics/phone_ui.png" type="Texture" id=2]
@@ -14,7 +14,6 @@
 [ext_resource path="res://data/UI/nodes/contact_node.tscn" type="PackedScene" id=12]
 [ext_resource path="res://data/UI/nodes/contact_node_mom.tscn" type="PackedScene" id=13]
 [ext_resource path="res://data/UI/scripts/ui_archive.gd" type="Script" id=14]
-[ext_resource path="res://data/graphics/gallery/img01 - thumb.png" type="Texture" id=15]
 [ext_resource path="res://data/graphics/UI/gallery_page_highlight.png" type="Texture" id=16]
 [ext_resource path="res://data/graphics/gallery/img10 - thumb.png" type="Texture" id=17]
 
@@ -301,7 +300,6 @@ text = "Press Q to close"
 ]]
 position = Vector2( 100, 140 )
 z_index = 99
-texture = ExtResource( 15 )
 
 [node name="sprite1" type="Area2D" parent="apps/archive/Sprite1"]
 z_index = 99
@@ -313,7 +311,6 @@ shape = SubResource( 9 )
 "gallery",
 ]]
 position = Vector2( 260, 140 )
-texture = ExtResource( 15 )
 
 [node name="sprite2" type="Area2D" parent="apps/archive/Sprite2"]
 position = Vector2( -160, 0 )
@@ -326,7 +323,6 @@ shape = SubResource( 10 )
 "gallery",
 ]]
 position = Vector2( 100.992, 289.409 )
-texture = ExtResource( 15 )
 
 [node name="sprite3" type="Area2D" parent="apps/archive/Sprite3"]
 position = Vector2( -0.992004, -149.409 )
@@ -339,7 +335,6 @@ shape = SubResource( 11 )
 "gallery",
 ]]
 position = Vector2( 260.77, 290.917 )
-texture = ExtResource( 15 )
 
 [node name="sprite4" type="Area2D" parent="apps/archive/Sprite4"]
 position = Vector2( -160.77, -150.917 )
@@ -352,7 +347,6 @@ shape = SubResource( 12 )
 "gallery",
 ]]
 position = Vector2( 104.006, 438.636 )
-texture = ExtResource( 15 )
 
 [node name="sprite5" type="Area2D" parent="apps/archive/Sprite5"]
 position = Vector2( -4.00598, -298.636 )
@@ -365,7 +359,6 @@ shape = SubResource( 13 )
 "gallery",
 ]]
 position = Vector2( 262.277, 440.144 )
-texture = ExtResource( 15 )
 
 [node name="sprite6" type="Area2D" parent="apps/archive/Sprite6"]
 position = Vector2( -162.277, -300.144 )
@@ -392,6 +385,9 @@ margin_top = 534.0
 margin_right = 60.0
 margin_bottom = 548.0
 text = "1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="col" type="CollisionShape2D" parent="apps/archive/page1"]
 position = Vector2( 55.3, 541.801 )

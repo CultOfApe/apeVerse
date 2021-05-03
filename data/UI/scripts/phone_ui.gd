@@ -13,7 +13,7 @@ func _ready():
 	for item in folder:
 		if "thumb" in item:
 			gallery_thumbs.push_back(item)
-		else:
+		elif !"import" in item:
 			gallery.push_back(item)
 			
 	contactNode.connect("call", self, "_on_call")
@@ -54,22 +54,24 @@ func start_phone_app(app, event):
 		var pagenumbers_shown = ceil(float(gallery_thumbs.size())/6)
 		
 		#first hide all images and show only amount of pages required
-		for nodes in range(6):
-			get_node(node + str(i+1)).hide()
-			if i < pagenumbers_shown:
-				get_node(page_number + str(i+1)).show()
+		for page in range(6):
+			get_node(node + (str(page + 1))).hide() # hack to hide all thumbs. Do with groups instead.
+			if page < pagenumbers_shown:
+				get_node(page_number + str(page+1)).show()
 			else:
-				get_node(page_number + str(i+1)).hide()
+				get_node(page_number + str(page+1)).hide()
 		
 		#now only show the image slots assigned images
+
 		for thumb in gallery_thumbs:
 			#Assign thumb textures corresponding to gallery page. If page is 3, assign textures in gallery_thumbs[13] to[18] 
-			if i < global.gallery_page * 6 +1 and i > global.gallery_page * 6 - 6:
+			if i < global.gallery_page * 6 + 1 and i > global.gallery_page * 6 - 6 and i < (gallery.size() +1):
 				var image = load("res://data/ui/gallery/" + thumb)
 				get_node(node + str(slot)).set_texture(image)
 				get_node(node + str(slot)).show()
 				slot += 1
-			i = i+1
+			i = i + 1
+		i = 1
 		
 	if event is InputEventMouseButton and !global.phone_app_running:
 		if event.button_index == BUTTON_LEFT:

@@ -185,7 +185,6 @@ func _on_page3_input_event(viewport, event, shape_idx):
 				global.gallery_page = 3
 				phone.start_phone_app("archive", event)	
 
-
 func _on_page4_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
@@ -193,14 +192,12 @@ func _on_page4_input_event(viewport, event, shape_idx):
 				global.gallery_page = 4
 				phone.start_phone_app("archive", event)	
 
-
 func _on_page5_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
 				global.gallery_page = 5
 				phone.start_phone_app("archive", event)	
-
 
 func _on_page6_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
