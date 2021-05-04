@@ -24,7 +24,7 @@ func _on_sprite1_input_event(viewport, event, shape_idx):
 				var node = viewer.instance()
 				node.set_name("viewer")
 				node.add_to_group("UI_lvl_3")
-				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 1 - 1]))
+				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 6 - 6]))
 				node.set_global_position(Vector2(40, 120))
 				$header.add_child(node)
 				
@@ -42,7 +42,7 @@ func _on_sprite2_input_event(viewport, event, shape_idx):
 				var node = viewer.instance()
 				node.set_name("viewer")
 				node.add_to_group("UI_lvl_3")
-				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 2 - 1]))
+				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 6 - 5]))
 				node.set_global_position(Vector2(40, 120))
 				$header.add_child(node)
 
@@ -61,7 +61,7 @@ func _on_sprite3_input_event(viewport, event, shape_idx):
 				var node = viewer.instance()
 				node.set_name("viewer")
 				node.add_to_group("UI_lvl_3")
-				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 3 - 1]))
+				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 6 - 4]))
 				node.set_global_position(Vector2(40, 120))
 				$header.add_child(node)
 
@@ -80,7 +80,7 @@ func _on_sprite4_input_event(viewport, event, shape_idx):
 				var node = viewer.instance()
 				node.set_name("viewer")
 				node.add_to_group("UI_lvl_3")
-				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 4 - 1]))
+				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 6 - 3]))
 				node.set_global_position(Vector2(40, 120))
 				$header.add_child(node)
 
@@ -99,7 +99,7 @@ func _on_sprite5_input_event(viewport, event, shape_idx):
 				var node = viewer.instance()
 				node.set_name("viewer")
 				node.add_to_group("UI_lvl_3")
-				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 5 - 1]))
+				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 6 - 2]))
 				node.set_global_position(Vector2(40, 120))
 				$header.add_child(node)
 
