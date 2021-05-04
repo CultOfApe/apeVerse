@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://data/scripts/dialogue_window.gd" type="Script" id=2]
+[ext_resource path="res://data/dialogue/scripts/dialogue_window.gd" type="Script" id=1]
 
 [node name="dialogue" type="Label"]
 margin_right = 220.0
@@ -9,7 +9,7 @@ mouse_filter = 1
 size_flags_vertical = 0
 custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "this is the characters dialogue"
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -24,6 +24,7 @@ size_flags_vertical = 0
 custom_colors/font_color = Color( 0.297546, 0.359194, 0.761719, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 text = "Name"
+
 [connection signal="gui_input" from="." to="." method="_on_dialogue_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_dialogue_mouse_entered"]
 [connection signal="mouse_entered" from="name" to="." method="_on_name_mouse_entered"]

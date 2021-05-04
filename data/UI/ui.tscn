@@ -2,6 +2,7 @@
 
 [ext_resource path="res://data/UI/nodes/game_settings.tscn" type="PackedScene" id=1]
 [ext_resource path="res://data/UI/scripts/ui.gd" type="Script" id=2]
+[ext_resource path="res://data/UI/nodes/settings.tscn" type="PackedScene" id=3]
 [ext_resource path="res://data/graphics/speech_bubble.png" type="Texture" id=6]
 [ext_resource path="res://data/graphics/UI/phone.png" type="Texture" id=7]
 [ext_resource path="res://data/graphics/UI/inventory.png" type="Texture" id=8]
@@ -10,7 +11,6 @@
 [ext_resource path="res://data/graphics/UI/calendar.png" type="Texture" id=11]
 [ext_resource path="res://data/graphics/saves/screenshot.png" type="Texture" id=12]
 [ext_resource path="res://data/UI/nodes/calendar_UI.tscn" type="PackedScene" id=15]
-[ext_resource path="res://data/asset scenes/settings.tscn" type="PackedScene" id=17]
 [ext_resource path="res://data/UI/nodes/phone_ui.tscn" type="PackedScene" id=18]
 [ext_resource path="res://data/UI/nodes/schoolbag_UI.tscn" type="PackedScene" id=19]
 [ext_resource path="res://data/UI/nodes/map_ui.tscn" type="PackedScene" id=20]
@@ -123,8 +123,6 @@ position = Vector2( 77.9949, 17.8947 )
 z_index = -99
 texture = ExtResource( 6 )
 
-[node name="settings" parent="." instance=ExtResource( 17 )]
-
 [node name="inventory" type="Area2D" parent="." groups=[
 "UI_icons",
 "UI_lvl_1",
@@ -224,6 +222,8 @@ visible = false
 visible = false
 
 [node name="mapUInew" type="Node" parent="."]
+
+[node name="settings" parent="." instance=ExtResource( 3 )]
 
 [connection signal="mouse_entered" from="inventory" to="." method="_on_schoolbag_mouse_entered"]
 [connection signal="mouse_exited" from="inventory" to="." method="_on_schoolbag_mouse_exited"]

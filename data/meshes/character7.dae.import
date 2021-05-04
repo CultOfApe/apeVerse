@@ -16,6 +16,7 @@ nodes/root_name="Character"
 nodes/root_scale=2.0
 nodes/custom_script=""
 nodes/storage=0
+nodes/use_legacy_names=true
 materials/location=1
 materials/storage=1
 materials/keep_on_reimport=true
