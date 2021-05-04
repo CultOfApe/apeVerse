@@ -1,9 +1,3 @@
-# apeVerse disclaimer
-
-Featurewise, this is basically the same as the philtroyGodot3 branch, with a bunch of code refactoring/simplification, fixes and new graphics.
-
-Reason for creating this repository is that I wanted to separate game and framework development, and since I´m focused on finalizing the framework right now, most development will happen here for the foreseeable future.
-
 # What is apeVerse?
 
 apeVERSE is an adventure game framework built with Godot (GDscript), currently in very early development.
@@ -20,7 +14,7 @@ Alpha one functionality:
 
 Editor functionality:
 
-- Basic dialogue editor (currently displays dialogue trees, but no editing possible)
+- Basic dialogue editor (currently displays dialogue trees, editing possible, but edits are not propagated to game)
 
 # What are the future plans for apeVerse?
 
@@ -34,7 +28,7 @@ I don´t currently plan to implement a verb system (eg. LucasArts games)
 
 # Is apeVerse ready for serious projects?
 
-No, it´s certainly possible to use it for smaller games, but it currently requires knowledge of the Godot editor, GDscript and JSON.
+No. It´s certainly possible to use it for smaller games, but it currently requires knowledge of the Godot editor, GDscript and JSON, and a lot of fiddling with files.
 
 Luckily there are several adventure game/Visual Novel frameworks for Godot on GitHub that are more feature complete, and might meet your requirement:
 
