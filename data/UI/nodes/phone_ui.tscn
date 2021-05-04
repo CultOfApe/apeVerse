@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://data/UI/scripts/phone_ui.gd" type="Script" id=1]
 [ext_resource path="res://data/graphics/phone_ui.png" type="Texture" id=2]
@@ -15,7 +15,6 @@
 [ext_resource path="res://data/UI/nodes/contact_node_mom.tscn" type="PackedScene" id=13]
 [ext_resource path="res://data/UI/scripts/ui_archive.gd" type="Script" id=14]
 [ext_resource path="res://data/graphics/UI/gallery_page_highlight.png" type="Texture" id=16]
-[ext_resource path="res://data/graphics/gallery/img10 - thumb.png" type="Texture" id=17]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 31.2339
@@ -545,6 +544,7 @@ margin_bottom = 609.0
 text = "Press Q to close"
 
 [node name="full_view" type="Panel" parent="apps"]
+visible = false
 margin_left = 295.007
 margin_top = 1689.44
 margin_right = 455.007
@@ -553,7 +553,6 @@ margin_bottom = 1849.44
 [node name="sprite" type="Sprite" parent="apps/full_view"]
 position = Vector2( 79.3818, 79.4451 )
 z_index = 103
-texture = ExtResource( 17 )
 
 [node name="contacts" type="Panel" parent="apps" groups=[
 "UI_lvl_2",
