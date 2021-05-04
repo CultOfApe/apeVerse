@@ -239,7 +239,7 @@ func _pick_reply(n):
 		get_parent().get_node("ui").toggle_ui_icons("show")
 		
 		if replies[n].has("bubble"):
-			get_parent().thought_bubble(replies[n]["bubble"])
+			global.balloon(replies[n]["bubble"], global.gameRoot.get_node("player"), "player")
 		
 		global.change_cursor("default")
 	
