@@ -78,19 +78,19 @@ func _input(event):
 		print("UI exit")
 		global.UI_lvl = 0
 		ui_exit(null)	
+		global.change_cursor("default")
 			
 	if event.is_action_pressed("ui_exit") and global.UI_lvl == 2:
 		global.UI_lvl = 1
 		global.phone_app_running = false
 		for app in get_tree().get_nodes_in_group("UI_lvl_2"):
 			app.hide()			
-		global.change_cursor("default")
 
 	if event.is_action_pressed("ui_exit") and global.UI_lvl == 3:
 		global.UI_lvl = 2
 		for app in get_tree().get_nodes_in_group("UI_lvl_3"):
 			app.hide()			
-		global.change_cursor("default")
+
 #   The below is disabled for now, but will be refactored at a later time
 #	if event.is_action_pressed("ui_inventory") and !mapOpen and !phoneOpen and !calendarOpen and !global.settings and !global.dialogue_running:
 #		if schoolbagOpen!=true:
@@ -138,17 +138,10 @@ func _input(event):
 			if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT and event.is_pressed():
 				global.UI_lvl = 1
 				toggle_ui_overlay("calendar_ui", "show", calendarShowPos)
-				
-#	if event.is_action_pressed("ui_editor") and !global.editor_running:
-#		global.blocking_ui = true
-#
-#	if event.is_action_pressed("ui_down") and global.editor_running:
-#		global.blocking_ui = false
 
 func item_in_hand(a,b):		
 	var tempTex = load(b)
 	Input.set_custom_mouse_cursor(tempTex)
-#	$item_in_hand.set_texture(tempTex)
 	ui_exit(null)
 		
 func exit_map():

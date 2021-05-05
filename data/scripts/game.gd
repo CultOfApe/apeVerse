@@ -69,16 +69,6 @@ func change_location(location):
 
 func _look_at(text):
 	pass
-
-#func thought_bubble(text):
-#	if text != "": # and isLookingAt == false:
-#		bubble.show()
-#		materialize.interpolate_property(bubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-#		materialize.start()
-#		isLookingAt = true
-#
-#	bubble.add_color_override("font_color", Color(0,0,0,1))
-#	bubble.set_text(text)
 	
 func _highlight(text):
 	descriptionLabel.set_text(text)
