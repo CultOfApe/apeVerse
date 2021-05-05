@@ -29,9 +29,9 @@ var gameType 		: String
 
 
 #TODO: these variables are confusing. Go over and add clarifying comments to each
-var day 			: int
-var gameday 		: int
-var weekday 		: String
+var day 			: int		# day number from jan 1st, given all 30 day months
+var gameday 		: int		# day number from start of game
+var weekday 		: String	# monday through sunday
 var timeofday 		: String
 var month 		
 var monthNum		: int
@@ -321,7 +321,7 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 #		print(i.get_name())
 	sceneGeometry.connect("on_click", self, "load_scene")
 		
-#	TODO: how to handle scene specific cameras?
+#	TODO: scene specific cameras
 
 	if previous_location != currentLocation:
 		pass

@@ -107,7 +107,7 @@ func _talk_to(id, npcPos, type):
 
 func _pick_reply(n):
 	replyCurrent =-1
-	
+
 	#if there is a variables array in json, update game variables
 	if replies[n].has("variables"):
 		for item in range(0, replies[n]["variables"].size()):
@@ -129,13 +129,17 @@ func _pick_reply(n):
 		var eventDay
 		var eventWeekday
 		
+#		print("today is: " + str(today))			156
+#		print("weekday is:" + global.weekday)		tuesday
+#		print("gameday is:" + str(global.gameday)) 	1
+		
 		#what´s the weekday of the event?
 		if eventCache["weekday"] != "same":
-			eventDay = global.day + global.gameData["daycount"][eventCache["weekday"]] - today
+			eventDay = global.gameData["daycount"][eventCache["weekday"]] - 1
 			eventWeekday = global.gameData["weekday"][eventDay - 1]
 		else:
 			eventWeekday = global.weekday
-			eventDay = global.day
+			eventDay = today
 
 		var event_class = {
 			eventCache["timeofday"] : {"event":eventCache["event"], 

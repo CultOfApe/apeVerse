@@ -64,11 +64,11 @@
 		"morning": {
 			"actors": {
 				"ellie": {
-					"dialogue": "ellie.json",
+					"dialogue": "res://data/dialogue/json/ellie.json",
 					"branch": "a",
 					"pose": "ellie_idle.scn",
-					"pos": {"x": 200,"y": 280,"z": 90},
-					"rot": {"x": 200,"y": 280,"z": 90}
+					"pos": {"x": -6,"y": 1,"z": -4},
+					"rot": {"x": 0,"y": 50,"z": 0}
 				},
 				"bobby": {
 					"dialogue": "default",
@@ -82,11 +82,11 @@
 		"noon": {
 			"actors": {
 				"ellie": {
-					"dialogue": "ellie.json",
+					"dialogue": "res://data/dialogue/json/ellie.json",
 					"branch": "a",
 					"pose": "ellie_idle.scn",
-					"pos": {"x": 200,"y": 280,"z": 90},
-					"rot": {"x": 200,"y": 280,"z": 90}
+					"pos": {"x": -6,"y": 1,"z": -4},
+					"rot": {"x": 0,"y": 50,"z": 0}
 				},
 				"bobby": {
 					"dialogue": "default",

@@ -1,7 +1,7 @@
 extends Control
 
 onready var screenBlur 	: TextureRect	= $"../effects/blurfx"
-onready var clickButton : Object  		= load("res://data/ui/nodes/node_click_button.tscn") #PackedScene
+onready var clickButton : Object  		= load("res://data/editor/assets/node_click_button.tscn") #PackedScene
 onready var editorNode 	: Object  		= load("res://data/editor/assets/Editor_panel_label.tscn") #PackedScene
 onready var SCREENSIZE 	: Vector2 		= get_viewport().get_visible_rect().size
 
