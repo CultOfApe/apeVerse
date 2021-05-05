@@ -282,6 +282,13 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 			
 			_add_to_scene("actor", name, "npcs", rot, pos)
 			
+	if locationData.has("objects"):
+		for name in locationData["objects"].keys():
+			pos = locationData["objects"][name]["pos"]
+			rot = locationData["objects"][name]["rot"]
+
+			_add_to_scene("object", name, "objects", rot, pos)
+			
 	#TODO: use the template above to complete this conditional
 	if eventOverride != null and eventOverride.has("add") and eventOverride["calendar"]["location"] == currentLocation:
 		if  eventOverride["add"].has("actor"):
@@ -294,12 +301,6 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 					print("Actor override: " + eventOverride["add"]["actor"][i]["id"])
 					_add_to_scene("actor", eventOverride["add"]["actor"][i]["id"], "npcs", rot, pos)
 		
-	if locationData.has("objects"):
-		for name in locationData["object"].size():
-			pos = locationData["objects"][name]["pos"]
-			rot = locationData["actors"][name]["rot"]
-			
-			_add_to_scene("object", name, "objects", rot, pos)
 				
 	#TODO: use the template above to complete this conditional		
 	if eventOverride != null and eventOverride.has("add"):
@@ -325,8 +326,6 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 
 	if previous_location != currentLocation:
 		pass
-		
-	_add_to_scene("object", "gift", "objects", Vector3(0,0,0), Vector3(-2,1.7,-3.5))
 		
 	print("DEBUG end")
 	print("----------------------------")
