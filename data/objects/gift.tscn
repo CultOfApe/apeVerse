@@ -18,3 +18,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.68911, -3.68001 )
 [node name="CollisionShape" type="CollisionShape" parent="trigger"]
 transform = Transform( 1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 2.63164, -0.0444158, -0.972901 )
 shape = SubResource( 1 )
+
+[connection signal="input_event" from="." to="." method="_on_gift_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_gift_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_gift_mouse_exited"]
+[connection signal="input_event" from="trigger" to="." method="_on_trigger_input_event"]
+[connection signal="mouse_entered" from="trigger" to="." method="_on_trigger_mouse_entered"]
+[connection signal="mouse_exited" from="trigger" to="." method="_on_trigger_mouse_exited"]

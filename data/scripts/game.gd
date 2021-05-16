@@ -40,6 +40,9 @@ func _ready():
 func connect_stuff():
 	for object in get_node("objects").get_children():
 		object.connect("look_at", self, "_look_at")
+	for object in get_node("objects").get_children():
+		object.connect("highlight", self, "_highlight")
+		
 	for object in get_node("npcs").get_children():
 		object.connect("look_at", self, "_look_at")
 	for object in get_node("npcs").get_children():
@@ -59,7 +62,7 @@ func change_location(location):
 	#find alternative solution
 
 func _look_at(text):
-	pass
+	global.balloon(text, get_tree().get_root().get_node("game").get_node("player"), "player")
 	
 func _highlight(text):
 	descriptionLabel.set_text(text)

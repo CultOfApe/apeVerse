@@ -44,10 +44,8 @@ func _on_npc_trigger_mouse_enter():
 	if global.itemInHand == "" and global.blocking_ui!=true:
 		var cursor : Object = load("res://data/graphics/cursor_talk.png")
 		Input.set_custom_mouse_cursor(cursor)
-	if global.itemInHand == "" and global.blocking_ui!=true:
 		emit_signal("highlight", identity)
-	else:
-		if global.blocking_ui!=true:
+	elif global.blocking_ui!=true:
 			emit_signal("highlight", "Give " + global.itemInHand + " to " + identity + "?")
 			
 # handles response to gifts
