@@ -201,7 +201,6 @@ position = Vector2( 1084.03, 323.77 )
 shape = SubResource( 10 )
 
 [node name="page1" type="Area2D" parent="savegames"]
-visible = false
 position = Vector2( 469.045, 114.063 )
 scale = Vector2( 1.5, 1.5 )
 z_index = 99

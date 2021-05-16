@@ -99,7 +99,7 @@ shape = SubResource( 5 )
 [node name="inventory_items" type="Container" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
-mouse_filter = 0
+
 [connection signal="input_event" from="container/panel/tabs/tex_tab/tools" to="." method="_on_tools_input_event"]
 [connection signal="mouse_entered" from="container/panel/tabs/tex_tab/tools" to="." method="_on_tools_mouse_entered"]
 [connection signal="mouse_exited" from="container/panel/tabs/tex_tab/tools" to="." method="_on_tools_mouse_exited"]

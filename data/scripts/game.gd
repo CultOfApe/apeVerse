@@ -2,11 +2,6 @@ extends Node
 
 signal timer_end
 
-#flags/states
-#var isMoving 		: bool = false
-#var isRotating 		: bool = false
-#var noMoveOnClick 	: bool = false
-#var dialogueRunning : bool = false
 var isLookingAt 	: bool = false
 
 var day 			: int = 2
@@ -15,10 +10,6 @@ var month 			: int = 6
 var dayOfMonth 		: int = 1
 
 var tNode 		
-
-#var thoughts_showing: bool = false
-
-#var sceneData : Dictionary
 
 onready var descriptionLabel 	: Label = $"ui/descriptionLabel"
 onready var bubble 				: Label = $"ui/bubble"
@@ -30,7 +21,7 @@ onready var dissolve 			: Tween = $"effects/dissolve"
 onready var viewsize = get_viewport().get_visible_rect().size
 
 func _ready():
-	var cursor = load("res://data/graphics/cursor_default.png")
+	var cursor := load("res://data/graphics/cursor_default.png")
 	Input.set_custom_mouse_cursor(cursor)
 	
 	set_process(true)
@@ -93,7 +84,7 @@ func _wait( seconds ):
 	yield(self,"timer_end")
 
 func _create_timer(object_target, float_wait_time, bool_is_oneshot, string_function):
-	var timer = Timer.new()
+	var timer := Timer.new()
 	timer.set_one_shot(bool_is_oneshot)
 	timer.set_timer_process_mode(0)
 	timer.set_wait_time(float_wait_time)

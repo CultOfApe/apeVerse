@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://data/UI/nodes/game_settings.tscn" type="PackedScene" id=1]
 [ext_resource path="res://data/UI/scripts/ui.gd" type="Script" id=2]
 [ext_resource path="res://data/UI/nodes/settings.tscn" type="PackedScene" id=3]
+[ext_resource path="res://data/fonts/adamwarrenpro-bold.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://data/graphics/speech_bubble.png" type="Texture" id=6]
 [ext_resource path="res://data/graphics/UI/phone.png" type="Texture" id=7]
 [ext_resource path="res://data/graphics/UI/inventory.png" type="Texture" id=8]
@@ -16,10 +17,11 @@
 [ext_resource path="res://data/UI/nodes/map_ui.tscn" type="PackedScene" id=20]
 
 [sub_resource type="DynamicFont" id=1]
-size = 15
+outline_size = 1
+outline_color = Color( 0.0862745, 0.00392157, 0.00392157, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 9 )
+font_data = ExtResource( 4 )
 
 [sub_resource type="DynamicFont" id=2]
 size = 30
@@ -58,7 +60,7 @@ margin_right = 1882.0
 margin_bottom = 961.0
 size_flags_vertical = 0
 custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 0.550763, 0.538559, 0.761719, 1 )
+custom_colors/font_color = Color( 0.780392, 0.776471, 0.87451, 1 )
 text = "Monday, 8 AM"
 align = 2
 __meta__ = {

@@ -63,7 +63,7 @@ func itemGiven(id):
 
 func _on_npc_trigger_mouse_exit():
 	if global.itemInHand == "" and global.blocking_ui != true and global.dialogue_running != true:
-		var cursor : Object = load("res://data/graphics/cursor_default.png")
+		var cursor := load("res://data/graphics/cursor_default.png")
 		Input.set_custom_mouse_cursor(cursor)
 	emit_signal("highlight", "")
 	emit_signal("look_at", "")
@@ -75,8 +75,8 @@ func _on_npc_trigger_input_event(camera, event, click_position, click_normal, sh
 				emit_signal("dialogue", identity, self.get_transform().origin, "default")
 
 			else:
-				var keys = global.inventoryData.keys()
-				var cursor : Object = load("res://data/graphics/cursor_default.png")
+				var keys := global.inventoryData.keys()
+				var cursor := load("res://data/graphics/cursor_default.png")
 				Input.set_custom_mouse_cursor(cursor)
 				itemGiven(global.itemInHand)
 				#global.inventoryData["junk"].remove(0)

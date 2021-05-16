@@ -19,10 +19,8 @@ func _ready():
 						"thumb" : null,
 						"data" : {}
 					}
-		
-		print("page 1:")
-		print(global.saveData["page" + String(global.save_page)])
-		
+					
+		# TODO: should only run when settings menu is called 
 		pop_nodes(global.save_page)
 
 func _process(delta):
@@ -32,26 +30,32 @@ func pop_nodes(page):
 	for save in range(6):
 		var save_node = get_node("savegames/save" + str(save+1))
 		var saveName = "save" + String(save + 1)
+		print(save + 1)
 		
 		if global.saveData["page" + String(global.save_page)]:
+			print("has save page!")
 			if global.saveData["page" + String(global.save_page)].has(saveName):
 				if global.saveData["page" + String(global.save_page)][saveName]["thumb"] == "save_add":
+					print("is save_add!")
 					var image = load("res://data/graphics/saves/save_add.png")
 					save_node.set_texture(image)
 				elif global.saveData["page" + String(global.save_page)][saveName]["thumb"] != null:	
-					print(global.saveData["page" + String(global.save_page)][saveName]["thumb"])
+					print("is thumb!")
 					var image = load("user://" + saveName + ".png")
 					save_node.set_texture(image)
+				elif global.saveData["page" + String(global.save_page)][saveName]["thumb"] == null:	
+					print("is null!")
 			
 func save_to_slot(id):
 	global.capture.resize(500,281,1)
 	var save_name = "save" + str(id)
 	var tmp = {			
-				"id" : null,
+				"id" : save_name,
 				"thumb" : "save_add",
 				"data" : []
 			}	
-			
+	
+	# if next save slot is on next page, increment page number
 	if id < 6:
 		global.saveData["page" + String(global.save_page)]["save" + str(id+1)] = tmp
 	elif id == 6:
@@ -63,15 +67,15 @@ func save_to_slot(id):
 	global.capture.save_png("user://" + save_name + ".png")
 	
 	var texture = ImageTexture.new()
+	var save_node = get_node("savegames/save" + str(id))
 	texture.create_from_image(global.capture)
+	save_node.set_texture(texture)
 
 	global.saveData["page" + String(global.save_page)][save_name].thumb = save_name
-	
-#	print(global.save_page)
-#	print(global.saveData["page" + String(global.save_page)])
-	 
-	pop_nodes(global.save_page)
+
 	global._save_game(save_name) # This whole script needs to be refactored, but at least save functionality skeleton taking shape
+	
+	pop_nodes(global.save_page)
 
 
 func add_to_savedata(page):

@@ -5,14 +5,14 @@ onready var clickButton : Object  		= load("res://data/editor/assets/node_click_
 onready var editorNode 	: Object  		= load("res://data/editor/assets/Editor_panel_label.tscn") #PackedScene
 onready var SCREENSIZE 	: Vector2 		= get_viewport().get_visible_rect().size
 
-var currentDialogue
-var currentPath
-var currentBranch
+var currentDialogue		: String
+var currentPath			: String
+var currentBranch		: String
 var previousBranch = null
 var reverse = false
 var prevSession = false
 
-var nodeChain = {}# Array containing reference to all current nodes in dialogue tree, hierarchically
+var nodeChain 			: Dictionary = {} # Array containing reference to all current nodes in dialogue tree, hierarchically
 var nodesOrigin
 
 var JSONfiles 			: Array

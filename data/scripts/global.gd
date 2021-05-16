@@ -195,7 +195,7 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 	previous_location = currentLocation
 	currentLocation = sceneLocation
 	
-	#ugly, hardcoded, placeholder daytime transition. Works fine for now.
+	# ugly, hardcoded, placeholder daytime transition. Works fine for now.
 	if sceneData[scene]["environment"] == "exterior":
 		if timeofday == "morning":
 			environmentLight(30, Color(0.8, 1, 0.8, 0.5), 0.7, 0.6, Vector3(0, 0, 0))
@@ -296,7 +296,6 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 				if !removedActors.has(i) or !removedActors.has("all"):
 					pos = eventOverride["add"]["actor"][i]["pos"]
 					rot = eventOverride["add"]["actor"][i]["rot"]
-#					charData[name]["dialogue"] = eventOverride["add"]["actor"][i]["dialogue"]
 					actor = load("res://data/npcs/" + eventOverride["add"]["actor"][i]["id"] + ".tscn")
 					print("Actor override: " + eventOverride["add"]["actor"][i]["id"])
 					_add_to_scene("actor", eventOverride["add"]["actor"][i]["id"], "npcs", rot, pos)
@@ -315,15 +314,9 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 	eventOverride = {}
 	
 	sceneGeometry 	= get_tree().get_root().get_node("game").get_node("scene").get_node("Area")
-#	for i in sceneGeometry.get_children():
-#		print(i.get_name())
-#
-#	for i in sceneGeometry.get_node("Area").get_children():
-#		print(i.get_name())
 	sceneGeometry.connect("on_click", self, "load_scene")
 		
 #	TODO: scene specific cameras
-
 	if previous_location != currentLocation:
 		pass
 		
@@ -371,8 +364,6 @@ func save_file(filename, data):
 	file.close()
 	
 func _save_game(id):
-#	saveData["player"]["position"] = gameRoot.get_node("player").get_positon()
-#	saveData["player"]["rotation"] = gameRoot.get_node("player").get_rotation()
 	saveData["currentLocation"] = currentLocation
 	saveData["eventData"] = eventData
 	saveData["gameVars"] = gameVars
@@ -398,20 +389,6 @@ func _load_game(id):
 	load_scene(currentLocation)
 	
 func balloon(text, target, type):
-	#TODO: add another value: "type", with possibilities "player" or "npc"
-	#TODO: use separate bubble for NPCs, or better, create dynamically, as main bubble always follows player.
-#	if text != "": # and isLookingAt == false:
-#		playerBubble.show()
-#		if global.gameType == "3D":
-#			playerBubble.set_position(gameRoot.get_node("Camera").unproject_position(target.translation + Vector3(0,2.5,0)) - Vector2(30,0))
-##		elif global.gameType == "3D" and type = "npc":
-##			NPCbubble.set_position(gameRoot.get_node("Camera").unproject_position(target.translation + Vector3(0,2.5,0)) - Vector2(30,0))
-#		materialize.interpolate_property(playerBubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-#		materialize.start()
-#		lookingAt = true
-
-#	playerBubble.add_color_override("font_color", Color(0,0,0,1))
-#	playerBubble.set_text(text)
 	if text != "": # and isLookingAt == false:
 		if global.gameType == "3D" and type == "player":
 			playerBubble.show()
@@ -428,8 +405,3 @@ func balloon(text, target, type):
 			npcBubble.add_color_override("font_color", Color(0,0,0,1))
 			npcBubble.set_text(text)
 		lookingAt = true
-
-#func dissolve():
-#	dissolve.interpolate_property(bubble, "modulate", Color(1,1,1,1), Color(1,1,1,0), 1.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-#	dissolve.start()
-#	lookingAt = false

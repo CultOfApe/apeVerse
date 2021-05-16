@@ -10,7 +10,7 @@ var dialogue	: Dictionary
 var branch 		: String = ""
 var reply		: int
 var modifier 	: int = 1
-var avatar = null
+var avatar 		= null
 
 func _ready():
 	pass
@@ -66,7 +66,7 @@ func _on_add_pressed():
 #		}
 #	)
 
-# TODO: Doesn´t actually save anything yet
+# TODO: Doesn´t actually save anything yet, will crash when saving a dialogue node :P
 func _on_save_pressed():
 	if $save.get_text() == "SAVE":
 		$"indicator".set_text("SAVED")

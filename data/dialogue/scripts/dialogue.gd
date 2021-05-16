@@ -4,10 +4,10 @@ extends Node2D
 #enter automatically choses first reply?
 
 #some of the below cannot be cast as dictionaries, because of array and dictionary mixing in the code
-onready var dialogPanel 			  = load("res://data/dialogue/nodes/dialogue_window.tscn")
-onready var replyButton 	: Object  = load("res://data/dialogue/nodes/reply.tscn")
-onready var screenBlur 		: Object = $"../effects/blurfx"
-onready var effectBlurUI 	: Object = $"../effects/tween"
+onready var dialogPanel 	:= load("res://data/dialogue/nodes/dialogue_window.tscn")
+onready var replyButton 	:= load("res://data/dialogue/nodes/reply.tscn")
+onready var screenBlur 		:= $"../effects/blurfx"
+onready var effectBlurUI 	:= $"../effects/tween"
 
 var npcDialogue 	: Dictionary
 var dialogue 		: Dictionary
@@ -56,13 +56,13 @@ func _input(event):
 		if event.is_action_pressed("ui_down") and replyCurrent != numReplies-1:
 			replyCurrent += 1
 			for reply in replyContainer:
-				var node = get_node(reply)
+				var node := get_node(reply)
 				node.add_color_override("font_color", Color(1,1,1))
 			get_node(replyContainer[replyCurrent]).add_color_override("font_color", Color(1,0,1))
 		if event.is_action_pressed("ui_up") and replyCurrent != 0:
 			replyCurrent -= 1
 			for reply in replyContainer:
-				var node = get_node(reply)
+				var node := get_node(reply)
 				node.add_color_override("font_color", Color(1,1,1))
 			get_node(replyContainer[replyCurrent]).add_color_override("font_color", Color(1,0,1))
 		#TODO: not working like it should. Look over, old code.
@@ -122,7 +122,7 @@ func _pick_reply(n):
 	#This should probably be written from scratch with all the changes made to the event system since written		
 	if replies[n].has("event"):
 		
-		var eventCache = global.load_json("res://data/events/" + replies[n]["event"][0]["id"] + ".json")
+		var eventCache : Dictionary = global.load_json("res://data/events/" + replies[n]["event"][0]["id"] + ".json")
 		
 		var today = global.day
 		var currentWeekday = global.gameData["daycount"][global.weekday]
@@ -141,7 +141,7 @@ func _pick_reply(n):
 			eventWeekday = global.weekday
 			eventDay = today
 
-		var event_class = {
+		var event_class := {
 			eventCache["timeofday"] : {"event":eventCache["event"], 
 			"type": eventCache["type"], 
 			"icon": eventCache["calendar"]["icon"]}
@@ -200,7 +200,7 @@ func _pick_reply(n):
 	if replies[n].has("progress"):
 		# TODO: if progress has a location - update global.sceneData override instead of charData
 		for item in range(0, replies[n]["progress"].size()):
-			var affected = replies[n]["progress"][item]["name"]
+			var affected : String = replies[n]["progress"][item]["name"]
 			
 			# TODO: allow for dialogue change for specific locations
 			if replies[n]["progress"][item]["dialogue"].ends_with("phone.json"):
@@ -257,7 +257,7 @@ func _reply_mouseover(mouseover, reply):
 
 func start_dialogue(json, type):
 
-	var cursor = load("res://data/graphics/cursor_arrow.png")
+	var cursor := load("res://data/graphics/cursor_arrow.png")
 	Input.set_custom_mouse_cursor(cursor)
 	
 #	TODO: when calling a dialogue, call start_dialogue("ellie_date_0" + str(global.chardata["relationship"]) + ".json")
@@ -361,7 +361,7 @@ func create_labels(labels):
 	kill_dialogue()
 	for lbl in labels:
 		if lbl == "panel":
-			var node = Panel.new()
+			var node := Panel.new()
 			node.set_name(lbl)
 			$"ui_dialogue".add_child(node)
 		if lbl == "dialogue":
