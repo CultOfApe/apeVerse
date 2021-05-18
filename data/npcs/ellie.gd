@@ -72,8 +72,7 @@ func _on_npc_trigger_input_event(camera, event, click_position, click_normal, sh
 
 			else:
 				var keys := global.inventoryData.keys()
-				var cursor := load("res://data/graphics/cursor_default.png")
-				Input.set_custom_mouse_cursor(cursor)
+				global.change_cursor("default")
 				itemGiven(global.itemInHand)
 				#global.inventoryData["junk"].remove(0)
 				

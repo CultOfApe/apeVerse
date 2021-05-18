@@ -2,7 +2,7 @@
 
 [ext_resource path="res://data/UI/scripts/game_settings.gd" type="Script" id=1]
 [ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://data/graphics/saves/save_add.png" type="Texture" id=3]
+[ext_resource path="res://data/UI/graphics/save_add.png" type="Texture" id=3]
 
 [sub_resource type="DynamicFont" id=1]
 size = 18

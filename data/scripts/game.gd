@@ -21,8 +21,7 @@ onready var dissolve 			: Tween = $"effects/dissolve"
 onready var viewsize = get_viewport().get_visible_rect().size
 
 func _ready():
-	var cursor := load("res://data/ui/graphics/cursor_default.png")
-	Input.set_custom_mouse_cursor(cursor)
+	global.change_cursor("default")
 	
 	set_process(true)
 	set_process_input(true)

@@ -279,8 +279,8 @@ func _setup_avatar_selector():
 	
 	var iter = 0
 	var avatar_thumb = load("res://data/editor/assets/button_avatar.tscn")
-	for i in global.list_files_in_directory("res://data/graphics/avatars"):
-		$select.add_icon_item(load("res://data/graphics/avatars/" + i), true)
+	for i in global.list_files_in_directory("res://data/editor/graphics/avatars"):
+		$select.add_icon_item(load("res://data/editor/graphics/avatars/" + i), true)
 		$select.set_item_metadata (iter, i)
 		iter += 1 
 	
@@ -310,7 +310,7 @@ func _on_select_item_selected(index):
 		$avatar.id = "index"
 #		get_node("avatar/avatar").set_frame(2)
 	if "png" in $select.get_item_metadata(index):
-		get_node("avatar/Button").set_button_icon(load("res://data/graphics/avatars/" + $select.get_item_metadata(index)))
+		get_node("avatar/Button").set_button_icon(load("res://data/editor/graphics/avatars/" + $select.get_item_metadata(index)))
 		
 	$select.hide()
 	

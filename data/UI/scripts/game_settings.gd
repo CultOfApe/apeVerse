@@ -36,7 +36,7 @@ func pop_nodes(page):
 			if global.saveData["page" + String(global.save_page)].has(save_name):
 				if global.saveData["page" + String(global.save_page)][save_name]["thumb"] == "save_add":
 #					print("is save_add!")
-					var image = load("res://data/graphics/saves/save_add.png")
+					var image = load("res://data/ui/graphics/save_add.png")
 					save_node.set_texture(image)
 				elif global.saveData["page" + String(global.save_page)][save_name]["thumb"] != null:	
 #					print("is thumb!")

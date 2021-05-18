@@ -257,8 +257,7 @@ func _reply_mouseover(mouseover, reply):
 
 func start_dialogue(json, type):
 
-	var cursor := load("res://data/graphics/cursor_arrow.png")
-	Input.set_custom_mouse_cursor(cursor)
+	global.change_cursor("arrow")
 	
 #	TODO: when calling a dialogue, call start_dialogue("ellie_date_0" + str(global.chardata["relationship"]) + ".json")
 	global.dialogue_running = true

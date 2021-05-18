@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://data/editor/scripts/editorNode.gd" type="Script" id=1]
-[ext_resource path="res://data/graphics/UI/add.png" type="Texture" id=2]
+[ext_resource path="res://data/editor/graphics/add.png" type="Texture" id=2]
 
 [node name="Panel" type="Panel"]
 margin_right = 40.0
@@ -116,6 +116,7 @@ margin_top = 70.0
 margin_right = 86.0
 margin_bottom = 94.0
 text = "cutscene"
+
 [connection signal="gui_input" from="Label" to="." method="_on_Label_gui_input"]
 [connection signal="mouse_entered" from="Label" to="." method="_on_Label_mouse_entered"]
 [connection signal="mouse_exited" from="Label" to="." method="_on_Label_mouse_exited"]
