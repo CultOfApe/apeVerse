@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://data/UI/scripts/contact_node.gd" type="Script" id=1]
-[ext_resource path="res://data/graphics/phone_call.png" type="Texture" id=2]
+[ext_resource path="res://data/UI/graphics/phone_call.png" type="Texture" id=2]
 [ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -87,4 +87,5 @@ text = "648 459 865"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="input_event" from="fondo/call" to="." method="_on_call_input_event"]

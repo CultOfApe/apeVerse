@@ -5,10 +5,10 @@ var tab = null
 var inventoryData
 var tab_tab = 1
 
-var tabTexTools = preload("res://data/graphics/inventory_tab_tools.png")
-var tabTexGifts = preload("res://data/graphics/inventory_tab_gifts.png")
-var tabTexMisc = preload("res://data/graphics/inventory_tab_misc.png")
-var tabTexJunk = preload("res://data/graphics/inventory_tab_junk.png")
+var tabTexTools = preload("res://data/ui/graphics/inventory_tab_tools.png")
+var tabTexGifts = preload("res://data/ui/graphics/inventory_tab_gifts.png")
+var tabTexMisc = preload("res://data/ui/graphics/inventory_tab_misc.png")
+var tabTexJunk = preload("res://data/ui/graphics/inventory_tab_junk.png")
 
 var inventory_node = preload("res://data/ui/nodes/inventory_node.tscn")
 
@@ -49,7 +49,7 @@ func pop_inventory():
 			node.set_position(Vector2(155 + count*70 - rtrn, 260 + row))
 			node.connect("change_cursor", get_node("/root/game/ui"), "item_in_hand")
 			$inventory_items.add_child(node)
-			var image = load("res://data/graphics/inv_" + global.inventoryData[category][count].id + ".png")
+			var image = load("res://data/ui/graphics/inv_" + global.inventoryData[category][count].id + ".png")
 			$inventory_items.get_node(global.inventoryData[category][count].id).set_texture(image)
 					
 

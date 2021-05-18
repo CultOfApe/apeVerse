@@ -3,12 +3,12 @@
 [ext_resource path="res://data/UI/scripts/phone_ui.gd" type="Script" id=1]
 [ext_resource path="res://data/graphics/phone_ui.png" type="Texture" id=2]
 [ext_resource path="res://data/graphics/phone_time.png" type="Texture" id=3]
-[ext_resource path="res://data/graphics/phone_call.png" type="Texture" id=4]
-[ext_resource path="res://data/graphics/phone_mail.png" type="Texture" id=5]
-[ext_resource path="res://data/graphics/phone_internet.png" type="Texture" id=6]
-[ext_resource path="res://data/graphics/phone_archive.png" type="Texture" id=7]
-[ext_resource path="res://data/graphics/phone_calendar.png" type="Texture" id=8]
-[ext_resource path="res://data/graphics/phone_games.png" type="Texture" id=9]
+[ext_resource path="res://data/UI/graphics/phone_games.png" type="Texture" id=4]
+[ext_resource path="res://data/UI/graphics/phone_call.png" type="Texture" id=5]
+[ext_resource path="res://data/UI/graphics/phone_mail.png" type="Texture" id=6]
+[ext_resource path="res://data/UI/graphics/phone_archive.png" type="Texture" id=7]
+[ext_resource path="res://data/UI/graphics/phone_calendar.png" type="Texture" id=8]
+[ext_resource path="res://data/UI/graphics/phone_internet.png" type="Texture" id=9]
 [ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=10]
 [ext_resource path="res://data/graphics/phone_home.png" type="Texture" id=11]
 [ext_resource path="res://data/UI/nodes/contact_node.tscn" type="PackedScene" id=12]
@@ -91,7 +91,7 @@ texture = ExtResource( 3 )
 
 [node name="phone" type="Sprite" parent="homescreen"]
 position = Vector2( -124.489, 262.294 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="phone" type="Area2D" parent="homescreen/phone"]
 
@@ -100,7 +100,7 @@ shape = SubResource( 1 )
 
 [node name="mail" type="Sprite" parent="homescreen"]
 position = Vector2( -42.7255, 261.395 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 
 [node name="mail" type="Area2D" parent="homescreen/mail"]
 
@@ -109,7 +109,7 @@ shape = SubResource( 2 )
 
 [node name="internet" type="Sprite" parent="homescreen"]
 position = Vector2( 41.2285, 261.116 )
-texture = ExtResource( 6 )
+texture = ExtResource( 9 )
 
 [node name="internet" type="Area2D" parent="homescreen/internet"]
 
@@ -136,7 +136,7 @@ shape = SubResource( 5 )
 
 [node name="games" type="Sprite" parent="homescreen"]
 position = Vector2( -125.376, 172.128 )
-texture = ExtResource( 9 )
+texture = ExtResource( 4 )
 
 [node name="games" type="Area2D" parent="homescreen/games"]
 
@@ -150,6 +150,9 @@ margin_top = -304.43
 margin_right = 177.913
 margin_bottom = -264.43
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="network" type="Label" parent="homescreen/notification_bar"]
 margin_left = 2.05334

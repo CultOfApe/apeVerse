@@ -6,7 +6,7 @@
 [ext_resource path="res://data/fonts/adamwarrenpro-bold.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://data/graphics/speech_bubble.png" type="Texture" id=6]
 [ext_resource path="res://data/graphics/UI/phone.png" type="Texture" id=7]
-[ext_resource path="res://data/graphics/UI/inventory.png" type="Texture" id=8]
+[ext_resource path="res://data/UI/graphics/inventory.png" type="Texture" id=8]
 [ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://data/graphics/UI/map.png" type="Texture" id=10]
 [ext_resource path="res://data/graphics/UI/calendar.png" type="Texture" id=11]
@@ -201,7 +201,7 @@ z_index = 97
 [node name="calendar_ui" parent="." groups=[
 "UI_lvl_1",
 ] instance=ExtResource( 15 )]
-position = Vector2( 274.88, 1076.54 )
+position = Vector2( 285.992, 1079.71 )
 z_index = 96
 
 [node name="cursor_default" type="Panel" parent="."]

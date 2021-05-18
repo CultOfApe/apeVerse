@@ -42,8 +42,7 @@ func _on_npc_trigger_mouse_enter():
 		"type"	: "npc"
 	}
 	if global.itemInHand == "" and global.blocking_ui!=true:
-		var cursor : Object = load("res://data/graphics/cursor_talk.png")
-		Input.set_custom_mouse_cursor(cursor)
+		global.change_cursor("talk")
 		emit_signal("highlight", identity)
 	elif global.blocking_ui!=true:
 			emit_signal("highlight", "Give " + global.itemInHand + " to " + identity + "?")
@@ -61,8 +60,7 @@ func itemGiven(id):
 
 func _on_npc_trigger_mouse_exit():
 	if global.itemInHand == "" and global.blocking_ui != true and global.dialogue_running != true:
-		var cursor := load("res://data/graphics/cursor_default.png")
-		Input.set_custom_mouse_cursor(cursor)
+		global.change_cursor("default")
 	emit_signal("highlight", "")
 	emit_signal("look_at", "")
 

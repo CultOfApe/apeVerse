@@ -26,8 +26,7 @@ func _on_trigger_mouse_entered():
 		"type"	: "object"
 	}
 	if global.itemInHand == "" and global.blocking_ui!=true:
-		var cursor : Object = load("res://data/graphics/cursor_look.png")
-		Input.set_custom_mouse_cursor(cursor)
+		global.change_cursor("look")
 		emit_signal("highlight", identity)
 	elif global.blocking_ui!=true:
 			emit_signal("highlight", "Use " + global.itemInHand + " with " + identity + "?")
@@ -35,8 +34,7 @@ func _on_trigger_mouse_entered():
 
 func _on_trigger_mouse_exited():
 	if global.itemInHand == "" and global.blocking_ui != true and global.dialogue_running != true:
-		var cursor := load("res://data/graphics/cursor_default.png")
-		Input.set_custom_mouse_cursor(cursor)
+		global.change_cursor("default")
 	emit_signal("highlight", "")
 	emit_signal("look_at", "")
 

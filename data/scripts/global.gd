@@ -131,7 +131,7 @@ func _process(delta):
 		get_tree().quit()
 		
 func change_cursor(id):
-	var cursor = load("res://data/graphics/cursor_" + id + ".png")
+	var cursor = load("res://data/ui/graphics/cursor_" + id + ".png")
 	Input.set_custom_mouse_cursor(cursor)
 
 # Hack solution that doesn´t work very well, but low priority for now
@@ -363,7 +363,7 @@ func save_file(filename, data):
 	file.store_line(to_json(data))
 	file.close()
 	
-func _save_game(id):
+func _save_game(id, page):
 	saveData["currentLocation"] = currentLocation
 	saveData["eventData"] = eventData
 	saveData["gameVars"] = gameVars

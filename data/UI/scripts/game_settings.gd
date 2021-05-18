@@ -1,8 +1,9 @@
 extends Panel
 
 func _ready():
+	init_nodes()
 	
-# TODO: make function
+func init_nodes():
 	if global.saveData.empty():
 		for i in range(6):
 			if i == 0:
@@ -23,43 +24,45 @@ func _ready():
 		# TODO: should only run when settings menu is called 
 		pop_nodes(global.save_page)
 
-func _process(delta):
-	pass
 	
 func pop_nodes(page):
 	for save in range(6):
 		var save_node = get_node("savegames/save" + str(save+1))
-		var saveName = "save" + String(save + 1)
-		print(save + 1)
+		var save_name = "save" + String(save + 1)
+#		print(savename)
 		
 		if global.saveData["page" + String(global.save_page)]:
-			print("has save page!")
-			if global.saveData["page" + String(global.save_page)].has(saveName):
-				if global.saveData["page" + String(global.save_page)][saveName]["thumb"] == "save_add":
-					print("is save_add!")
+#			print("has save page!")
+			if global.saveData["page" + String(global.save_page)].has(save_name):
+				if global.saveData["page" + String(global.save_page)][save_name]["thumb"] == "save_add":
+#					print("is save_add!")
 					var image = load("res://data/graphics/saves/save_add.png")
 					save_node.set_texture(image)
-				elif global.saveData["page" + String(global.save_page)][saveName]["thumb"] != null:	
-					print("is thumb!")
-					var image = load("user://" + saveName + ".png")
+				elif global.saveData["page" + String(global.save_page)][save_name]["thumb"] != null:	
+#					print("is thumb!")
+					var image = load("user://" + save_name + ".png")
 					save_node.set_texture(image)
-				elif global.saveData["page" + String(global.save_page)][saveName]["thumb"] == null:	
-					print("is null!")
+				elif global.saveData["page" + String(global.save_page)][save_name]["thumb"] == null:	
+					pass
+#					print("is null!")
+
+func save_template(id, thumb, data):
+	var save_info = {			
+				"id" : id,
+				"thumb" : thumb,
+				"data" : data
+			}
+	return save_info
 			
-func save_to_slot(id):
+func save_to_slot(id, save_page):
 	global.capture.resize(500,281,1)
 	var save_name = "save" + str(id)
-	var tmp = {			
-				"id" : save_name,
-				"thumb" : "save_add",
-				"data" : []
-			}	
 	
 	# if next save slot is on next page, increment page number
 	if id < 6:
-		global.saveData["page" + String(global.save_page)]["save" + str(id+1)] = tmp
+		global.saveData["page" + String(global.save_page)]["save" + str(id+1)] = save_template(save_name, "save_add", [])
 	elif id == 6:
-		global.saveData["page" + String(global.save_page + 1)]["save1"] = tmp
+		global.saveData["page" + String(global.save_page + 1)]["save1"] = save_template(save_name, "save_add", [])
 	
 	var dir = Directory.new()
 	if dir.file_exists("user://" + save_name + ".png"):
@@ -73,7 +76,7 @@ func save_to_slot(id):
 
 	global.saveData["page" + String(global.save_page)][save_name].thumb = save_name
 
-	global._save_game(save_name) # This whole script needs to be refactored, but at least save functionality skeleton taking shape
+	global._save_game(save_name, save_page) # This whole script needs to be refactored, but at least save functionality skeleton taking shape
 	
 	pop_nodes(global.save_page)
 
@@ -117,7 +120,7 @@ func _on_save1_input_event(viewport, event, shape_idx):
 			if event is InputEventMouseButton:
 				if event.button_index == BUTTON_LEFT:
 					if event.is_pressed():
-						save_to_slot(1)
+						save_to_slot(1, global.save_page)
 
 func _on_save2_mouse_entered():
 	save_fx($savegames/save2, Color(1,1,1,1))
@@ -131,7 +134,7 @@ func _on_save2_input_event(viewport, event, shape_idx):
 			if event is InputEventMouseButton:
 				if event.button_index == BUTTON_LEFT:
 					if event.is_pressed():
-						save_to_slot(2)
+						save_to_slot(2, global.save_page)
 
 
 func _on_save3_mouse_entered():
@@ -145,7 +148,7 @@ func _on_save3_input_event(viewport, event, shape_idx):
 			if event is InputEventMouseButton:
 				if event.button_index == BUTTON_LEFT:
 					if event.is_pressed():
-						save_to_slot(3)
+						save_to_slot(3, global.save_page)
 
 
 func _on_save4_mouse_entered():
@@ -159,7 +162,7 @@ func _on_save4_input_event(viewport, event, shape_idx):
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
 				if event.is_pressed():
-					save_to_slot(4)
+					save_to_slot(4, global.save_page)
 
 
 func _on_save5_mouse_entered():
@@ -173,7 +176,7 @@ func _on_save5_input_event(viewport, event, shape_idx):
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
 				if event.is_pressed():
-					save_to_slot(5)
+					save_to_slot(5, global.save_page)
 
 
 func _on_save6_mouse_entered():
@@ -188,7 +191,7 @@ func _on_save6_input_event(viewport, event, shape_idx):
 			if event.button_index == BUTTON_LEFT:
 				if event.is_pressed():
 					add_to_savedata("page" + String(global.save_page +1))
-					save_to_slot(6)
+					save_to_slot(6, global.save_page)
 
 
 func _on_load_mouse_entered():

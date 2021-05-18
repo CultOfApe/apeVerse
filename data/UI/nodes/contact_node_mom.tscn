@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://data/graphics/phone_call.png" type="Texture" id=2]
+[ext_resource path="res://data/UI/graphics/phone_call.png" type="Texture" id=2]
 [ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
