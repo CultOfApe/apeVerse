@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://data/scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://data/UI/ui.tscn" type="PackedScene" id=3]
@@ -9,7 +9,6 @@
 [ext_resource path="res://data/UI/graphics/crosshairs01.png" type="Texture" id=29]
 [ext_resource path="res://data/UI/graphics/crosshairs02.png" type="Texture" id=30]
 [ext_resource path="res://data/UI/graphics/crosshairs03.png" type="Texture" id=31]
-[ext_resource path="res://data/env.tres" type="Environment" id=33]
 
 [sub_resource type="GIProbeData" id=1]
 bounds = AABB( -14.7751, -12.9545, -14.3391, 29.5502, 25.909, 28.6782 )
@@ -73,11 +72,8 @@ script = ExtResource( 1 )
 
 [node name="pos3d" type="Position3D" parent="."]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="pos3d"]
-environment = ExtResource( 33 )
-
 [node name="DirectionalLight" type="DirectionalLight" parent="pos3d"]
-transform = Transform( 0.153615, -0.429527, 0.889893, 0.115044, 0.902232, 0.415623, -0.981411, 0.0385307, 0.188011, 36.4748, 32.3481, 18.0329 )
+transform = Transform( 0.153615, -0.429527, 0.889893, 0.115044, 0.902232, 0.415623, -0.981411, 0.0385308, 0.188011, 36.4748, 32.3481, 18.0329 )
 light_energy = 0.7
 light_specular = 0.0
 shadow_enabled = true

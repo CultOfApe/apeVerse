@@ -23,9 +23,6 @@ onready var viewsize = get_viewport().get_visible_rect().size
 func _ready():
 	global.change_cursor("default")
 	
-	set_process(true)
-	set_process_input(true)
-	
 	#This should be set in global already? Probably a leftover...	
 	$"ui/dateLabel".set_text(global.gameData.time[time] + ", " + global.weekday)	
 	

@@ -98,6 +98,7 @@ func _ready():
 	gameData 		= load_json("res://data/global/game_data.json")
 	charData 		= load_json("res://data/global/character_data.json")
 	locations 		= load_json("res://data/global/location_data.json")
+#	saveData 		= load_json("res://data/global/save_data.json")	
 		
 	for loc in locations:
 		locData[loc] = load_json("res://data/locations/" + loc + ".json")
@@ -196,6 +197,7 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 	currentLocation = sceneLocation
 	
 	# ugly, hardcoded, placeholder daytime transition. Works fine for now.
+	# func environmentLight(latitude, color, ambience, energy, rotation)
 	if sceneData[scene]["environment"] == "exterior":
 		if timeofday == "morning":
 			environmentLight(30, Color(0.8, 1, 0.8, 0.5), 0.7, 0.6, Vector3(0, 0, 0))
@@ -370,7 +372,7 @@ func _save_game(id, page):
 	saveData["CharData"] = charData
 	
 	var file = File.new()
-	file.open("res://data/saves/" + id + ".save", File.WRITE)
+	file.open("user://data/saves/" + id + ".save", File.WRITE)
 	file.store_line(to_json(saveData))
 	file.close()
 	
