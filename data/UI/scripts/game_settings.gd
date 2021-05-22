@@ -3,49 +3,28 @@ extends Panel
 var local_savedata : Dictionary = global.load_json("res://data/global/save_data.json")	
 
 func _ready():
-	init_nodes()
-	
-func init_nodes():
-	print("init nodes!")
-	if local_savedata.empty():
-		print("local_savedata is empty!")
-		for i in range(6):
-			if i == 0:
-				local_savedata["page" + String(global.save_page)] = {		
-					"save1" : {
-						"id" : null,
-						"thumb" : "save_add",
-						"data" : {}
-					}
-				}
-			else:
-				local_savedata["page" + String(global.save_page)]["save" + String(i + 1)] = {		
-						"id" : null,
-						"thumb" : null,
-						"data" : {}
-					}
-							
-		# TODO: should only run when settings menu is called 
+	# TODO: should only run when settings menu is called 
+	var folder = global.list_files_in_directory("user://saves/")
+	var pages_required = folder.size() / 6
+	for i in range(pages_required):
+		var node = get_node("savegames/page" + String(i + 1))
+		
 	pop_nodes(global.save_page)
 
 	
 func pop_nodes(page):
-	print("pop nodes!")
 	for save in range(6):
 		var save_node = get_node("savegames/save" + str(save+1))
 		var save_name = "save" + String(save + 1)
-		print("save name is: " + save_name)
-		print(save_node.name)
+		save_node.set_texture(null)
 		if local_savedata["page" + String(global.save_page)]:
-			print("has save page!")
 			if local_savedata["page" + String(global.save_page)].has(save_name):
 				if local_savedata["page" + String(global.save_page)][save_name]["thumb"] == "save_add":
-					print("is save_add!")
 					var image = load("res://data/ui/graphics/save_add.png")
 					save_node.set_texture(image)
 				elif local_savedata["page" + String(global.save_page)][save_name]["thumb"] != null:	
 					var image = Image.new()
-					var err = image.load("user://" + save_name + ".png")
+					var err = image.load("user://saves/" + save_name + ".png")
 					if err != OK:
 						pass
 					var texture = ImageTexture.new()
@@ -53,7 +32,6 @@ func pop_nodes(page):
 					save_node.set_texture(texture)
 				elif local_savedata["page" + String(global.save_page)][save_name]["thumb"] == null:	
 					pass
-					print("is null!")
 
 func save_template(id, thumb, data):
 	var save_info = {			
@@ -74,9 +52,9 @@ func save_to_slot(id, save_page):
 		local_savedata["page" + String(global.save_page + 1)]["save1"] = save_template(save_name, "save_add", [])
 	
 	var dir = Directory.new()
-	if dir.file_exists("user://" + save_name + ".png"):
-		dir.remove("user://" + save_name + ".png")
-	global.capture.save_png("user://" + save_name + ".png")
+	if dir.file_exists("user://saves/" + save_name + ".png"):
+		dir.remove("user://saves/" + save_name + ".png")
+	global.capture.save_png("user://saves/" + save_name + ".png")
 	
 	var texture = ImageTexture.new()
 	var save_node = get_node("savegames/save" + str(id))

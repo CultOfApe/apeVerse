@@ -36,16 +36,6 @@ func _ready():
 #	$Character/AnimationPlayer.autoplay = "Idle-loop"
 	$"Olga_animated/Armature/AnimationPlayer".get_animation("idle").set_loop(true)
 		
-func _on_npc_trigger_mouse_enter():
-	global.hover = {
-		"id"	: "ellie",
-		"type"	: "npc"
-	}
-	if global.itemInHand == "" and global.blocking_ui!=true:
-		global.change_cursor("talk")
-		emit_signal("highlight", identity)
-	elif global.blocking_ui!=true:
-			emit_signal("highlight", "Give " + global.itemInHand + " to " + identity + "?")
 			
 # handles response to gifts
 func itemGiven(id):
@@ -58,6 +48,20 @@ func itemGiven(id):
 		if gifts[id]["event"]:
 			pass
 
+
+func _on_npc_trigger_mouse_enter():
+	global.hover = {
+		"id"	: "ellie",
+		"type"	: "npc"
+	}
+	
+	if global.itemInHand == "" and global.blocking_ui!=true:
+		global.change_cursor("talk")
+		emit_signal("highlight", identity)
+	elif global.blocking_ui!=true:
+			emit_signal("highlight", "Give " + global.itemInHand + " to " + identity + "?")
+			
+			
 func _on_npc_trigger_mouse_exit():
 	if global.itemInHand == "" and global.blocking_ui != true and global.dialogue_running != true:
 		global.change_cursor("default")

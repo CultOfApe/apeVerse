@@ -1,1 +1,1 @@
-"res://data/dialogue/json/ellie.json"
+"res://data/dialogue/json/devaun.json"

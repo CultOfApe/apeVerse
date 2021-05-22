@@ -39,6 +39,17 @@ var firstofmonth	: int
 var date 			: int
 var calendarOffset  : int
 
+#	gameday = 1	# actual day in game
+#	day = 156	# day from the beginning of the year
+#	weekday = gameData["weekday"][(day % ((day / 7) * 7) - 1)] # assumes first day of the year is a monday, which is fine for now
+#	timeofday = "morning"
+#	monthNum = day / 30 +1
+#	month = gameData["month"][monthNum -1]
+#
+#	firstofmonth = (monthNum-1) * 30 + 1
+#	calendarOffset = firstofmonth % ((firstofmonth / 7) * 7) - 1
+#	date = day % (30 * monthNum) #gives day of month
+
 var scene 				: String
 var locations 			: Array
 var currentLocation 	: String
@@ -89,8 +100,16 @@ var playerPos
 var capture = null
 
 func _ready():
-	set_process(true)
-	
+	setup_game()
+
+
+func _process(delta):
+	if Input.is_action_pressed("ui_reload"):
+		get_tree().reload_current_scene()
+	if Input.is_action_pressed("ui_quit"):
+		get_tree().quit()
+		
+func setup_game():
 	dialogue_running = false
 	
 	inventoryData 	= load_json("res://data/global/inventory_data.json")
@@ -123,17 +142,13 @@ func _ready():
 	
 	transition.hide()
 		
-	audio.playing = true
-
-func _process(delta):
-	if Input.is_action_pressed("ui_reload"):
-		get_tree().reload_current_scene()
-	if Input.is_action_pressed("ui_quit"):
-		get_tree().quit()
-		
+	audio.playing = true	
+	
+	
 func change_cursor(id):
 	var cursor = load("res://data/ui/graphics/cursor_" + id + ".png")
 	Input.set_custom_mouse_cursor(cursor)
+	
 
 # Hack solution that doesn´t work very well, but low priority for now
 func grab_screen():
@@ -175,6 +190,14 @@ func load_json(json):
 		return tempData
 		tempData = null
 		file.close()
+		
+func load_user_image(id):
+	var image = Image.new()
+	var err = image.load("user://" + id + ".png")
+	if err != OK:
+			pass
+	var texture = ImageTexture.new()
+	return texture.create_from_image(image, 0)
 
 func goto_scene(scene):
 	get_tree().change_scene("res://"+scene)
