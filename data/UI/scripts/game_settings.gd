@@ -8,6 +8,11 @@ func _ready():
 	var pages_required = folder.size() / 6
 	for i in range(pages_required):
 		var node = get_node("savegames/page" + String(i + 1))
+
+	# TODO_ more compact solution. Needs to be validated.
+	# for i in local_savedata.size():
+	# if local_savedata.has("page" + String(i + 1)):
+	# get_node("savegames/page" + String(i + 1)).show()
 		
 	pop_nodes(global.save_page)
 
@@ -68,26 +73,18 @@ func save_to_slot(id, save_page):
 	pop_nodes(global.save_page)
 
 
-func add_to_savedata(page):
-		
+func add_save_page(page):
+	
+	save_template("save_name", "save_add", [])
 	# for number of saveslots
 	for i in range(6):
 		if i == 0:
-			local_savedata[page] = {		
-				"save1" : {
-					"id" : null,
-					"thumb" : "save_add",
-					"data" : {}
-				}
-			}
+			save_template(null, "save_add", [])
+			local_savedata[page] = save_template(null, "save_add", [])	
 		else:
-			local_savedata[page]["save" + String(i + 1)] = {		
-					"id" : null,
-					"thumb" : null,
-					"data" : {}
+			local_savedata[page]["save" + String(i + 1)] = save_template(null, null, [])		
 	
-			}
-
+	# make sure next page is selectable
 	for i in local_savedata.size():
 		if local_savedata.has("page" + String(i + 1)):
 			get_node("savegames/page" + String(i + 1)).show()
@@ -184,7 +181,7 @@ func _on_save6_input_event(viewport, event, shape_idx):
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
 				if event.is_pressed():
-					add_to_savedata("page" + String(global.save_page +1))
+					add_save_page("page" + String(global.save_page +1))
 					save_to_slot(6, global.save_page)
 
 
