@@ -88,7 +88,6 @@ var hover				: Dictionary	= {
 var UI_lvl = 0
 
 var gallery_page 		: int 		= 1
-var save_page 			: int 		= 1
 var eventOverride = {}
 
 var files 				: Array
