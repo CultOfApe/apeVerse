@@ -39,18 +39,23 @@ func pop_inventory():
 	#if you have something stored in inventoryData, populate the inventory pane
 	#TODO: explain better what´s going on here
 	if !global.inventoryData[category].empty():
-		for count in range(global.inventoryData[category].size()):
-			if count == 5 or count == 10 or count == 15 or count == 20 or count == 25 or count == 30:
+		var count = global.inventoryData[category].size()
+		print("category: " + category)
+		print("has " + String(count) + " keys")
+		var i = 0
+		for key in global.inventoryData[category].keys():
+			if i == 5 or i == 10 or i == 15 or i == 20 or i == 25 or i == 30:
 				row += 64
 				rtrn += 350
 			var node = inventory_node.instance()
-			node.id = global.inventoryData[category][count].id
-			node.set_name(global.inventoryData[category][count].id)
-			node.set_position(Vector2(155 + count*70 - rtrn, 260 + row))
+			node.id = global.inventoryData[category][key].id
+			node.set_name(global.inventoryData[category][key].id)
+			node.set_position(Vector2(155 + i*70 - rtrn, 260 + row))
 			node.connect("change_cursor", get_node("/root/game/ui"), "item_in_hand")
 			$inventory_items.add_child(node)
-			var image = load("res://data/ui/graphics/inv_" + global.inventoryData[category][count].id + ".png")
-			$inventory_items.get_node(global.inventoryData[category][count].id).set_texture(image)
+			var image = load("res://data/ui/graphics/inv_" + global.inventoryData[category][key].id + ".png")
+			$inventory_items.get_node(global.inventoryData[category][key].id).set_texture(image)
+			i += 1
 					
 
 	else:

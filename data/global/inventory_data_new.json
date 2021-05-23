@@ -1,32 +1,30 @@
 {
-	"tools": {
-		"wrench": {
+	"tools": [
+		{
 			"id" : "wrench",
 			"description" : "Just your everyday wrench"
 		}
-	},
-	"gifts": {
-		"rose" :{
+	],
+	"gifts": [
+		{
 			"id" : "rose",
 			"description" : "a red rose"
 		}
-	},
-	"misc": {
-	},
-	"junk": {
-		"shoe" :{
+	],
+	"misc": [
+	],
+	"junk": [
+		{
 			"id" : "shoe",
 			"description" : "smells like someone puked in it"
 		},
-		"ticket" :{
+		{
 			"id" : "ticket",
 			"description" : "this ticket has great sentimental value to me"
 		},
-		
-		"wrench" :{
+		{
 			"id" : "wrench",
 			"description" : "Just your everyday wrench"
-		}
-
-	}
+		},
+	]
 }
