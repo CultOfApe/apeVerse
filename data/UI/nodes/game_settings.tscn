@@ -66,6 +66,9 @@ margin_right = 290.653
 margin_bottom = 1083.23
 custom_fonts/font = SubResource( 1 )
 text = "ApeVerse Framework v0.1 alpha"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="load game" type="Label" parent="."]
 margin_left = 94.0

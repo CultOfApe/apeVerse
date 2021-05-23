@@ -39,10 +39,11 @@ func _on_trigger_input_event(camera, event, click_position, click_normal, shape_
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and global.blocking_ui!=true:
 		if event.is_pressed():
 			if global.itemInHand == "":	
-				pass
+				global.remove_from_scene("objects", "gift")
+				global.change_cursor("default")
 
 			else:
-				pass
+				global.balloon("That won´t work.", global.gameRoot.get_node("player"), "player")
 		
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT:
 		if event.is_pressed():

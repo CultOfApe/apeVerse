@@ -356,6 +356,11 @@ func _add_to_scene(type, id, group, rot, pos):
 	node.set_rotation(Vector3(rot.x,rot.y, rot.z))
 	node.set_name(id)
 	gameRoot.get_node(group).add_child(node)
+	
+func remove_from_scene(type, id):
+	var node = gameRoot.get_node(type).get_node(id)
+	node.set_name("DELETED")
+	node.queue_free()	
 
 func environmentLight(latitude, color, ambience, energy, rotation):
 	worldEnv.environment.background_sky.sun_latitude = latitude

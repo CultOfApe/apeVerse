@@ -14,6 +14,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6154, -2.76611, -4.6386 )
 
 [node name="trigger" type="Area" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.68911, -3.68001 )
+input_capture_on_drag = true
 
 [node name="CollisionShape" type="CollisionShape" parent="trigger"]
 transform = Transform( 1.05, 0, 0, 0, 1.05, 0, 0, 0, 1.05, 2.63164, -0.0444158, -0.972901 )

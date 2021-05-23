@@ -49,4 +49,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.04626, 0, 0 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00231934, 0.494873, 0 )
 shape = SubResource( 4 )
 script = ExtResource( 3 )
+
 [connection signal="body_entered" from="triggers" to="." method="_on_triggers_body_entered"]
