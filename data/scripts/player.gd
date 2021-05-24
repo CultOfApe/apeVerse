@@ -19,6 +19,7 @@ onready var helper 	:= $"rotation_helper/Position3D"
 onready var target_pos 	: Vector3
 onready var player_pos 	: Vector3 	= player.get_global_transform().origin
 onready var helper_pos 	: Vector3 	= helper.get_global_transform().origin	
+onready var camera_pos 	: Vector3	= global.gameRoot.get_node("Camera").get_camera_transform().origin
 
 var playerFacing 		: Vector3
 

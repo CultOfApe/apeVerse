@@ -1,6 +1,7 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://data/scripts/game.gd" type="Script" id=1]
+[ext_resource path="res://data/asset scenes/Camera.gd" type="Script" id=2]
 [ext_resource path="res://data/UI/ui.tscn" type="PackedScene" id=3]
 [ext_resource path="res://data/editor/Editor.tscn" type="PackedScene" id=11]
 [ext_resource path="res://data/dialogue/dialogue.tscn" type="PackedScene" id=17]
@@ -86,6 +87,7 @@ data = SubResource( 1 )
 [node name="Camera" type="Camera" parent="."]
 transform = Transform( 0.83795, 0.233588, -0.493231, 0.104116, 0.818749, 0.564633, 0.535724, -0.524487, 0.66175, -5.25547, 5.74719, 7.60784 )
 fov = 50.0
+script = ExtResource( 2 )
 
 [node name="env" type="WorldEnvironment" parent="Camera"]
 environment = SubResource( 3 )
