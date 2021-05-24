@@ -114,4 +114,9 @@ func _on_scene_input_event(camera, event, click_position, click_normal, shape_id
 		#need to add this so player doesn´t move when exiting dialog
 		direction = Vector3(0,0,0)
 		
+func while_moving():
+	while global.playerMoving:
+		pass
+	return
+		
 

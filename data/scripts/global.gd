@@ -439,3 +439,9 @@ func balloon(text, target, type):
 func update_points(points):
 	completion_points += points
 	gameRoot.get_node("ui/pointsLabel").text = String(completion_points)
+	
+func proximity(origin, target, distance):
+	if origin.distance_to(target) > distance:
+		return false
+	else:
+		return true
