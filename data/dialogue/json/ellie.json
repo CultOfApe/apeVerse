@@ -191,7 +191,8 @@
 			"replies": [{
 				"reply": "Here you go!",
 				"next": "14",
-				"exit": "true"
+				"exit": "true",
+				"points": 10
 			}]
 		},
 		"14": {

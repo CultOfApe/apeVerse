@@ -46,6 +46,7 @@ func _on_trigger_input_event(camera, event, click_position, click_normal, shape_
 
 				global.remove_from_scene("objects", "gift")
 				global.change_cursor("default")
+				global.update_points(2)
 
 			else:
 				global.balloon("That won´t work.", global.gameRoot.get_node("player"), "player")

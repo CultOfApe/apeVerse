@@ -206,6 +206,9 @@ func _pick_reply(n):
 			else:
 				global.charData[affected]["dialogue"]["default"]["path"] = replies[n]["progress"][item]["dialogue"]
 				global.charData[affected]["dialogue"]["default"]["branch"] = replies[n]["progress"][item]["branch"]
+				
+	if replies[n].has("points"):
+		global.update_points((replies[n]["points"]))
 			
 	# TODO: a reply can trigger a change of location(and time)
 	if replies[n].has("goto"):	

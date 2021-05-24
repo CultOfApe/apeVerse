@@ -68,6 +68,7 @@ var inventoryData 	: Dictionary
 var contactData 	: Dictionary
 var editorData		: Dictionary
 var saveData  		: Dictionary 
+var completion_points := 0
 
 # REFACTOR: remove _running suffix from all
 var dialogue_running 	: bool
@@ -434,3 +435,7 @@ func balloon(text, target, type):
 			npcBubble.add_color_override("font_color", Color(0,0,0,1))
 			npcBubble.set_text(text)
 		lookingAt = true
+		
+func update_points(points):
+	completion_points += points
+	gameRoot.get_node("ui/pointsLabel").text = String(completion_points)

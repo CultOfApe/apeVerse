@@ -27,9 +27,11 @@ var gifts : Dictionary	= {
 		"response" 	: "Thank you!",
 		"value" 	: null,
 		"event" 	: null,
-		"cutscene" 	: null
+		"cutscene" 	: null,
+		"points"	: 2
 	}
 }
+
 
 func _ready():
 	$"Olga_animated/Armature/AnimationPlayer".play()
@@ -79,7 +81,7 @@ func _on_npc_trigger_input_event(camera, event, click_position, click_normal, sh
 				global.change_cursor("default")
 				itemGiven(global.itemInHand)
 				#global.inventoryData["junk"].remove(0)
-				
+				global.update_points(gifts[global.itemInHand]["points"])
 				global.itemInHand = ""
 		
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT:
