@@ -37,7 +37,6 @@ func pop_inventory():
 	var rtrn = 0
 	
 	#if you have something stored in inventoryData, populate the inventory pane
-	#TODO: explain better what´s going on here
 	if !global.inventoryData[category].empty():
 		var count = global.inventoryData[category].size()
 		print("category: " + category)

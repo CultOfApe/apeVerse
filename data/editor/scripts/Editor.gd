@@ -1,16 +1,16 @@
 extends Control
 
-onready var screen_blur 	:= $"../effects/blurfx"
-onready var click_node := load("res://data/editor/assets/node_click_button.tscn") #PackedScene
-onready var editor_node 	:= load("res://data/editor/assets/Editor_panel_label.tscn") #PackedScene
+onready var screen_blur := $"../effects/blurfx"
+onready var click_node 	:= load("res://data/editor/assets/node_click_button.tscn") #PackedScene
+onready var editor_node := load("res://data/editor/assets/Editor_panel_label.tscn") #PackedScene
 onready var SCREENSIZE 	:= get_viewport().get_visible_rect().size
 
-var current_dialogue		: String
-var current_path			: String
+var current_dialogue	: String
+var current_path		: String
 var current_branch		: String
-var previous_branch = null
-var reverse = false
-var previous_session = false
+var previous_branch 	= null
+var reverse 			:= false
+var previous_session 	:= false
 
 var node_chain 	:= {} # Array containing reference to all current nodes in dialogue tree, hierarchically
 var nodes_origin
@@ -142,6 +142,7 @@ func _pop_nodes(id, branch, reset, modifier):
 		avatar = avatar.instance()
 		avatar.set_name("avatar")
 		avatar.set_position(Vector2(75, 100)) #BAD: hardcoded
+		avatar.frame = node["dialogue"][node_chain[current_dialogue][(node_chain.active) - 1]]["frame"]
 		$avatar.add_child(avatar)
 		$avatar.id = "res://data/npcs/ellie_talkanim.tscn"
 	
