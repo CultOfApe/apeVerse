@@ -6,6 +6,5 @@ func _ready():
 	distance_from_player = get_node('../player').get_translation() - translation
 	
 func _physics_process(delta):
-	if global.playerMoving:
-		transform.origin = get_node('../player').get_global_transform().origin - distance_from_player
+	transform.origin = get_node('../player').get_global_transform().origin - distance_from_player
 

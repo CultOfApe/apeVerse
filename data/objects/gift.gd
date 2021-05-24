@@ -31,6 +31,10 @@ func _on_trigger_mouse_entered():
 func _on_trigger_mouse_exited():
 	if global.itemInHand == "" and global.blocking_ui != true and global.dialogue_running != true:
 		global.change_cursor("default")
+	global.hover = {
+		"id"	: null,
+		"type"	: null
+	}
 	emit_signal("highlight", "")
 	emit_signal("look_at", "")
 
@@ -39,14 +43,15 @@ func _on_trigger_input_event(camera, event, click_position, click_normal, shape_
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and global.blocking_ui!=true:
 		if event.is_pressed():
 			if global.itemInHand == "":	
-				global.inventoryData["gifts"]["gift"] = {
-									"id" : "gift",
-									"description" : "a gift"
-								}
+				if proximity():
+					global.inventoryData["gifts"]["gift"] = {
+										"id" : "gift",
+										"description" : "a gift"
+									}
 
-				global.remove_from_scene("objects", "gift")
-				global.change_cursor("default")
-				global.update_points(2)
+					global.remove_from_scene("objects", "gift")
+					global.change_cursor("default")
+					global.update_points(2)
 
 			else:
 				global.balloon("That won´t work.", global.gameRoot.get_node("player"), "player")
@@ -54,3 +59,12 @@ func _on_trigger_input_event(camera, event, click_position, click_normal, shape_
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT:
 		if event.is_pressed():
 			emit_signal("look_at", "It´s a giftbox.")
+			
+func proximity():
+	if global.hover["id"] != null:
+		var player_pos = global.gameRoot.get_node("player").get_global_transform().origin
+		if player_pos.distance_to(self.get_global_transform().origin) > 4:
+			global.balloon("I need to get closer.", get_tree().get_root().get_node("game").get_node("player"), "player")
+			return false
+		else:
+			return true

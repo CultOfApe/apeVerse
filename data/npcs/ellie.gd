@@ -67,6 +67,10 @@ func _on_npc_trigger_mouse_enter():
 func _on_npc_trigger_mouse_exit():
 	if global.itemInHand == "" and global.blocking_ui != true and global.dialogue_running != true:
 		global.change_cursor("default")
+	global.hover = {
+		"id"	: null,
+		"type"	: null
+	}
 	emit_signal("highlight", "")
 	emit_signal("look_at", "")
 

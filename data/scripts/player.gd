@@ -11,7 +11,7 @@ export var SPEED 	: int 		= 150
 var direction 		: Vector3
 var iterate 		: float 	= 0
 
-var isRotating 		: bool 		= false
+var is_rotating 		: bool 		= false
 
 onready var player 	:= self
 onready var helper 	:= $"rotation_helper/Position3D"
@@ -45,7 +45,7 @@ func _ready():
 func _physics_process(delta):
 	if global.gameType == "3D":
 		#move and rotate player towards set target
-		if isRotating:
+		if is_rotating:
 			pass
 		if global.playerMoving:
 			if global.blocking_ui != true:
@@ -113,3 +113,5 @@ func _on_scene_input_event(camera, event, click_position, click_normal, shape_id
 	else:
 		#need to add this so player doesn´t move when exiting dialog
 		direction = Vector3(0,0,0)
+		
+

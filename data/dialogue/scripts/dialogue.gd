@@ -89,11 +89,11 @@ func _dialogue_clicked():
 		global.dialogue_running = false
 		kill_dialogue()
 
-func _talk_to(id, npcPos, type):
+func _talk_to(id, target_pos, type):
 	#TODO: only able to speak to NPCs within arbitrary distance. If not able, notify player (thought bubble?)
 	var player_pos 	: Vector3 = get_parent().get_node("player").get_global_transform().origin
 	#TODO: Ideally, if player is too far from NPC, he should move closer and then start dialogue, but this is enough for now
-	if player_pos.distance_to(npcPos) < 4:
+	if player_pos.distance_to(target_pos) < 4:
 		global.blocking_ui = true
 		npc = id
 		dialogue_type = type
