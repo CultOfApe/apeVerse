@@ -90,7 +90,7 @@ func _dialogue_clicked():
 		kill_dialogue()
 
 func _talk_to(id, target_pos, type):
-	#TODO: only able to speak to NPCs within arbitrary distance. If not able, notify player (thought bubble?)
+	#TODO: only able to speak to NPCs within arbitrary distance. 
 	var player_pos 	: Vector3 = get_parent().get_node("player").get_global_transform().origin
 	#TODO: Ideally, if player is too far from NPC, he should move closer and then start dialogue, but this is enough for now
 	if player_pos.distance_to(target_pos) < 4:
@@ -101,6 +101,7 @@ func _talk_to(id, target_pos, type):
 		get_parent().get_node("ui").toggle_ui_icons("hide")
 		start_dialogue(global.charData[id]["dialogue"][dialogue_type]["path"], dialogue_type)
 	else:
+		global.blocking_ui = false
 		global.balloon("I need to get closer.", get_tree().get_root().get_node("game").get_node("player"), "player")
 
 func _pick_reply(n):

@@ -7,6 +7,7 @@ extends KinematicBody
 # Future solution will allow for movement in any direction and even jumping.
 # Furthermore it will eventually allow for 2d game movement as well
 export var SPEED 	: int 		= 150
+var safe_distance = 0.1
 
 var direction 		: Vector3
 var iterate 		: float 	= 0
@@ -29,11 +30,8 @@ func _ready():
 	set_process(true)
 	set_physics_process(true)
 	set_process_input(true)
+	
 	if global.gameType == "3D":
-		$Character/AnimationPlayer.play("Run")
-		$Character/AnimationPlayer.get_animation("Run").set_loop(true)
-		$Character/AnimationPlayer.get_animation("Idle-loop").set_loop(true)
-		
 		$Oleg/Armature/AnimationPlayer.play("walk")
 		$Oleg/Armature/AnimationPlayer.get_animation("walk").set_loop(true)
 		$Oleg/Armature/AnimationPlayer.get_animation("idle").set_loop(true)
@@ -48,21 +46,18 @@ func _physics_process(delta):
 		if is_rotating:
 			pass
 		if global.playerMoving:
-			if global.blocking_ui != true:
-				$Character/AnimationPlayer.play("Run")
+			if !global.blocking_ui:
 				$Oleg/Armature/AnimationPlayer.play("walk")
 				turn_towards(delta)
 				move_and_slide(Vector3(playerFacing) * get_physics_process_delta_time() * SPEED)
-				if player_pos.distance_to(target_pos) < 0.5:
+				if player_pos.distance_to(target_pos) < safe_distance:
 					global.playerMoving = false
 					
 		elif global.playerMoving == false and run_anim == true:
-			$Character/AnimationPlayer.play("Idle-loop")
 			$Oleg/Armature/AnimationPlayer.play("idle")
 			run_anim = false
 			
 		if global.playerMoving and global.blocking_ui == true:
-				$Character/AnimationPlayer.stop()
 				$Oleg/Armature/AnimationPlayer.stop()
 
 	elif global.gameType == "2D":
@@ -84,12 +79,18 @@ func turn_towards(delta):
 		pass
 
 func _on_scene_input_event(camera, event, click_position, click_normal, shape_idx):
-	if event is InputEventMouseButton and global.blocking_ui != true:
+	if event is InputEventMouseButton and !global.blocking_ui:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
-				if !global.playerMoving:
-					$Character/AnimationPlayer.play("Run")
-					$Oleg/Armature/AnimationPlayer.play("walk")
+				print("click works")
+				# if an object or npc under the mouse, walk to a safe distance, and then stop
+				if global.hover.type != null:
+					safe_distance = 4
+				else:
+					safe_distance = 0.1
+					
+				$Character/AnimationPlayer.play("Run")
+				$Oleg/Armature/AnimationPlayer.play("walk")
 					
 				global.playerMoving = true
 				

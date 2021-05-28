@@ -57,15 +57,15 @@ func _on_npc_trigger_mouse_enter():
 		"type"	: "npc"
 	}
 	
-	if global.itemInHand == "" and global.blocking_ui!=true:
+	if global.itemInHand == "" and !global.blocking_ui:
 		global.change_cursor("talk")
 		emit_signal("highlight", identity)
-	elif global.blocking_ui!=true:
+	elif !global.blocking_ui:
 			emit_signal("highlight", "Give " + global.itemInHand + " to " + identity + "?")
 			
 			
 func _on_npc_trigger_mouse_exit():
-	if global.itemInHand == "" and global.blocking_ui != true and global.dialogue_running != true:
+	if global.itemInHand == "" and !global.blocking_ui and !global.dialogue_running:
 		global.change_cursor("default")
 	global.hover = {
 		"id"	: null,
@@ -75,7 +75,7 @@ func _on_npc_trigger_mouse_exit():
 	emit_signal("look_at", "")
 
 func _on_npc_trigger_input_event(camera, event, click_position, click_normal, shape_idx):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and global.blocking_ui!=true:
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and !global.blocking_ui:
 		if event.is_pressed():
 			if global.itemInHand == "":	
 				emit_signal("dialogue", identity, self.get_transform().origin, "default")
