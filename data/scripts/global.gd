@@ -83,7 +83,8 @@ var itemInHand 			: String 	= ""
 
 var hover				: Dictionary	= {
 	"id"	: null,
-	"type"	: null
+	"type"	: null,
+	"position" : null
 }
 
 var UI_lvl = 0
@@ -313,6 +314,9 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 			rot = locationData["objects"][name]["rot"]
 
 			_add_to_scene("object", name, "objects", rot, pos)
+			
+	for child in gameRoot.get_node("objects").get_children():
+		print("list objects: " + child.name)
 			
 	#TODO: use the template above to complete this conditional
 	if eventOverride != null and eventOverride.has("add") and eventOverride["calendar"]["location"] == currentLocation:

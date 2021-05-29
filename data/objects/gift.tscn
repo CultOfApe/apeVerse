@@ -10,10 +10,10 @@ transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.823606, 1.12581, 1.37
 script = ExtResource( 2 )
 
 [node name="gift_gltf" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6154, -2.76611, -4.6386 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.615, 0, -4.639 )
 
 [node name="trigger" type="Area" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.68911, -3.68001 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -3.68 )
 input_capture_on_drag = true
 
 [node name="CollisionShape" type="CollisionShape" parent="trigger"]

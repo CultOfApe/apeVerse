@@ -54,7 +54,8 @@ func itemGiven(id):
 func _on_npc_trigger_mouse_enter():
 	global.hover = {
 		"id"	: "ellie",
-		"type"	: "npc"
+		"type"	: "npc",
+		"position" : get_global_transform().origin
 	}
 	
 	if global.itemInHand == "" and !global.blocking_ui:
@@ -69,7 +70,8 @@ func _on_npc_trigger_mouse_exit():
 		global.change_cursor("default")
 	global.hover = {
 		"id"	: null,
-		"type"	: null
+		"type"	: null,
+		"position" : null
 	}
 	emit_signal("highlight", "")
 	emit_signal("look_at", "")

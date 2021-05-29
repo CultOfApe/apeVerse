@@ -15,37 +15,80 @@ var inventory 	: Array 	= [
 	"bag"
 ]
 
+# handles response to gifts
+var gifts : Dictionary	= {
+	"default" : {
+		"response" 	: "...",
+		"value" 	: null,
+		"event" 	: null,
+		"cutscene" 	: null
+	},
+	"rose" : {
+		"response" 	: "Thank you!",
+		"value" 	: null,
+		"event" 	: null,
+		"cutscene" 	: null,
+		"points"	: 2
+	}
+}
+
+
 func _ready():
 	$Character/AnimationPlayer.play()
 #	$Character/AnimationPlayer.autoplay = "Idle-loop"
 	$Character/AnimationPlayer.get_animation("Run").set_loop(true)
 		
+
+# handles response to gifts
+func itemGiven(id):
+	if gifts.has(id):
+		if gifts[id]["response"]:
+			global.playerMoving = false
+			global.balloon(gifts[id]["response"], self, "npc")
+		if gifts[id]["value"]:
+			pass
+		if gifts[id]["event"]:
+			pass
+			
+			
 func _on_npc_trigger_mouse_enter():
-	if global.itemInHand == "" and global.blocking_ui!=true:
+	global.hover = {
+		"id"	: "devaun",
+		"type"	: "npc",
+		"position" : get_global_transform().origin
+	}
+	
+	if global.itemInHand == "" and !global.blocking_ui:
 		global.change_cursor("talk")
-	if global.itemInHand == "" and global.blocking_ui!=true:
 		emit_signal("highlight", identity)
-	else:
-		if global.blocking_ui!=true:
+	elif !global.blocking_ui:
 			emit_signal("highlight", "Give " + global.itemInHand + " to " + identity + "?")
 
+
 func _on_npc_trigger_mouse_exit():
-	if global.itemInHand == "" and global.blocking_ui!=true:
+	if global.itemInHand == "" and !global.blocking_ui and !global.dialogue_running:
 		global.change_cursor("default")
+	global.hover = {
+		"id"	: null,
+		"type"	: null,
+		"position" : null
+	}
 	emit_signal("highlight", "")
 	emit_signal("look_at", "")
 
 func _on_npc_trigger_input_event(camera, event, click_position, click_normal, shape_idx):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and global.blocking_ui!=true:
+	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and !global.blocking_ui:
 		if event.is_pressed():
 			if global.itemInHand == "":	
-				global.blocking_ui = true
-				global.sceneCol.disabled = true
 				emit_signal("dialogue", identity, self.get_transform().origin, "default")
+
 			else:
-				var keys = global.inventoryData.keys()
+#				var keys := global.inventoryData.keys()
 				global.change_cursor("default")
-				global.inventoryData["junk"].remove(0)
+				itemGiven(global.itemInHand)
+				#global.inventoryData["junk"].remove(0)
+				global.update_points(gifts[global.itemInHand]["points"])
+				global.itemInHand = ""
 		
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT:
 		if event.is_pressed():

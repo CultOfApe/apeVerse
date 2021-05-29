@@ -12,6 +12,16 @@ var safe_distance = 0.1
 var direction 		: Vector3
 var iterate 		: float 	= 0
 
+var delayed_dialogue := {
+	"id"	:	null,
+	"pos"	: 	null
+}
+
+var delayed_pickup := {
+	"id"	:	null,
+	"pos"	: 	null	
+}
+
 var is_rotating 		: bool 		= false
 
 onready var player 	:= self
@@ -52,6 +62,19 @@ func _physics_process(delta):
 				move_and_slide(Vector3(playerFacing) * get_physics_process_delta_time() * SPEED)
 				if player_pos.distance_to(target_pos) < safe_distance:
 					global.playerMoving = false
+					if delayed_dialogue.id != null:
+						get_node("../dialogue")._talk_to(delayed_dialogue.id, delayed_dialogue.pos, "default")
+						delayed_dialogue = {
+							"id"	:	null,
+							"pos"	:	null
+						}
+					if delayed_pickup.id != null:
+						get_node("../objects/gift").pickup()
+						delayed_pickup = {
+							"id"	:	null,
+							"pos"	:	null
+						}
+
 					
 		elif global.playerMoving == false and run_anim == true:
 			$Oleg/Armature/AnimationPlayer.play("idle")
@@ -62,6 +85,26 @@ func _physics_process(delta):
 
 	elif global.gameType == "2D":
 		pass
+		
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT:
+			if event.pressed:
+				# if mouse over NPC or object, we need this to move player towards
+				if global.itemInHand == "" and global.hover.position != null:
+					if global.hover.type == "object":
+						delayed_pickup = {
+							"id"	:	global.hover.id,
+							"pos"	: 	global.hover.position	
+						}
+						move(global.hover.position)
+					elif global.hover.type == "npc":
+						delayed_dialogue = {
+							"id"	:	global.hover.id,
+							"pos"	:	global.hover.position
+						}
+						move(global.hover.position)
+
 
 func turn_towards(delta):
 	if global.gameType == "3D":
@@ -82,21 +125,16 @@ func _on_scene_input_event(camera, event, click_position, click_normal, shape_id
 	if event is InputEventMouseButton and !global.blocking_ui:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
-				move(camera, event, click_position, click_normal, shape_idx)
+				move(click_position)
 
 	else:
 		#need to add this so player doesn´t move when exiting dialog
 		direction = Vector3(0,0,0)
-		
-func while_moving():
-	while global.playerMoving:
-		pass
-	return
 	
-func move(camera, event, click_position, click_normal, shape_idx):
+func move(click_position):
 # if an object or npc under the mouse, walk to a safe distance, and then stop
 	if global.hover.type != null:
-		safe_distance = 4
+		safe_distance = 1
 	else:
 		safe_distance = 0.1
 		

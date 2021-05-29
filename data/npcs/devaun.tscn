@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://data/npcs/devaun.gd" type="Script" id=1]
 [ext_resource path="res://data/asset scenes/Character.tscn" type="PackedScene" id=2]
@@ -7,10 +7,7 @@
 [sub_resource type="CubeMesh" id=1]
 
 [sub_resource type="BoxShape" id=2]
-extents = Vector3( 1, 1.83247, 1 )
-
-[sub_resource type="BoxShape" id=3]
-extents = Vector3( 1, 1.81521, 1 )
+extents = Vector3( 0.389826, 1.57292, 0.533423 )
 
 [sub_resource type="Skin" id=4]
 bind_count = 31
@@ -128,10 +125,6 @@ priority = 5.0
 [node name="CollisionShape" type="CollisionShape" parent="npc_trigger"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.07479, 0 )
 shape = SubResource( 2 )
-
-[node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.09733, 0 )
-shape = SubResource( 3 )
 
 [node name="Character" parent="." instance=ExtResource( 2 )]
 
