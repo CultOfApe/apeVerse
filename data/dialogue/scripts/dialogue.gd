@@ -21,7 +21,7 @@ var dialogue_type
 onready var VIEWSIZE : Vector2 = get_viewport_rect().size
 
 var npc_name 		: String
-var talk_animation 	= null
+var avatar 	= null
 var npc 			: String
 
 var dialogue_text_size := 0
@@ -33,11 +33,17 @@ var current_reply 	:= -1
 
 var mouse_position 		: Vector3
 
-var talk_animation_frame 	: int
+var avatar_frame 	: int
+var avatar_type		: String
 
 func _ready():
 	# TODO: This is getting better but should be loaded from json, and needs further adjustable variables, like offset from bottom of screen, pos of avatar/name etc.
-	dialog_box = {"width": 1000, "height": 60, "margin": Vector2(100, 20), "posx": VIEWSIZE.x / 2, "posy": VIEWSIZE.y / 2}
+	dialog_box = {
+		"width": 1000, 
+		"height": 60, 
+		"margin": Vector2(100, 20), 
+		"posx": VIEWSIZE.x / 2, 
+		"posy": VIEWSIZE.y / 2}
 		
 	for object in get_parent().get_node("npcs").get_children():
 		object.connect("dialogue", self, "_talk_to")
@@ -63,11 +69,21 @@ func _input(event):
 				var node := get_node(reply)
 				node.add_color_override("font_color", Color(1,1,1))
 			get_node(reply_container[current_reply]).add_color_override("font_color", Color(1,0,1))
+		
 		#TODO: not working like it should. Look over, old code.
 		if event.is_action_pressed("ui_accept"):
 			if current_reply != -1:
 				if get_node(reply_container[current_reply]).text == "exit dialogue":
-					effectBlurUI.interpolate_property(screenBlur, "modulate", Color(1, 1, 1, 1), Color(1, 1, 1, 0), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+					
+					effectBlurUI.interpolate_property(
+						screenBlur, 
+						"modulate", 
+						Color(1, 1, 1, 1), 
+						Color(1, 1, 1, 0), 
+						0.5, 
+						Tween.TRANS_LINEAR, 
+						Tween.EASE_IN)
+						
 					kill_dialogue()
 				else:
 					_pick_reply(current_reply)
@@ -98,7 +114,16 @@ func _talk_to(id, target_pos, type):
 		global.blocking_ui = true
 		npc = id
 		dialogue_type = type
-		effectBlurUI.interpolate_property(screenBlur, "modulate", Color(1, 1, 1, 0), Color(1, 1, 1, 1), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		
+		effectBlurUI.interpolate_property(
+			screenBlur, 
+			"modulate", 
+			Color(1, 1, 1, 0), 
+			Color(1, 1, 1, 1), 
+			0.5, 
+			Tween.TRANS_LINEAR, 
+			Tween.EASE_IN)
+			
 		get_parent().get_node("ui").toggle_ui_icons("hide")
 		start_dialogue(global.charData[id]["dialogue"][dialogue_type]["path"], dialogue_type)
 	else:
@@ -237,7 +262,15 @@ func _pick_reply(n):
 		else:
 			global.charData[npc]["dialogue"][dialogue_type]["branch"] = replies[n]["next"]
 			
-		effectBlurUI.interpolate_property(screenBlur, "modulate", Color(1, 1, 1, 1), Color(1, 1, 1, 0), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		effectBlurUI.interpolate_property(
+			screenBlur, 
+			"modulate", 
+			Color(1, 1, 1, 1), 
+			Color(1, 1, 1, 0), 
+			0.5, 
+			Tween.TRANS_LINEAR, 
+			Tween.EASE_IN)
+			
 		global.dialogue_running = false
 		kill_dialogue()
 		global.blocking_ui = false
@@ -270,12 +303,6 @@ func start_dialogue(json, type):
 	branch = talk_data["dialogue"][global.charData[npc]["dialogue"][type]["branch"]]
 	replies = talk_data["dialogue"][global.charData[npc]["dialogue"][type]["branch"]]["replies"]
 	npc_name = talk_data["name"]
-	
-	if branch.has("avatar"):
-		talk_animation = load(branch["avatar"])
-		talk_animation_frame = branch["frame"]
-	else:
-		talk_animation = null
 
 	dialogue_text_size = branch["speech"].size()
 	
@@ -305,6 +332,7 @@ func start_dialogue(json, type):
 						global.charData[talk_data["name"]]["dialogue"][dialogue_type]["branch"] = branch["condition"][item][2]
 	
 	setup_dialogue_window()
+	setup_avatar()
 	
 	#set text and reply in dialogue panel
 	$"ui_dialogue/dialogue/name".set_text(npc_name)
@@ -342,17 +370,36 @@ func setup_dialogue_window():
 																		  VIEWSIZE.y / 2 - dialog_box.height / 2 + dialog_box.margin.y + reply_offset  + 200 + 40))
 			get_node("ui_dialogue/reply" + str(n+1)).num_reply = n
 			reply_offset += 30
-	
-	#TODO: this should be set dynamically by the json dialogue file
-	if talk_animation != null:
-		talk_animation = talk_animation.instance()
-		talk_animation.frame = talk_animation_frame
-		talk_animation.set_scale(Vector2(0.7,0.7))
-		talk_animation.set_position(Vector2(VIEWSIZE.x/2 - dialog_box.width/2, VIEWSIZE.y - dialog_box.posy + 200))
-		$"ui_dialogue".add_child(talk_animation)
 
 	reply_offset = 0
 
+func setup_avatar():
+	if branch.has("avatar"):
+		if branch["avatar"].ends_with("tscn"):
+			avatar_type = "animated"
+			avatar = load(branch["avatar"])
+			avatar_frame = branch["frame"]
+			avatar = avatar.instance()
+			avatar.frame = avatar_frame
+			avatar.set_scale(Vector2(0.7,0.7))
+			avatar.set_position(Vector2(VIEWSIZE.x/2 - dialog_box.width/2, VIEWSIZE.y - dialog_box.posy + 200))
+		else:
+			# if doesn´t end with TSCN, it´s a sprite
+			avatar_type = "static"
+			var texture = ImageTexture.new()
+			var image = Image.new()
+			var sprite = Sprite.new()
+			image.load(branch["avatar"])
+			texture.create_from_image(image)
+			sprite.texture = texture
+			avatar = sprite
+			avatar.set_position(Vector2(VIEWSIZE.x/2 - dialog_box.width/2, VIEWSIZE.y - dialog_box.posy + 200))	
+				
+		$"ui_dialogue".add_child(avatar)
+	else:
+		avatar = null
+		
+		
 func create_labels(labels):
 	kill_dialogue()
 	for lbl in labels:

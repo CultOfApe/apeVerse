@@ -69,7 +69,7 @@ func _physics_process(delta):
 							"pos"	:	null
 						}
 					if delayed_pickup.id != null:
-						get_node("../objects/gift").pickup()
+						get_node("../objects/" + delayed_pickup.id).pickup()
 						delayed_pickup = {
 							"id"	:	null,
 							"pos"	:	null

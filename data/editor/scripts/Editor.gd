@@ -30,12 +30,13 @@ func _input(event):
 		screen_blur.modulate = Color(1, 1, 1, 0)
 	
 func _setup_editor():
-	global.blocking_ui = true
-	global.editor = true
-	global.files = []
+	global.blocking_ui 	= true
+	global.editor 		= true
+	global.files 		= []
+	
 	screen_blur.modulate = Color(1, 1, 1, 1)
 	
-	#if a previous session has been initiated, remember and open with previous nodes visible
+	#TODO: if a previous session has been initiated, remember and open with previous nodes visible
 	if previous_session == false:
 		for node in get_tree().get_nodes_in_group("editor_main"):
 			node.hide()
@@ -73,8 +74,8 @@ func _create_new_UI_element(id, type, parent, xsize, ysize, xpos, ypos): # add v
 	if parent != null:
 		parent.add_child(node) 
 	
-func _create_instanced_UI_element(id, obj, parent, xsize, ysize, xpos, ypos, margin): # add variable to cancel instancing, or instance outside of func(?)
-	var node = obj.instance()
+func _create_instanced_UI_element(id, type, parent, xsize, ysize, xpos, ypos, margin): # add variable to cancel instancing, or instance outside of func(?)
+	var node = type.instance()
 	node.set_name(id)
 	node.set_size(Vector2(xsize, ysize))
 	node.set_position(Vector2(xpos, ypos))
@@ -134,17 +135,8 @@ func _pop_nodes(id, branch, reset, modifier):
 	root.set_name(branch)
 	$"nodes".add_child(root)
 
-#	TODO: PREPCODE. Button!
-	if node["dialogue"][node_chain[current_dialogue][(node_chain.active) - 1]].has("avatar"):
-		get_node("avatar/avatar").queue_free()
-		get_node("avatar/avatar").set_name("DELETED")
-		var avatar = load("res://data/npcs/ellie_talkanim.tscn")
-		avatar = avatar.instance()
-		avatar.set_name("avatar")
-		avatar.set_position(Vector2(75, 100)) #BAD: hardcoded
-		avatar.frame = node["dialogue"][node_chain[current_dialogue][(node_chain.active) - 1]]["frame"]
-		$avatar.add_child(avatar)
-		$avatar.id = "res://data/npcs/ellie_talkanim.tscn"
+#	print(node)
+	change_avatar(node.dialogue, node.dialogue["1"].avatar, "branch")
 	
 	_create_instanced_UI_element("dialogue", editor_node, get_node("nodes/" + branch), 400, 300, SCREENSIZE.x/2 - 200, SCREENSIZE.y/2 - 150, 10)		
 #	get_node("dialogueNode/Label").id(id)
@@ -259,6 +251,19 @@ func _pop_nodes(id, branch, reset, modifier):
 #	print(self.get_child_count()) #don´t use self, new subdirectory
 
 #	when clicking on reply node
+
+func change_avatar(dialogue, sprite, branch):
+	if dialogue[node_chain[current_dialogue][(node_chain.active) - 1]].has("avatar"):
+		get_node("avatar/avatar").queue_free()
+		get_node("avatar/avatar").set_name("DELETED")
+		var avatar = load(sprite)
+		avatar = avatar.instance()
+		avatar.set_name("avatar")
+		avatar.set_position(Vector2(75, 100)) #BAD: hardcoded
+		avatar.frame = dialogue[node_chain[current_dialogue][(node_chain.active) - 1]]["frame"]
+		$avatar.add_child(avatar)
+		$avatar.id = sprite
+	
 func _on_node_click(branch, null, modifier):
 	#TODO: shouldn´t be called if node has same id as current branch
 #	print("-------------------------------")
@@ -280,18 +285,23 @@ func _setup_avatar_selector():
 	
 	var iterate = 0
 	var avatar_thumb = load("res://data/editor/assets/button_avatar.tscn")
-	for i in global.list_files_in_directory("res://data/editor/graphics/avatars"):
-		$select.add_icon_item(load("res://data/editor/graphics/avatars/" + i), true)
-		$select.set_item_metadata (iterate, i)
+	for i in global.list_files_in_directory("res://data/npcs/graphics/avatars"):
+		$select.add_icon_item(load("res://data/npcs/graphics/avatars/" + i), true)
+		$select.set_item_metadata (iterate, i) # use this to store extra data, like if scene or just texture, frame etc. Dictionary or Array?
 		iterate += 1 
 	
 	#WIP: This is how all icons will be added in the future
+	# TODO: enable pasting images into a named folder, automatically creating an animated Sprite
 	var face = load("res://data/npcs/ellie_talkanim.tscn")
 	face = face.instance()
 	for i in face.get_sprite_frames().get_frame_count("default"):
 		$select.add_icon_item(face.get_sprite_frames().get_frame("default", i), true)	
 		$select.set_item_metadata (iterate, "ellie_talkanim.tscn")
+#		$select.set_item_metadata (iterate, {"scene" : "ellie_talkanim.tscn", "frame" : i})
 		iterate += 1 
+	
+	for i in range($select.get_item_count()):
+		print($select.get_item_metadata(i))
 	
 	# WIP: if image, add to button, if tscn change the avatar node to this scene
 	# for now. In the future this will only accept animatedsprites.
@@ -300,10 +310,11 @@ func _setup_avatar_selector():
 
 func _on_select_item_selected(index):
 #	WIP: click on item, change avatar
+	print($select.get_item_metadata(index))
 	if "tscn" in $select.get_item_metadata(index):
 		get_node("avatar/avatar").queue_free()
 		get_node("avatar/avatar").set_name("DELETED")
-		var avatar = load("res://data/npcs/" + ($select.get_item_metadata(index)))
+		var avatar = load("res://data/npcs/graphics/avatars" + ($select.get_item_metadata(index)))
 		avatar = avatar.instance()
 		avatar.set_name("avatar")
 		avatar.set_position(Vector2(75, 100)) #BAD: hardcoded
@@ -311,7 +322,7 @@ func _on_select_item_selected(index):
 		$avatar.id = "index"
 #		get_node("avatar/avatar").set_frame(2)
 	if "png" in $select.get_item_metadata(index):
-		get_node("avatar/Button").set_button_icon(load("res://data/editor/graphics/avatars/" + $select.get_item_metadata(index)))
+		get_node("avatar/Button").set_button_icon(load("res://data/npcs/graphics/avatars/" + $select.get_item_metadata(index)))
 		
 	$select.hide()
 	

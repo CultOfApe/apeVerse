@@ -54,8 +54,6 @@ func change_location(location):
 	global.scene = location
 	global.load_scene(location)
 	connect_stuff()
-	#issue with map scene changing is in ui_exit, sets global.blocking_ui = false
-	#find alternative solution
 
 func _look_at(text):
 	global.balloon(text, get_tree().get_root().get_node("game").get_node("player"), "player")

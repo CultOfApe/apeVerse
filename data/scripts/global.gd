@@ -243,7 +243,8 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 	#if today has event override
 	if eventData["date"].has(str(gameday)) and eventData["date"][str(gameday)].has(timeofday):
 		if eventData["date"][str(gameday)][timeofday]["type"] == "oneoff":
-			eventOverride = load_json("res://data/events/" + eventData["date"][str(gameday)][timeofday]["event"] + ".json")
+			eventOverride = load_json(
+				"res://data/events/" + eventData["date"][str(gameday)][timeofday]["event"] + ".json")
 
 	else:
 		pass
@@ -427,14 +428,30 @@ func balloon(text, target, type):
 		if global.gameType == "3D" and type == "player":
 			playerBubble.show()
 			playerBubble.set_position(gameRoot.get_node("Camera").unproject_position(target.translation + Vector3(0,2.5,0)) - Vector2(30,0))
-			materialize.interpolate_property(playerBubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			
+			materialize.interpolate_property(
+				playerBubble, 
+				"modulate", 
+				Color(1,1,1,0), 
+				Color(1,1,1,1), 
+				1, 
+				Tween.TRANS_LINEAR, 
+				Tween.EASE_IN_OUT)
+				
 			materialize.start()
 			playerBubble.add_color_override("font_color", Color(0,0,0,1))
 			playerBubble.set_text(text)
 		elif global.gameType == "3D" and type == "npc":
 			npcBubble.show()
 			npcBubble.set_position(gameRoot.get_node("Camera").unproject_position(target.translation + Vector3(0,2.5,0)) - Vector2(30,0))
-			materialize2.interpolate_property(npcBubble, "modulate", Color(1,1,1,0), Color(1,1,1,1), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			
+			materialize2.interpolate_property(
+				npcBubble, 
+				"modulate", 
+				Color(1,1,1,0), 
+				Color(1,1,1,1), 1, 
+				Tween.TRANS_LINEAR, 
+				Tween.EASE_IN_OUT)
 			materialize2.start()
 			npcBubble.add_color_override("font_color", Color(0,0,0,1))
 			npcBubble.set_text(text)

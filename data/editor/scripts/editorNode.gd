@@ -71,13 +71,17 @@ func _on_save_pressed():
 	if $save.get_text() == "SAVE":
 		$"indicator".set_text("SAVED")
 		$"save".set_text("RESET")
-#		print(global.editorData[dialogue["file"]])
+
+		# print(global.editorData) # {ellie.json:{active:1, cache:Null, ellie.json:[1, 2]}}
+	
 		if nodetype == "reply":
 			global.editorData[dialogue["file"]]["cache"]["dialogue"][branch]["replies"][reply]["reply"]= $"Label".get_text()
 		elif nodetype == "dialogue":
 			global.editorData[dialogue["file"]]["cache"]["dialogue"][branch]["speech"] = $"Label".get_text()
+			
 		var dir = Directory.new()
 		dir.copy("res://data/dialogue/" + dialogue["file"], "res://data/editor/backup/" + dialogue["file"] + ".bak")
+		
 #		var file = File.new()
 #		file.open("res://data/saves/" + id + ".save", File.WRITE)
 #		file.store_line(to_json(saveData))

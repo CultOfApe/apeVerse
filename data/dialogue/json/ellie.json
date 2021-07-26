@@ -29,7 +29,7 @@
 			]
 		},
 		"2": {
-			"avatar": "res://data/npcs/ellie_talkanim.tscn",
+			"avatar": "res://data/npcs/graphics/avatars/ellie_angry_b.png",
 			"frame": 1,
 			"speech": ["Wait! I might be interested in that, but I don´t have much cash on me"],
 			"replies": [{
@@ -121,7 +121,7 @@
 				"So, you got news for me?"
 			],
 			"replies": [{
-					"reply": "Trump is president",
+					"reply": "You´re still a bimbo.",
 					"next": "9",
 					"exit": "false"
 				},

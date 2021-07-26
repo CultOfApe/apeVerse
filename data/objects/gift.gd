@@ -73,7 +73,4 @@ func pickup():
 	global.change_cursor("default")
 	global.update_points(2)
 	global.playerMoving = false
-	global.gameRoot.get_node("player").delayed_pickup = {
-							"id"	:	null,
-							"pos"	:	null
-						}
+

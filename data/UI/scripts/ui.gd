@@ -205,7 +205,16 @@ func advance_time():
 	$transition.set_texture(trans_tex)
 
 	$transition.show()
-	transFX.interpolate_property($transition, "modulate", Color(1,1,1,1), Color(1,1,1,0), 1.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	
+	transFX.interpolate_property(
+		$transition, 
+		"modulate", 
+		Color(1,1,1,1), 
+		Color(1,1,1,0), 
+		1.5, 
+		Tween.TRANS_LINEAR, 
+		Tween.EASE_IN_OUT)
+		
 	transFX.start()
 	
 #	keep track of day, week and month
@@ -294,7 +303,16 @@ func toggle_ui_overlay(id, mode, deltaPos):
 	else:
 		if global.itemInHand == "":
 			global.change_cursor("default")
-		$dummy_node/dummy_tween.interpolate_property ($dummy_node, "position", $dummy_node.position, $dummy_node.position + Vector2(1,0), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+			
+		$dummy_node/dummy_tween.interpolate_property(
+			$dummy_node, 
+			"position", 
+			$dummy_node.position, 
+			$dummy_node.position + Vector2(1,0), 
+			0.5, 
+			Tween.TRANS_LINEAR, 
+			Tween.EASE_IN)
+		
 		$dummy_node/dummy_tween.start()
 		toggle_ui_icons("show")
 		effectBlurUI.interpolate_property(screenBlur, "modulate", Color(1, 1, 1, 1), Color(1, 1, 1, 0), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
@@ -312,12 +330,29 @@ func toggle_ui_overlay(id, mode, deltaPos):
 		if mode == "show":
 			phoneOpen = true
 			ui_hide_show(get_node(id), Vector2(0, -positionDelta.y), Tween.TRANS_QUAD, Tween.EASE_OUT)
-			fade_in.interpolate_property(get_node(id + "/homescreen"), "modulate", Color(1,1,1,0), Color(1,1,1,1), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			
+			fade_in.interpolate_property(
+				get_node(id + "/homescreen"), 
+				"modulate", 
+				Color(1,1,1,0), 
+				Color(1,1,1,1), 
+				0.5, 
+				Tween.TRANS_LINEAR, 
+				Tween.EASE_IN_OUT)
+			
 			fade_in.start()
 		else:
 			phoneOpen = false
 			ui_hide_show(get_node(id), Vector2(0,positionDelta.y), Tween.TRANS_QUAD, Tween.EASE_OUT)
-			fade_out.interpolate_property(get_node(id + "/homescreen"), "modulate", Color(1,1,1,1), Color(1,1,1,0), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			
+			fade_out.interpolate_property(
+				get_node(id + "/homescreen"), 
+				"modulate", 
+				Color(1,1,1,1), 
+				Color(1,1,1,0), 
+				0.5, 
+				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			
 			fade_out.start()
 			
 	if id == "map_ui":
@@ -350,7 +385,15 @@ func toggle_game_settings():
 		$game_settings.show()
 		global.blocking_ui = true
 		global.settings = true
-		fade_in.interpolate_property($game_settings, "modulate", Color(1,1,1,0), Color(1,1,1,1), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		
+		fade_in.interpolate_property(
+			$game_settings, 
+			"modulate", 
+			Color(1,1,1,0), 
+			Color(1,1,1,1), 0.3, 
+			Tween.TRANS_LINEAR, 
+			Tween.EASE_IN_OUT)
+		
 		fade_in.start()
 		global.change_cursor("arrow")
 #		toggle_ui_icons("hide")
@@ -360,7 +403,16 @@ func toggle_game_settings():
 		global.blocking_ui = false
 		global.settings = false
 		$game_settings.hide()
-		fade_out.interpolate_property($game_settings, "modulate", Color(1,1,1,1), Color(1,1,1,0), 0.3, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		
+		fade_out.interpolate_property(
+			$game_settings, 
+			"modulate", 
+			Color(1,1,1,1), 
+			Color(1,1,1,0), 
+			0.3, 
+			Tween.TRANS_LINEAR, 
+			Tween.EASE_IN_OUT)
+		
 		fade_out.start()
 		global.change_cursor("default")
 #		toggle_ui_icons("show")
@@ -402,7 +454,16 @@ func load_map_location(location):
 	$transition.set_texture(trans_tex)
 	
 	$transition.show()
-	transFX.interpolate_property($transition, "modulate", Color(1,1,1,1), Color(1,1,1,0), 0.7, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	
+	transFX.interpolate_property(
+		$transition, 
+		"modulate", 
+		Color(1,1,1,1), 
+		Color(1,1,1,0), 
+		0.7, 
+		Tween.TRANS_LINEAR, 
+		Tween.EASE_IN_OUT)
+	
 	transFX.start()
 	get_parent().change_location(location)
 	change_scene = false
