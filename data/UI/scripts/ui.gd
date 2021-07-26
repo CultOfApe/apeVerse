@@ -75,7 +75,6 @@ func _input(event):
 			toggle_game_settings()
 			
 	if event.is_action_pressed("ui_exit") and global.UI_lvl == 1:
-		print("UI exit")
 		global.UI_lvl = 0
 		ui_exit(null)	
 		global.change_cursor("default")

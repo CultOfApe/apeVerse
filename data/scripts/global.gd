@@ -87,7 +87,9 @@ var hover				: Dictionary	= {
 	"position" : null
 }
 
-var UI_lvl = 0
+var UI_lvl 				: int	= 0
+var editor_lvl 			: int	= 0
+var dialogue_waiting 	: bool = false
 
 var gallery_page 		: int 		= 1
 var eventOverride = {}

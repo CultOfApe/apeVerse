@@ -22,14 +22,16 @@ func _ready():
 
 func _input(event):
 	#show or hide editor
-	if event.is_action_pressed("ui_editor") and !global.editor:
-		self.show()
-		_setup_editor()						
-	if event.is_action_pressed("ui_down") and global.editor:
-		_kill_editor()
-		screen_blur.modulate = Color(1, 1, 1, 0)
+	if event.is_action_pressed("ui_editor"):
+		if !global.editor:
+			self.show()
+			_setup_editor()						
+		elif global.editor:
+			_kill_editor()
+			screen_blur.modulate = Color(1, 1, 1, 0)
 	
 func _setup_editor():
+	global.editor_lvl = 1
 	global.blocking_ui 	= true
 	global.editor 		= true
 	global.files 		= []
@@ -64,6 +66,7 @@ func _kill_editor():
 			
 		global.blocking_ui = false
 		global.editor = false
+		global.editor_lvl = 0
 
 func _create_new_UI_element(id, type, parent, xsize, ysize, xpos, ypos): # add variable to cancel instancing, or instance outside of func(?)
 	var node = type.new()

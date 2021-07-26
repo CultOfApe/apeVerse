@@ -345,6 +345,7 @@ func start_dialogue(json, type):
 		
 func setup_dialogue_window():
 		
+	global.dialogue_waiting = true
 	var reply_offset 	: int 	= 0
 	var labels 			: Array = ["panel","dialogue"]
 	
@@ -426,3 +427,4 @@ func kill_dialogue():
 		x.queue_free()
 		
 	reply_container = []
+	global.dialogue_waiting = false
