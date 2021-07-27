@@ -112,6 +112,7 @@ func _input(event):
 		if event.button_index == BUTTON_RIGHT:
 			if event.pressed:
 				if global.itemInHand != "":
+					global.itemInHand = ""
 					global.change_cursor("default")
 	if hoverNode:
 		if hoverNode.get_name() == "phone":	

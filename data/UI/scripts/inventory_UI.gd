@@ -39,9 +39,8 @@ func pop_inventory():
 	#if you have something stored in inventoryData, populate the inventory pane
 	if !global.inventoryData[category].empty():
 		var count = global.inventoryData[category].size()
-		print("category: " + category)
-		print("has " + String(count) + " keys")
 		var i = 0
+		
 		for key in global.inventoryData[category].keys():
 			if i == 5 or i == 10 or i == 15 or i == 20 or i == 25 or i == 30:
 				row += 64

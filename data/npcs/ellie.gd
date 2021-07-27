@@ -29,6 +29,13 @@ var gifts : Dictionary	= {
 		"event" 	: null,
 		"cutscene" 	: null,
 		"points"	: 2
+	},
+	"gift" : {
+		"response" 	: "Thank you!",
+		"value" 	: null,
+		"event" 	: null,
+		"cutscene" 	: null,
+		"points"	: 2
 	}
 }
 
