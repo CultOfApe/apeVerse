@@ -59,11 +59,18 @@ func _setup_editor():
 		get_node("json_files/json_files_b" + str(i)).connect("on_click",self,"_pop_nodes",[], CONNECT_ONESHOT)
 		get_node("json_files/json_files_b" + str(i)).connect("button_hover",self,"_button_hover")	
 		
-func _kill_editor():
-		for x in self.get_children():
-			x.set_name("DELETED") #to make sure node doesn´t cause issues before being deleted
-			x.queue_free()
-			
+func _kill_editor():					
+		get_node("json_files").queue_free()
+		if get_node("nodes"):
+			get_node("nodes").queue_free()
+		
+		get_node("avatar").hide()	
+		JSON_files.clear()
+		
+		$avatar.hide()
+		$main/topMenu.hide()
+		$main/options.hide()
+		$expand.hide()
 		global.blocking_ui = false
 		global.editor = false
 		global.editor_lvl = 0
