@@ -229,6 +229,12 @@ visible = false
 [node name="game_settings" parent="." instance=ExtResource( 1 )]
 visible = false
 
+[node name="debug" type="Label" parent="."]
+margin_left = 700.0
+margin_top = 50.0
+margin_right = 740.0
+margin_bottom = 64.0
+
 [connection signal="mouse_entered" from="inventory" to="." method="_on_schoolbag_mouse_entered"]
 [connection signal="mouse_exited" from="inventory" to="." method="_on_schoolbag_mouse_exited"]
 [connection signal="mouse_entered" from="phone" to="." method="_on_phone_mouse_entered"]

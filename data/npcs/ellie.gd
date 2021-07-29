@@ -48,9 +48,16 @@ func _ready():
 			
 # handles response to gifts
 func itemGiven(id):
+	print("Gift (" + id + ") given!")
+	global.playerMoving = false
+	var keys := global.inventoryData.keys()
+	global.change_cursor("default")
+	#global.inventoryData["junk"].remove(0)
+	global.update_points(gifts[global.itemInHand]["points"])
+	global.itemInHand = ""
+				
 	if gifts.has(id):
 		if gifts[id]["response"]:
-			global.playerMoving = false
 			global.balloon(gifts[id]["response"], self, "npc")
 		if gifts[id]["value"]:
 			pass
@@ -90,12 +97,7 @@ func _on_npc_trigger_input_event(camera, event, click_position, click_normal, sh
 				emit_signal("dialogue", identity, self.get_transform().origin, "default")
 
 			else:
-				var keys := global.inventoryData.keys()
-				global.change_cursor("default")
-				itemGiven(global.itemInHand)
-				#global.inventoryData["junk"].remove(0)
-				global.update_points(gifts[global.itemInHand]["points"])
-				global.itemInHand = ""
+				pass
 		
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT:
 		if event.is_pressed():

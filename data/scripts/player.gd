@@ -22,6 +22,11 @@ var delayed_pickup := {
 	"pos"	: 	null	
 }
 
+var delayed_gift := {
+	"id"	:	null,
+	"pos"	: 	null	
+}
+
 var is_rotating 		: bool 		= false
 
 onready var player 	:= self
@@ -74,6 +79,12 @@ func _physics_process(delta):
 							"id"	:	null,
 							"pos"	:	null
 						}
+					if delayed_gift.id != null:
+						get_node("../npcs/" + delayed_gift.id).itemGiven(global.itemInHand)
+						delayed_gift = {
+							"id"	:	null,
+							"pos"	:	null
+						}
 
 					
 		elif global.playerMoving == false and run_anim == true:
@@ -91,15 +102,22 @@ func _input(event):
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
 				# if mouse over NPC or object, we need this to move player towards
-				if global.itemInHand == "" and global.hover.position != null:
-					if global.hover.type == "object":
-						delayed_pickup = {
-							"id"	:	global.hover.id,
-							"pos"	: 	global.hover.position	
-						}
-						move(global.hover.position)
-					elif global.hover.type == "npc":
-						delayed_dialogue = {
+				if global.hover.position != null:
+					if global.itemInHand == "":
+						if global.hover.type == "object":
+							delayed_pickup = {
+								"id"	:	global.hover.id,
+								"pos"	: 	global.hover.position	
+							}
+							move(global.hover.position)
+						elif global.hover.type == "npc" and global.itemInHand == "":
+							delayed_dialogue = {
+								"id"	:	global.hover.id,
+								"pos"	:	global.hover.position
+							}
+							move(global.hover.position)
+					else:
+						delayed_gift = {
 							"id"	:	global.hover.id,
 							"pos"	:	global.hover.position
 						}

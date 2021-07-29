@@ -29,7 +29,7 @@
 			]
 		},
 		"2": {
-			"avatar": "res://data/npcs/graphics/avatars/ellie_angry_b.png",
+			"avatar": "res://data/npcs/ellie_talkanim.tscn",
 			"frame": 1,
 			"speech": ["Wait! I might be interested in that, but I don´t have much cash on me"],
 			"replies": [{
