@@ -52,6 +52,7 @@ var change_scene : bool
 var next_scene : String
 
 onready var gameSettingsUI = load("res://data/ui/nodes/game_settings.tscn")
+onready var new_item = load("res://data/ui/nodes/new_item.tscn")
 
 func _ready():
 	schoolbagShowPos = schoolbagHidePos - Vector2(0, 1000)
@@ -64,7 +65,21 @@ func _ready():
 	
 	screenBlur.modulate = Color(1, 1, 1, 0)
 	
+	$new_item.connect("new_item_materialized", self, "new_item_tween")
 	$map_ui.connect("location_chosen", self, "load_map_location")
+	
+	
+func new_item_tween(id):
+#	global.wait(2, id)
+	yield(get_tree().create_timer(2.0), "timeout")
+	get_node("new_item/dissolve").interpolate_property(
+		id, 
+		"modulate", 
+		Color(1,1,1,1), 
+		Color(1,1,1,0), 1, 
+		Tween.TRANS_LINEAR, 
+		Tween.EASE_IN_OUT)
+	get_node("new_item/dissolve").start()	
 
 func _input(event):
 	#these need checks so you can´t press the same key twice, or the overlays will continue upwards

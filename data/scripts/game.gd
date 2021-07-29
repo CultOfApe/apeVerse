@@ -75,7 +75,7 @@ func _on_materialize2_tween_completed(object, key):
 	_wait(1.5)
 	tNode = global.npcBubble
 	
-func _wait( seconds ):
+func _wait( seconds):
 	#create and run timer only once, then run function dissolve()
 	_create_timer(self, seconds, true, "dissolve")
 	yield(self,"timer_end")

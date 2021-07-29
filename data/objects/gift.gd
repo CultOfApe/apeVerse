@@ -5,7 +5,7 @@ signal highlight(a)
 signal dialogue(a,b,c)
 
 #will just carry character name, all other data will be moved to charData in global.gd
-var identity 	: String 		= "gift"
+var identity 	: String 		= "giftbox"
 var branch 		: String 		= ""
 var gender		: Array			= []
 var pickupable	: bool			= true
@@ -63,7 +63,6 @@ func _on_trigger_input_event(camera, event, click_position, click_normal, shape_
 			emit_signal("look_at", "It´s a giftbox.")
 			
 func pickup():
-	print("pick up")
 	global.inventoryData["gifts"]["gift"] = {
 		"id" : "gift",
 		"description" : "a gift"
@@ -73,4 +72,16 @@ func pickup():
 	global.change_cursor("default")
 	global.update_points(2)
 	global.playerMoving = false
+	
+	var picked_up = get_node("../../ui/new_item")
+	picked_up.show()
+	picked_up.get_node("item_text").text = identity
+	picked_up.get_node("materialize").interpolate_property(
+		picked_up, 
+		"modulate", 
+		Color(1,1,1,0), 
+		Color(1,1,1,1), 1, 
+		Tween.TRANS_LINEAR, 
+		Tween.EASE_IN_OUT)
+	picked_up.get_node("materialize").start()
 

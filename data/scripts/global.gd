@@ -468,3 +468,17 @@ func proximity(origin, target, distance):
 		return false
 	else:
 		return true
+		
+#func wait( seconds , id):
+#	#create and run timer only once, then run function dissolve()
+#	create_timer(id, seconds, true, "dissolve")
+#	yield(id,"timer_end")
+#
+#func create_timer(object_target, float_wait_time, bool_is_oneshot, string_function):
+#	var timer := Timer.new()
+#	timer.set_one_shot(bool_is_oneshot)
+#	timer.set_timer_process_mode(0)
+#	timer.set_wait_time(float_wait_time)
+#	timer.connect("timeout", object_target, string_function)
+#	object_target.add_child(timer)
+#	timer.start()
