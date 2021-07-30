@@ -4,7 +4,7 @@
 			"evening":{
 				"event": "party_laura",
 				"type": "oneoff",
-				"icon" : "char3.png",
+				"icon" : "pin.png",
 				"fail": {
 					"noshow": "none",
 					"cancel": "none"
@@ -15,7 +15,7 @@
 			"evening":{
 				"event": "party_sam",
 				"type": "oneoff",
-				"icon" : "char2.png",
+				"icon" : "pin.png",
 				"fail": {
 					"noshow": "none",
 					"cancel": "none"
@@ -26,7 +26,7 @@
 			"evening":{
 				"event": "date_ellie",
 				"type": "oneoff",
-				"icon" : "char1.png",
+				"icon" : "pin.png",
 				"fail": {
 					"noshow": "date_ellie_noshow",
 					"cancel": "date_ellie_cancel"
@@ -37,7 +37,7 @@
 			"evening":{
 				"event": "party_bobby",
 				"type": "oneoff",
-				"icon" : "party_bobby",
+				"icon" : "pin.png",
 				"fail": {
 					"noshow": "none",
 					"cancel": "none"
@@ -48,7 +48,7 @@
 			"evening":{
 				"event": "party_halloween",
 				"type": "oneoff",													
-				"icon" : "party_halloween",
+				"icon" : "pin.png",
 				"fail": {
 					"noshow": "none",
 					"cancel": "none"

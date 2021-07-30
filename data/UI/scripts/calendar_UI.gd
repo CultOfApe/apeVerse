@@ -51,7 +51,7 @@ func _update():
 	#				currentMonth.push_back("event")
 					event_label = date["event"]#				current_month[i-1] = "event"
 					var icon = Sprite.new()
-					var texture = load("res://data/graphics/" + date.icon)
+					var texture = load("res://data/ui/graphics/" + date.icon)
 					icon.set_position(Vector2(200 + offsetX,200 + offsetY))
 					icon.set_scale(Vector2(0.5, 0.5))
 					icon. set_texture(texture)

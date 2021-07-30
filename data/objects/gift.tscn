@@ -6,7 +6,7 @@
 [sub_resource type="BoxShape" id=1]
 
 [node name="gift" type="StaticBody"]
-transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.823606, 1.12581, 1.37776 )
+transform = Transform( 0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.824, 0.5, 1.378 )
 script = ExtResource( 2 )
 
 [node name="gift_gltf" parent="." instance=ExtResource( 1 )]
