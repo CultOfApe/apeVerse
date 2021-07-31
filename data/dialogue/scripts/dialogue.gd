@@ -338,10 +338,10 @@ func start_dialogue(json, type):
 	$"ui_dialogue/dialogue/name".set_text(npc_name)
 	$"ui_dialogue/dialogue".set_text(branch["speech"][page_index])
 	
-	if page_index == dialogue_text_size-1 and replies_size > 0:
-		for n in range(0,replies_size):
-			reply_container.push_back("ui_dialogue/reply" + str(n+1))
-			get_node("ui_dialogue/reply" + str(n+1)).set_text(replies[n]["reply"])
+#	if page_index == dialogue_text_size-1 and replies_size > 0:
+#		for n in range(0,replies_size):
+#			reply_container.push_back("ui_dialogue/reply" + str(n+1))
+#			get_node("ui_dialogue/reply" + str(n+1)).set_text(replies[n]["reply"])
 		
 func setup_dialogue_window():
 		
@@ -356,7 +356,8 @@ func setup_dialogue_window():
 	create_labels(labels)
 	
 	# TODO: The below could be made even more dynamic. Has some arbitrary values that don´t really work if we want diferent sized windows
-	$"ui_dialogue/panel".set_size(Vector2(dialog_box.width, dialog_box.height + replies_size*30))
+#	$"ui_dialogue/panel".set_size(Vector2(dialog_box.width, dialog_box.height + replies_size*30))
+	$"ui_dialogue/panel".set_size(Vector2(dialog_box.width, dialog_box.height + 240))
 	$"ui_dialogue/panel".set_position(Vector2(VIEWSIZE.x /2 - dialog_box.width / 2, VIEWSIZE.y / 2 - dialog_box.height / 2 + 200))
 	$"ui_dialogue/panel".modulate.a = 0.5
 	
@@ -370,7 +371,13 @@ func setup_dialogue_window():
 			get_node("ui_dialogue/reply" + str(n+1)).set_position(Vector2(VIEWSIZE.x /2 - dialog_box.width / 2 + dialog_box.margin.x, 
 																		  VIEWSIZE.y / 2 - dialog_box.height / 2 + dialog_box.margin.y + reply_offset  + 200 + 40))
 			get_node("ui_dialogue/reply" + str(n+1)).num_reply = n
-			reply_offset += 30
+			
+			for reply in range(0,replies_size):
+				reply_container.push_back("ui_dialogue/reply" + str(n+1))
+				get_node("ui_dialogue/reply" + str(n+1)).set_text(replies[n]["reply"])
+
+			var lines = get_node("ui_dialogue/reply" + str(n+1)).get_line_count()
+			reply_offset += 25 * lines
 
 	reply_offset = 0
 
