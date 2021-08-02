@@ -84,4 +84,8 @@ func pickup():
 		Tween.TRANS_LINEAR, 
 		Tween.EASE_IN_OUT)
 	picked_up.get_node("materialize").start()
+	
+	#todo: not working, try signal instead
+	get_node("../../soundfx").set_stream(load("res:/data/sounds/new_item.wav"))
+	get_node("../../soundfx").play()
 

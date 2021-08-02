@@ -162,6 +162,8 @@ frame = 2
 
 [node name="player" type="KinematicBody" parent="."]
 
+[node name="soundfx" type="AudioStreamPlayer" parent="."]
+
 [connection signal="tween_completed" from="effects/materialize" to="." method="_on_materialize_tween_completed"]
 [connection signal="tween_completed" from="effects/materialize2" to="." method="_on_materialize2_tween_completed"]
 

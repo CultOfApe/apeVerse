@@ -53,7 +53,8 @@ func itemGiven(id):
 	var keys := global.inventoryData.keys()
 	global.change_cursor("default")
 	#global.inventoryData["junk"].remove(0)
-	global.update_points(gifts[global.itemInHand]["points"])
+	if gifts.has(global.itemInHand):
+		global.update_points(gifts[global.itemInHand]["points"])
 	global.itemInHand = ""
 				
 	if gifts.has(id):
