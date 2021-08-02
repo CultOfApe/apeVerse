@@ -68,7 +68,7 @@ func _physics_process(delta):
 				if player_pos.distance_to(target_pos) < safe_distance:
 					global.playerMoving = false
 					if delayed_dialogue.id != null:
-						get_node("../dialogue")._talk_to(delayed_dialogue.id, delayed_dialogue.pos, "default")
+						get_node("../dialogue").talk_to(delayed_dialogue.id, delayed_dialogue.pos, "default")
 						delayed_dialogue = {
 							"id"	:	null,
 							"pos"	:	null

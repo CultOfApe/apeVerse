@@ -46,7 +46,7 @@ func _ready():
 		"posy": VIEWSIZE.y / 2}
 		
 	for object in get_parent().get_node("npcs").get_children():
-		object.connect("dialogue", self, "_talk_to")
+		object.connect("dialogue", self, "talk_to")
 	
 	print("chardata: ")
 	print(global.charData)
@@ -86,7 +86,7 @@ func _input(event):
 						
 					kill_dialogue()
 				else:
-					_pick_reply(current_reply)
+					pick_reply(current_reply)
 			if page_index < dialogue_text_size-1:    
 				page_index += 1
 				start_dialogue(global.charData[npc]["dialogue"][dialogue_type]["path"], dialogue_type)
@@ -96,7 +96,7 @@ func _input(event):
 			if page_index == dialogue_text_size-1 and replies_size == 0:
 				kill_dialogue()
 			
-func _dialogue_clicked():
+func dialogue_clicked():
 	if page_index < dialogue_text_size-1:    
 		page_index += 1
 		start_dialogue(global.charData[npc]["dialogue"][dialogue_type]["path"], dialogue_type)
@@ -105,7 +105,7 @@ func _dialogue_clicked():
 		global.dialogue_running = false
 		kill_dialogue()
 
-func _talk_to(id, target_pos, type):
+func talk_to(id, target_pos, type):
 	#TODO: only able to speak to NPCs within arbitrary distance. 
 	var player_pos 	: Vector3 = get_parent().get_node("player").get_global_transform().origin
 	#TODO: Ideally, if player is too far from NPC, he should move closer and then start dialogue, but this is enough for now
@@ -130,7 +130,7 @@ func _talk_to(id, target_pos, type):
 		global.blocking_ui = false
 		
 
-func _pick_reply(n):
+func pick_reply(n):
 	current_reply =-1
 
 	#if there is a variables array in json, update game variables
@@ -418,13 +418,13 @@ func create_labels(labels):
 		if lbl == "dialogue":
 			var node = dialogPanel.instance()
 			node.set_name(lbl)
-			node.connect("dialogueClicked", self, "_dialogue_clicked")
+			node.connect("dialogue_clicked", self, "dialogue_clicked")
 			$"ui_dialogue".add_child(node)
 		if page_index == dialogue_text_size-1:
 			if "reply" in lbl:
 				var node = replyButton.instance()
 				node.set_name(lbl)
-				node.connect("reply_selected",self,"_pick_reply",[], CONNECT_ONESHOT)
+				node.connect("reply_selected",self,"pick_reply",[], CONNECT_ONESHOT)
 				node.connect("reply_mouseover",self,"_reply_mouseover")
 				$"ui_dialogue".add_child(node)
 
