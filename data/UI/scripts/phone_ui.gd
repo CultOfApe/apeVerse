@@ -161,4 +161,4 @@ func _on_call(id):
 	get_parent().ui_exit(null)
 	global.blocking_ui = true
 	var playerPos = get_tree().get_root().get_node("game").get_node("player").get_global_transform().origin
-	get_node("../../dialogue")._talk_to("devaun", playerPos, "phone")
+	get_node("../../dialogue").talk_to("devaun", playerPos, "phone")

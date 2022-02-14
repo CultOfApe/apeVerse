@@ -10,8 +10,6 @@ func _ready():
 	$frame.set_text("FRAME: " + String($avatar.get_frame()))
 	frameCount = $avatar.get_sprite_frames().get_frame_count("default")
 
-func _on_Button_pressed():
-	emit_signal("avatar_clicked")
 
 func _on_previous_pressed():
 	if $avatar.get_frame() <= $avatar.get_sprite_frames().get_frame_count("default"):

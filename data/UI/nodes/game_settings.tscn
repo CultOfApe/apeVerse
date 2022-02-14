@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://data/UI/scripts/game_settings.gd" type="Script" id=1]
 [ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=2]
@@ -50,6 +50,10 @@ font_data = ExtResource( 2 )
 [sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 19.8512, 19.4919 )
 
+[sub_resource type="DynamicFont" id=14]
+size = 38
+font_data = ExtResource( 2 )
+
 [node name="game_settings" type="Panel"]
 margin_right = 1920.0
 margin_bottom = 1080.0
@@ -77,6 +81,9 @@ margin_right = 409.0
 margin_bottom = 387.0
 custom_fonts/font = SubResource( 2 )
 text = "Load Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="load" type="Area2D" parent="load game"]
 
@@ -404,6 +411,18 @@ position = Vector2( 19.8132, 20.1734 )
 shape = SubResource( 13 )
 
 [node name="fx" type="Tween" parent="."]
+
+[node name="mode" type="Label" parent="."]
+visible = false
+margin_left = 1046.1
+margin_top = 149.216
+margin_right = 1258.1
+margin_bottom = 207.216
+custom_fonts/font = SubResource( 14 )
+text = "Click to Save"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [connection signal="input_event" from="load game/load" to="." method="_on_load_input_event"]
 [connection signal="mouse_entered" from="load game/load" to="." method="_on_load_mouse_entered"]

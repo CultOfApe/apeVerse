@@ -1,6 +1,7 @@
 extends Panel
 
-var save_page := 1
+var save_page 	:= 1
+var mode		:= "save"
 var local_savedata : Dictionary = global.load_json("res://data/global/save_data.json")	
 
 func _ready():
@@ -104,9 +105,11 @@ func save_fx(save, opacity):
 			
 func _on_save1_mouse_entered():
 	save_fx($savegames/save1, Color(1,1,1,1))
+	$mode.show()
 
 func _on_save1_mouse_exited():
 	save_fx($savegames/save1, Color(1,1,1,0.5))
+	$mode.hide()
 
 func _on_save1_input_event(viewport, event, shape_idx):
 	# compare save_page and savenode 1 to local_savedata
@@ -120,9 +123,11 @@ func _on_save1_input_event(viewport, event, shape_idx):
 
 func _on_save2_mouse_entered():
 	save_fx($savegames/save2, Color(1,1,1,1))
+	$mode.show()
 
 func _on_save2_mouse_exited():
 	save_fx($savegames/save2, Color(1,1,1,0.5))
+	$mode.hide()
 	
 func _on_save2_input_event(viewport, event, shape_idx):
 	if local_savedata["page" + String(save_page)]["save2"].thumb =="save_add":
@@ -135,9 +140,11 @@ func _on_save2_input_event(viewport, event, shape_idx):
 
 func _on_save3_mouse_entered():
 	save_fx($savegames/save3, Color(1,1,1,1))
+	$mode.show()
 
 func _on_save3_mouse_exited():
 	save_fx($savegames/save3, Color(1,1,1,0.5))
+	$mode.hide()
 
 func _on_save3_input_event(viewport, event, shape_idx):
 	if local_savedata["page" + String(save_page)]["save3"].thumb == "save_add":
@@ -149,9 +156,11 @@ func _on_save3_input_event(viewport, event, shape_idx):
 
 func _on_save4_mouse_entered():
 	save_fx($savegames/save4, Color(1,1,1,1))
+	$mode.show()
 	
 func _on_save4_mouse_exited():
 	save_fx($savegames/save4, Color(1,1,1,0.5))
+	$mode.hide()
 
 func _on_save4_input_event(viewport, event, shape_idx):
 	if local_savedata["page" + String(save_page)]["save4"].thumb == "save_add":
@@ -163,9 +172,11 @@ func _on_save4_input_event(viewport, event, shape_idx):
 
 func _on_save5_mouse_entered():
 	save_fx($savegames/save5, Color(1,1,1,1))
+	$mode.show()
 
 func _on_save5_mouse_exited():
 	save_fx($savegames/save5, Color(1,1,1,0.5))
+	$mode.hide()
 
 func _on_save5_input_event(viewport, event, shape_idx):
 	if local_savedata["page" + String(save_page)]["save5"].thumb == "save_add":
@@ -177,9 +188,12 @@ func _on_save5_input_event(viewport, event, shape_idx):
 
 func _on_save6_mouse_entered():
 	save_fx($savegames/save6, Color(1,1,1,1))
+	$mode.show()
+	
 
 func _on_save6_mouse_exited():
 	save_fx($savegames/save6, Color(1,1,1,0.5))
+	$mode.hide()
 
 func _on_save6_input_event(viewport, event, shape_idx):
 	if local_savedata["page" + String(save_page)]["save6"].thumb == "save_add":

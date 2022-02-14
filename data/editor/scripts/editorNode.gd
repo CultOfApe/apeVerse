@@ -6,14 +6,15 @@ signal on_edit(a)
 
 var id 			: String = ""
 var nodetype	: String = ""
-var dialogue	: Dictionary
+var dialogue	: String = ""
 var branch 		: String = ""
 var reply		: int
 var modifier 	: int = 1
 var avatar 		= null
+var active		: bool
 
 func _ready():
-	pass
+	active = true
 
 func _on_Label_gui_input(event):
 	if event is InputEventMouseButton:
@@ -42,8 +43,6 @@ func _on_Edit_gui_input(event):
 		if event.control and event.scancode == KEY_ENTER:
 			$"Label".set_text($"Label/Edit".get_text())
 			$"Label/Edit".hide()
-			$"indicator".show()
-			$"save".show()
 			$"advanced".hide()
 			
 func _on_Area2D_input_event(viewport, event, shape_idx):
@@ -66,28 +65,3 @@ func _on_add_pressed():
 #		}
 #	)
 
-# TODO: Doesn´t actually save anything yet, will crash when saving a dialogue node :P
-func _on_save_pressed():
-	if $save.get_text() == "SAVE":
-		$"indicator".set_text("SAVED")
-		$"save".set_text("RESET")
-
-		# print(global.editorData) # {ellie.json:{active:1, cache:Null, ellie.json:[1, 2]}}
-	
-		if nodetype == "reply":
-			global.editorData[dialogue["file"]]["cache"]["dialogue"][branch]["replies"][reply]["reply"]= $"Label".get_text()
-		elif nodetype == "dialogue":
-			global.editorData[dialogue["file"]]["cache"]["dialogue"][branch]["speech"] = $"Label".get_text()
-			
-		var dir = Directory.new()
-		dir.copy("res://data/dialogue/" + dialogue["file"], "res://data/editor/backup/" + dialogue["file"] + ".bak")
-		
-#		var file = File.new()
-#		file.open("res://data/saves/" + id + ".save", File.WRITE)
-#		file.store_line(to_json(saveData))
-#		file.close()
-		# TODO: next write new data to dialogue file and redraw nodes
-	else:
-		pass
-#		$"indicator".hide()
-#		$"save".hide()

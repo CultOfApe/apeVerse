@@ -152,7 +152,7 @@ func _on_scene_input_event(camera, event, click_position, click_normal, shape_id
 func move(click_position):
 # if an object or npc under the mouse, walk to a safe distance, and then stop
 	if global.hover.type != null:
-		safe_distance = 1
+		safe_distance = 1.5
 	else:
 		safe_distance = 0.1
 		

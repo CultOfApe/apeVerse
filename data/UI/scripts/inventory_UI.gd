@@ -13,7 +13,7 @@ func _ready():
 func pop_inventory():
 	var items = global.inventoryData["items"]
 
-	for item in $inventory_items.get_children():
+	for item in $container/panel/inventory_items.get_children():
 		item.queue_free()
 		item.set_name("deleted")
 	
@@ -34,8 +34,8 @@ func pop_inventory():
 			node.set_position(Vector2(x_start + count * 64 - x_offset, y_start + y_offset))
 			node.connect("change_cursor", get_node("/root/game/ui"), "item_in_hand")
 			node.connect("item_id", self, "_item_id")
-			$inventory_items.add_child(node)
-			$inventory_items.get_node(items[key].id).set_texture(image)
+			$container/panel/inventory_items.add_child(node)
+			$container/panel/inventory_items.get_node(items[key].id).set_texture(image)
 			
 			count += 1
 

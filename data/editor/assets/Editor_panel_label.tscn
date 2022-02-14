@@ -26,14 +26,6 @@ margin_right = 40.0
 margin_bottom = 40.0
 wrap_enabled = true
 
-[node name="indicator" type="Label" parent="."]
-visible = false
-margin_left = 1.0
-margin_top = -11.833
-margin_right = 68.0
-margin_bottom = 2.167
-text = "MODIFIED"
-
 [node name="add" type="Button" parent="."]
 visible = false
 margin_left = 112.718
@@ -42,18 +34,6 @@ margin_right = 188.718
 margin_bottom = 85.2269
 icon = ExtResource( 2 )
 flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="save" type="Button" parent="."]
-visible = false
-margin_left = -48.1852
-margin_top = -15.3634
-margin_right = -5.1852
-margin_bottom = 4.6366
-text = "SAVE"
-align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -122,4 +102,3 @@ text = "cutscene"
 [connection signal="mouse_exited" from="Label" to="." method="_on_Label_mouse_exited"]
 [connection signal="gui_input" from="Label/Edit" to="." method="_on_Edit_gui_input"]
 [connection signal="pressed" from="add" to="." method="_on_add_pressed"]
-[connection signal="pressed" from="save" to="." method="_on_save_pressed"]

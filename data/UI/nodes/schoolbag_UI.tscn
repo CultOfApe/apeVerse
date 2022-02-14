@@ -18,6 +18,9 @@ margin_bottom = 821.507
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="panel" type="Panel" parent="container"]
 margin_left = 7.0
@@ -47,9 +50,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="inventory_items" type="Container" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="inventory_items" type="Container" parent="container/panel"]
+margin_left = -90.9266
+margin_top = -131.507
+margin_right = -50.9266
+margin_bottom = -91.507
 __meta__ = {
 "_edit_use_anchors_": false
 }

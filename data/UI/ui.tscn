@@ -64,8 +64,8 @@ margin_top = 899.0
 margin_right = 1882.0
 margin_bottom = 961.0
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0.780392, 0.776471, 0.87451, 1 )
+custom_fonts/font = SubResource( 1 )
 text = "Monday, 8 AM"
 align = 2
 __meta__ = {
@@ -90,16 +90,14 @@ margin_top = 884.0
 margin_right = 1049.0
 margin_bottom = 946.0
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 3 )
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="bubble" type="Label" parent="." groups=[
-"bubbles",
-]]
+[node name="bubble" type="Label" parent="." groups=["bubbles"]]
 visible = false
 margin_left = -185.998
 margin_top = 1015.0
@@ -115,9 +113,7 @@ position = Vector2( 77.9949, 17.8947 )
 z_index = -99
 texture = ExtResource( 6 )
 
-[node name="NPCbubble" type="Label" parent="." groups=[
-"bubbles",
-]]
+[node name="NPCbubble" type="Label" parent="." groups=["bubbles"]]
 visible = false
 margin_left = -185.998
 margin_top = 1015.0
@@ -133,10 +129,7 @@ position = Vector2( 77.9949, 17.8947 )
 z_index = -99
 texture = ExtResource( 6 )
 
-[node name="inventory" type="Area2D" parent="." groups=[
-"UI_icons",
-"UI_lvl_1",
-]]
+[node name="inventory" type="Area2D" parent="." groups=["UI_icons", "UI_lvl_1"]]
 position = Vector2( 235, 536 )
 
 [node name="Sprite" type="Sprite" parent="inventory"]
@@ -147,10 +140,7 @@ texture = ExtResource( 8 )
 position = Vector2( 575.795, 466.592 )
 shape = SubResource( 5 )
 
-[node name="phone" type="Area2D" parent="." groups=[
-"UI_icons",
-"UI_lvl_1",
-]]
+[node name="phone" type="Area2D" parent="." groups=["UI_icons", "UI_lvl_1"]]
 position = Vector2( 319, 473 )
 
 [node name="Sprite" type="Sprite" parent="phone"]
@@ -161,10 +151,7 @@ texture = ExtResource( 7 )
 position = Vector2( 650.415, 519.668 )
 shape = SubResource( 6 )
 
-[node name="map" type="Area2D" parent="." groups=[
-"UI_icons",
-"UI_lvl_1",
-]]
+[node name="map" type="Area2D" parent="." groups=["UI_icons", "UI_lvl_1"]]
 position = Vector2( 550, 407 )
 
 [node name="Sprite" type="Sprite" parent="map"]
@@ -175,10 +162,7 @@ texture = ExtResource( 10 )
 position = Vector2( 565.873, 587.915 )
 shape = SubResource( 7 )
 
-[node name="calendar" type="Area2D" parent="." groups=[
-"UI_icons",
-"UI_lvl_1",
-]]
+[node name="calendar" type="Area2D" parent="." groups=["UI_icons", "UI_lvl_1"]]
 
 [node name="Sprite" type="Sprite" parent="calendar"]
 position = Vector2( 1815.76, 997.246 )
@@ -188,27 +172,19 @@ texture = ExtResource( 11 )
 position = Vector2( 1821.16, 1004 )
 shape = SubResource( 8 )
 
-[node name="phone_ui" parent="." groups=[
-"UI_lvl_1",
-] instance=ExtResource( 18 )]
+[node name="phone_ui" parent="." groups=["UI_lvl_1"] instance=ExtResource( 18 )]
 z_index = 99
 
-[node name="schoolbag_ui" parent="." groups=[
-"UI_lvl_1",
-] instance=ExtResource( 19 )]
+[node name="schoolbag_ui" parent="." groups=["UI_lvl_1"] instance=ExtResource( 19 )]
 position = Vector2( 666.235, 1087.7 )
 z_index = 98
 
-[node name="map_ui" parent="." groups=[
-"UI_lvl_1",
-] instance=ExtResource( 20 )]
+[node name="map_ui" parent="." groups=["UI_lvl_1"] instance=ExtResource( 20 )]
 position = Vector2( 209.654, 1078.39 )
 scale = Vector2( 1.5, 1.6 )
 z_index = 97
 
-[node name="calendar_ui" parent="." groups=[
-"UI_lvl_1",
-] instance=ExtResource( 15 )]
+[node name="calendar_ui" parent="." groups=["UI_lvl_1"] instance=ExtResource( 15 )]
 position = Vector2( 285.992, 1079.71 )
 z_index = 96
 

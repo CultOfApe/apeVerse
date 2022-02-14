@@ -8,11 +8,14 @@ onready var SCREENSIZE 	:= get_viewport().get_visible_rect().size
 var current_dialogue	: String
 var current_path		: String
 var current_branch		: String
-var previous_branch 	= null
+var previous_branch 	: String
 var reverse 			:= false
 var previous_session 	:= false
+var active_npc			: String
+var current_animation	: AnimatedSprite	
+var current_frame		: int
 
-var node_chain 	:= {} # Array containing reference to all current nodes in dialogue tree, hierarchically
+var session_log 	:= {} # Array containing reference to all current nodes in dialogue tree, hierarchically
 var nodes_origin
 
 var JSON_files 	: Array
@@ -31,24 +34,26 @@ func _input(event):
 			screen_blur.modulate = Color(1, 1, 1, 0)
 	
 func _setup_editor():
-	global.editor_lvl = 1
+	global.change_cursor("arrow")
+	
+	global.editor_lvl 	= 1
 	global.blocking_ui 	= true
 	global.editor 		= true
 	global.files 		= []
-	
+
 	screen_blur.modulate = Color(1, 1, 1, 1)
-	
+
 	#TODO: if a previous session has been initiated, remember and open with previous nodes visible
 	if previous_session == false:
 		for node in get_tree().get_nodes_in_group("editor_main"):
 			node.hide()
-	
-	var folder : Array = global.list_files_in_directory("res://data/dialogue/json")
-	for item in folder:
+
+	var json_folder : Array = global.list_files_in_directory("res://data/dialogue/json")
+	for item in json_folder:
 		JSON_files.push_back(item)
 
 	_create_new_UI_element("json_files", VBoxContainer, self, 0, 0, 0, 0)	
-	
+
 	for i in range(JSON_files.size()):
 		_create_instanced_UI_element("json_files_b" + str(i), click_node, $"json_files", 0, 0, 0, 0, null)
 
@@ -59,21 +64,21 @@ func _setup_editor():
 		get_node("json_files/json_files_b" + str(i)).connect("on_click",self,"_pop_nodes",[], CONNECT_ONESHOT)
 		get_node("json_files/json_files_b" + str(i)).connect("button_hover",self,"_button_hover")	
 		
-func _kill_editor():					
-		get_node("json_files").queue_free()
-		if get_node("nodes"):
-			get_node("nodes").queue_free()
+func _kill_editor():			
+	global.change_cursor("default")
+			
+	get_node("json_files").queue_free()
+	if get_node("nodes"):
+		get_node("nodes").queue_free()
+	
+	JSON_files.clear()
 		
-		get_node("avatar").hide()	
-		JSON_files.clear()
+	for node in get_tree().get_nodes_in_group("editor_main"):
+		node.hide()
 		
-		$avatar.hide()
-		$main/topMenu.hide()
-		$main/options.hide()
-		$expand.hide()
-		global.blocking_ui = false
-		global.editor = false
-		global.editor_lvl = 0
+	global.blocking_ui = false
+	global.editor = false
+	global.editor_lvl = 0
 
 func _create_new_UI_element(id, type, parent, xsize, ysize, xpos, ypos): # add variable to cancel instancing, or instance outside of func(?)
 	var node = type.new()
@@ -95,17 +100,11 @@ func _create_instanced_UI_element(id, type, parent, xsize, ysize, xpos, ypos, ma
 
 # TODO: If existing nodes, spawn new nodes at x + 1080, and then move over $"nodes" x -1080
 func _pop_nodes(id, branch, reset, modifier):
-	
-	previous_session == true
-	$avatar.show()
-	$avatar.connect("avatar_clicked",self,"_avatar_clicked")
-	_setup_avatar_selector()
+
+	for node in get_tree().get_nodes_in_group("editor_main"):
+		node.show()
 	
 	$json_files.set_position(Vector2(($json_files.get_position() - Vector2(150, 0))))
-	
-	$main/topMenu.show()
-	$main/options.show()
-	$expand.show()
 	
 	if reset:
 		if $"nodes":
@@ -117,27 +116,31 @@ func _pop_nodes(id, branch, reset, modifier):
 		nodeContainer.set_name("nodes")
 		self.add_child(nodeContainer)	
 		
-	if !node_chain == {}:
+	if session_log == {}:
 		nodes_origin = $nodes.get_position()
 	
 	current_dialogue = id
 	
-	# TODO: need a separate nodeChainCache to store multiple dialogue trees currentSession
-	if !node_chain.has(current_dialogue):
-		node_chain = {current_dialogue : [branch],
+	# only run when first opening dialogue
+	if !session_log.has(current_dialogue):
+		print("hussah!")
+		session_log = {current_dialogue : [branch],
 					"active" : 0}
 					
 	# FIX: this shouldn´t be run if we traverse backwards in the nodetree. Do we need another flag? :P
-	elif node_chain[current_dialogue].back() != branch: #and reverse != true:
-		node_chain[current_dialogue].push_back(branch)
+	elif session_log[current_dialogue].back() != branch: #and reverse != true:
+		session_log[current_dialogue].push_back(branch)
 		
-	node_chain["active"] += modifier
+	session_log["active"] += modifier
+	
+	print(session_log)
+	print("current dialogue: " + current_dialogue)
 		
-	if node_chain[current_dialogue].size() > 1:
-		previous_branch = str(node_chain[current_dialogue][(node_chain.active) - 1])
+	if session_log[current_dialogue].size() > 1:
+		previous_branch = str(session_log[current_dialogue][(session_log.active) - 1])
 	
 	reverse = false
-	current_branch 	= str(node_chain[current_dialogue][node_chain.active])
+	current_branch 	= str(session_log[current_dialogue][session_log.active])
 	
 	var node = global.load_json("res://data/dialogue/json/" + id)
 	
@@ -145,7 +148,6 @@ func _pop_nodes(id, branch, reset, modifier):
 	root.set_name(branch)
 	$"nodes".add_child(root)
 
-#	print(node)
 	change_avatar(node.dialogue, node.dialogue["1"].avatar, "branch")
 	
 	_create_instanced_UI_element("dialogue", editor_node, get_node("nodes/" + branch), 400, 300, SCREENSIZE.x/2 - 200, SCREENSIZE.y/2 - 150, 10)		
@@ -155,37 +157,36 @@ func _pop_nodes(id, branch, reset, modifier):
 	get_node("nodes/" + branch + "/dialogue/Label").set_text(node["dialogue"][branch]["speech"][0])
 	get_node("nodes/" + branch + "/dialogue").nodetype = "dialogue"
 	get_node("nodes/" + branch + "/dialogue").id = branch
-	
 	get_node("nodes/" + branch + "/dialogue/Label/Edit").set_size(Vector2(380,280))
 	get_node("nodes/" + branch + "/dialogue/Label/Edit").set_text(node["dialogue"][branch]["speech"][0])
 
 #	TODO: set avatar from dialogue data
-#	$avatar.set_animation(node_chain[current_dialogue][node_chain.active]) 
+#	$avatar.set_animation(session_log[current_dialogue][session_log.active]) 
 #	["dialogue"][global.charData[npc]["dialogue"][type]["branch"]]
 
 	var replies_size = node["dialogue"][branch]["replies"].size()
 
 	var offset = ((replies_size + 1) * 100 + (replies_size + 1) * 25 - 25) / 2
 	
-	if node_chain.has(current_dialogue): #and node_chain[current_dialogue].size() != 1:
+	if session_log.has(current_dialogue): #and session_log[current_dialogue].size() != 1:
 
 #		print("----------------------------")
 #		print("DEBUG Editor.gd")
 #		print("----------------------------")
 #		print(" ")	
-#		print(" " + String(node_chain))
-#		print(" This chain has " + str(node_chain[current_dialogue].size()) + " nodes and the current node has index no. " + str(node_chain[current_dialogue].size() -1))
-#		print(" current node has value: " + node_chain[current_dialogue][node_chain[current_dialogue].size() - 1])
-#		print(" and has " + String(node["dialogue"][node_chain[current_dialogue][(node_chain.active) - 1]]["replies"].size()) + " replies")
+#		print(" " + String(session_log))
+#		print(" This chain has " + str(session_log[current_dialogue].size()) + " nodes and the current node has index no. " + str(session_log[current_dialogue].size() -1))
+#		print(" current node has value: " + session_log[current_dialogue][session_log[current_dialogue].size() - 1])
+#		print(" and has " + String(node["dialogue"][session_log[current_dialogue][(session_log.active) - 1]]["replies"].size()) + " replies")
 #		print(" ")	
 #		print("----------------------------")
 #		print("DEBUG end")
 #		print("----------------------------")
 #		print(" ")	
 	
-		if node_chain.active != 0: # calc by active-1 instead
+		if session_log.active != 0: # calc by active-1 instead
 #			print("previous node has value: " + previous_branch)
-			var previous_replies_size = node["dialogue"][node_chain[current_dialogue][(node_chain.active) - 1]]["replies"].size()
+			var previous_replies_size = node["dialogue"][session_log[current_dialogue][(session_log.active) - 1]]["replies"].size()
 			var previous_offset = (previous_replies_size * 100 + previous_replies_size * 25 - 25) / 2
 	
 			for i in previous_replies_size:
@@ -215,64 +216,66 @@ func _pop_nodes(id, branch, reset, modifier):
 				get_node("nodes/" + previous_branch + "/" + str(i) + "/Label/Edit").set_size(Vector2(280,80))
 				get_node("nodes/" + previous_branch + "/" + str(i) + "/Label/Edit").set_text(node["dialogue"][previous_branch]["replies"][i]["reply"])
 
+	# run for number of replies
 	for i in (replies_size + 1):
+		
+		var trunk = "nodes/" + branch + "/" + str(i)
+		
+		# add boxes for replies
 		if i < replies_size:
 			var next = node["dialogue"][branch]["replies"][i]["next"]
 		
 			_create_instanced_UI_element(str(i), editor_node, get_node("nodes/" + branch), 300, 100, SCREENSIZE.x/2 + 300, SCREENSIZE.y/2 + (i * 125) - offset, 10)
-			get_node("nodes/" + branch + "/" + str(i)).dialogue = {"file": id, "branch": current_branch, "reply": i}
-			get_node("nodes/" + branch + "/" + str(i)).branch = next
-			get_node("nodes/" + branch + "/" + str(i)).reply = ""
-			get_node("nodes/" + branch + "/" + str(i)).modifier = 1
-			get_node("nodes/" + branch + "/" + str(i) + "/Label").set_size(Vector2(280,80))
-			get_node("nodes/" + branch + "/" + str(i) + "/Label").set_position(Vector2(10,10))
-			get_node("nodes/" + branch + "/" + str(i) + "/Label").set_text(node["dialogue"][branch]["replies"][i]["reply"])
-			get_node("nodes/" + branch + "/" + str(i)).nodetype = "reply"
-			get_node("nodes/" + branch + "/" + str(i)).id = str(i)
-			get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_size(Vector2(280,80))
-			get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_text(node["dialogue"][branch]["replies"][i]["reply"])
-		else:
+			
+#			get_node(trunk).dialogue = {"file": id, "branch": current_branch, "reply": i}
+			get_node(trunk).dialogue = current_dialogue
+			get_node(trunk).branch = next
+			get_node(trunk).reply = ""
+			get_node(trunk).modifier = 1
+			if node["dialogue"][branch]["replies"][i]["exit"] == "true":
+				get_node(trunk).active = false
+			else:
+				get_node(trunk).active = false
+			get_node(trunk + "/Label").set_size(Vector2(280,80))
+			get_node(trunk + "/Label").set_position(Vector2(10,10))
+			get_node(trunk + "/Label").set_text(node["dialogue"][branch]["replies"][i]["reply"])
+			get_node(trunk).nodetype = "reply"
+			get_node(trunk).id = str(i)
+			get_node(trunk + "/Label/Edit").set_size(Vector2(280,80))
+			get_node(trunk + "/Label/Edit").set_text(node["dialogue"][branch]["replies"][i]["reply"])
+					
+		# last box is to add new reply
+		else: 
 			_create_instanced_UI_element(str(i), editor_node, get_node("nodes/" + branch), 300, 100, SCREENSIZE.x/2 + 300, SCREENSIZE.y/2 + (i * 125) - offset, 10)
-			get_node("nodes/" + branch + "/" + str(i) + "/Label").set_size(Vector2(280,80))
-			get_node("nodes/" + branch + "/" + str(i) + "/Label").set_position(Vector2(10,10))
-			get_node("nodes/" + branch + "/" + str(i)).nodetype = "add"
-			get_node("nodes/" + branch + "/" + str(i)).id = "add"
-			get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_size(Vector2(280,80))
-			get_node("nodes/" + branch + "/" + str(i) + "/Label/Edit").set_text("")
-			get_node("nodes/" + branch + "/" + str(i) + "/Label").hide()
-			get_node("nodes/" + branch + "/" + str(i) + "/add").show()
+			get_node(trunk + "/Label").set_size(Vector2(280,80))
+			get_node(trunk + "/Label").set_position(Vector2(10,10))
+			get_node(trunk).nodetype = "add"
+			get_node(trunk).id = "add"
+			get_node(trunk).dialogue = current_dialogue
+			get_node(trunk + "/Label/Edit").set_size(Vector2(280,80))
+			get_node(trunk + "/Label/Edit").set_text("")
+			get_node(trunk + "/Label").hide()
+			get_node(trunk + "/add").show()
 		
-#		print(get_node("nodes/" + branch + "/" + str(i)).dialogue)
-		
-		#save editor session to cache, only save to file if explicitly stated
-		global.editorData[current_dialogue] = node_chain
+		# CHECK save editor session to cache, only save to file if explicitly stated
+		global.editorData[current_dialogue] = session_log
 		if !global.editorData[current_dialogue].has("cache"):
 			global.editorData[current_dialogue]["cache"] = global.load_json("res://data/dialogue/" + id)
-			
-#func _setup_avatar_selector():
-#	var avatar_thumb = load("res://data/editor/assets/button_avatar.tscn")
-#
-#	for i in global.list_files_in_directory("res://data/graphics/avatars"):
-#		var thumb = avatar_thumb.instance()
-#		thumb.set_name(i)
-#		thumb.set_button_icon(load("res://data/graphics/avatars/" + i))
-#		self.add_child(thumb)
-#
-#	print(self.get_child_count()) #don´t use self, new subdirectory
-
-#	when clicking on reply node
 
 func change_avatar(dialogue, sprite, branch):
-	if dialogue[node_chain[current_dialogue][(node_chain.active) - 1]].has("avatar"):
-		get_node("avatar/avatar").queue_free()
-		get_node("avatar/avatar").set_name("DELETED")
+	if dialogue[session_log[current_dialogue][(session_log.active) - 1]].has("avatar"):
+		get_node("main/avatar/avatar").queue_free()
+		get_node("main/avatar/avatar").set_name("DELETED")
 		var avatar = load(sprite)
-		avatar = avatar.instance()
+		avatar = avatar.instance()	
 		avatar.set_name("avatar")
-		avatar.set_position(Vector2(75, 100)) #BAD: hardcoded
-		avatar.frame = dialogue[node_chain[current_dialogue][(node_chain.active) - 1]]["frame"]
-		$avatar.add_child(avatar)
-		$avatar.id = sprite
+		avatar.frame = dialogue[session_log[current_dialogue][(session_log.active) - 1]]["frame"]
+		$main/avatar.add_child(avatar)
+		var avatar_pos = $main/avatar.get_global_position()
+		var frames = $main/avatar/avatar.frames
+		var texture = frames.get_frame("default", avatar.frame)
+		$main/avatar.set_global_position(avatar_pos) #BAD: hardcoded
+		$main/avatar.id = sprite
 	
 func _on_node_click(branch, null, modifier):
 	#TODO: shouldn´t be called if node has same id as current branch
@@ -285,56 +288,6 @@ func _on_node_click(branch, null, modifier):
 		modifier = 0
 	_pop_nodes(current_dialogue, branch, true, modifier)
 
-func _setup_avatar_selector():
-	# REFACTOR: extract the first texture from a sprite node scene, avoiding having to display every texture frame
-	# NOTE : This is an experimental mess right now, just playing around with things
-	$select.clear()
-	$select.set_as_toplevel(true)
-	$select.set_size(Vector2(550, 750))
-	$select.set_position(Vector2(SCREENSIZE.x / 2 - 275, SCREENSIZE.y / 2 - 375))
-	
-	var iterate = 0
-	var avatar_thumb = load("res://data/editor/assets/button_avatar.tscn")
-	for i in global.list_files_in_directory("res://data/npcs/graphics/avatars"):
-		$select.add_icon_item(load("res://data/npcs/graphics/avatars/" + i), true)
-		$select.set_item_metadata (iterate, i) # use this to store extra data, like if scene or just texture, frame etc. Dictionary or Array?
-		iterate += 1 
-	
-	#WIP: This is how all icons will be added in the future
-	# TODO: enable pasting images into a named folder, automatically creating an animated Sprite
-	var face = load("res://data/npcs/ellie_talkanim.tscn")
-	face = face.instance()
-	for i in face.get_sprite_frames().get_frame_count("default"):
-		$select.add_icon_item(face.get_sprite_frames().get_frame("default", i), true)	
-		$select.set_item_metadata (iterate, "ellie_talkanim.tscn")
-#		$select.set_item_metadata (iterate, {"scene" : "ellie_talkanim.tscn", "frame" : i})
-		iterate += 1 
-	
-	for i in range($select.get_item_count()):
-		print($select.get_item_metadata(i))
-	
-	# WIP: if image, add to button, if tscn change the avatar node to this scene
-	# for now. In the future this will only accept animatedsprites.
-	
-	iterate = 0
-
-func _on_select_item_selected(index):
-#	WIP: click on item, change avatar
-	print($select.get_item_metadata(index))
-	if "tscn" in $select.get_item_metadata(index):
-		get_node("avatar/avatar").queue_free()
-		get_node("avatar/avatar").set_name("DELETED")
-		var avatar = load("res://data/npcs/graphics/avatars" + ($select.get_item_metadata(index)))
-		avatar = avatar.instance()
-		avatar.set_name("avatar")
-		avatar.set_position(Vector2(75, 100)) #BAD: hardcoded
-		$avatar.add_child(avatar)
-		$avatar.id = "index"
-#		get_node("avatar/avatar").set_frame(2)
-	if "png" in $select.get_item_metadata(index):
-		get_node("avatar/Button").set_button_icon(load("res://data/npcs/graphics/avatars/" + $select.get_item_metadata(index)))
-		
-	$select.hide()
 	
 func _reply_clicked(a):
 	pass	
@@ -356,27 +309,30 @@ func _on_advanced_toggled(button_pressed):
 		for node in get_tree().get_nodes_in_group("editor_advanced"):
 			node.hide()
 
+func _on_saveSessionToFile_pressed():
+	var file = File.new()
+	file.open("user://session.save", File.WRITE)
+	file.store_line(to_json(session_log))
+	file.close()
+	
+func _on_openSessionFromFile_pressed():
+	pass # Replace with function body.
+
 #TODO: references dictionary local to editorNode.gd. Needs solution.
 func _on_setToActive_pressed():
 	pass
 #	var dir = Directory.new()
-#	dir.copy("res://files/sprite_image.tex", "res://sprite_image.tex")
+#	dir.copy("res://data/dialogue/json/" + dialogue, "res://data/editor/backup/" + dialogue + ".bak")
 #	global.charData[npc]["dialogue"][type]["branch"]]["replies"]
 #	global.editorData[dialogue["file"]]["cache"]
 
-func _on_saveSession_pressed():
-	var file = File.new()
-	file.open("res://data/editor/session.save", File.WRITE)
-	file.store_line(to_json(node_chain))
-	file.close()
+func _on_resetActiveDialogue_pressed():
+	global.charData["ellie"]["dialogue"]["default"]["branch"] = "1"
 
-#	expands dialogue tree. Wonky righ now, so TODO
+#	expands dialogue tree. Wonky righ now, so v
 func _on_expand_pressed():
 
 	$json_files.set_position(Vector2(($json_files.get_position() + Vector2(150, 0))))
 	$nodes.set_position(Vector2($nodes.get_position() + Vector2(150, 0)))
 	$main.set_position(Vector2($main.get_position() + Vector2(150, 0)))
 	$expand.hide()
-	
-func _avatar_clicked():
-	$select.show()

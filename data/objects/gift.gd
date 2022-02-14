@@ -63,9 +63,9 @@ func _on_trigger_input_event(camera, event, click_position, click_normal, shape_
 			emit_signal("look_at", "It´s a giftbox.")
 			
 func pickup():
-	global.inventoryData["gifts"]["gift"] = {
-		"id" : "gift",
-		"description" : "a gift"
+	global.inventoryData["items"]["gift"] = {
+		"id" : "giftbox",
+		"description" : "a giftbox"
 	}
 
 	global.remove_from_scene("objects", "gift")

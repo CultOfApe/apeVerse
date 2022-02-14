@@ -6,7 +6,7 @@ func _ready():
 	pass
 				
 func _input(event):
-	if event.is_action_pressed("Skip") and global.dialogue_waiting == true:
+	if event.is_action_pressed("Skip"):
 		emit_signal("dialogue_clicked")
 		
 	if event is InputEventMouseButton:

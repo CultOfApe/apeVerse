@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://data/editor/scripts/Editor.gd" type="Script" id=1]
 [ext_resource path="res://data/editor/assets/avatar.tscn" type="PackedScene" id=2]
-[ext_resource path="res://data/editor/assets/avatar_select.tscn" type="PackedScene" id=3]
 
 [node name="Editor" type="Control"]
 visible = false
@@ -11,54 +10,47 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="expand" type="Button" parent="." groups=[
-"editor_main",
-]]
-margin_top = 580.0
-margin_right = 149.0
-margin_bottom = 634.0
-rect_rotation = -90.0
-text = "Dialogue files"
-
-[node name="main" type="Control" parent="."]
+[node name="main" type="Control" parent="." groups=["editor_main"]]
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="topMenu" type="HBoxContainer" parent="main" groups=[
-"editor_main",
-]]
+[node name="avatar" parent="main" instance=ExtResource( 2 )]
+margin_left = 760.0
+margin_top = 180.0
+margin_right = 910.0
+margin_bottom = 385.0
+
+[node name="topMenu" type="HBoxContainer" parent="main"]
 margin_right = 1000.0
 margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="saveSession" type="Button" parent="main/topMenu"]
-margin_right = 94.0
+[node name="saveSessionToFile" type="Button" parent="main/topMenu"]
+margin_right = 135.0
 margin_bottom = 40.0
-text = "Save session"
+text = "save session to file"
 
-[node name="saveToFile" type="Button" parent="main/topMenu"]
-margin_left = 98.0
-margin_right = 180.0
+[node name="openSessionFromFile" type="Button" parent="main/topMenu"]
+margin_left = 139.0
+margin_right = 294.0
 margin_bottom = 40.0
-text = "save to file"
+text = "open session from file"
 
 [node name="setToActive" type="Button" parent="main/topMenu"]
-margin_left = 184.0
-margin_right = 383.0
+margin_left = 298.0
+margin_right = 451.0
 margin_bottom = 40.0
-text = "set current dialogue to active"
+text = "save changes to game"
 
-[node name="reset" type="Button" parent="main/topMenu"]
-margin_left = 387.0
-margin_right = 508.0
+[node name="resetActiveDialogue" type="Button" parent="main/topMenu"]
+margin_left = 455.0
+margin_right = 613.0
 margin_bottom = 40.0
-text = "reset gamecache"
+text = "reset unsaved changes"
 
-[node name="options" type="VBoxContainer" parent="main" groups=[
-"editor_main",
-]]
+[node name="options" type="VBoxContainer" parent="main"]
 margin_top = 60.0
 margin_right = 125.0
 margin_bottom = 460.0
@@ -77,9 +69,7 @@ margin_right = 125.0
 margin_bottom = 52.0
 text = "show advanced"
 
-[node name="keymap" type="RichTextLabel" parent="main" groups=[
-"editor_main",
-]]
+[node name="keymap" type="RichTextLabel" parent="main"]
 margin_top = 130.0
 margin_right = 200.0
 margin_bottom = 530.0
@@ -90,23 +80,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="avatar" parent="." instance=ExtResource( 2 )]
-visible = false
-margin_left = 760.0
-margin_top = 180.0
-margin_right = 910.0
-margin_bottom = 385.0
+[node name="expand" type="Button" parent="main" groups=["editor_main"]]
+margin_top = 580.0
+margin_right = 149.0
+margin_bottom = 634.0
+rect_rotation = -90.0
+text = "Dialogue files"
 
-[node name="select" parent="." instance=ExtResource( 3 )]
-visible = false
-margin_left = 863.391
-margin_top = 176.995
-margin_right = 1173.39
-margin_bottom = 597.995
-
-[connection signal="pressed" from="expand" to="." method="_on_expand_pressed"]
-[connection signal="pressed" from="main/topMenu/saveSession" to="." method="_on_saveSession_pressed"]
+[connection signal="pressed" from="main/topMenu/saveSessionToFile" to="." method="_on_saveSessionToFile_pressed"]
+[connection signal="pressed" from="main/topMenu/openSessionFromFile" to="." method="_on_openSessionFromFile_pressed"]
 [connection signal="pressed" from="main/topMenu/setToActive" to="." method="_on_setToActive_pressed"]
+[connection signal="pressed" from="main/topMenu/resetActiveDialogue" to="." method="_on_resetActiveDialogue_pressed"]
 [connection signal="toggled" from="main/options/help" to="." method="_on_help_toggled"]
 [connection signal="toggled" from="main/options/advanced" to="." method="_on_advanced_toggled"]
-[connection signal="item_selected" from="select" to="." method="_on_select_item_selected"]
+[connection signal="pressed" from="main/expand" to="." method="_on_expand_pressed"]

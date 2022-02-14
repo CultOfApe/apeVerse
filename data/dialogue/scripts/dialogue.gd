@@ -1,26 +1,21 @@
 extends Node2D
 
-#TODO: selecting reply on single reply dialogue, doesnt select replies. Set so if dialogue text and replies are displayed
-#enter automatically choses first reply?
+onready var VIEWSIZE : Vector2 = get_viewport_rect().size
 
 #some of the below cannot be cast as dictionaries, because of array and dictionary mixing in the code
-onready var dialogPanel 	:= load("res://data/dialogue/nodes/dialogue_window.tscn")
-onready var replyButton 	:= load("res://data/dialogue/nodes/reply.tscn")
-onready var screenBlur 		:= $"../effects/blurfx"
-onready var effectBlurUI 	:= $"../effects/tween"
+onready var dialogue_window 	:= load("res://data/dialogue/nodes/dialogue_window.tscn")
+onready var reply_button 	:= load("res://data/dialogue/nodes/reply.tscn")
+onready var screen_blur 		:= $"../effects/blurfx"
+onready var blur_fx 	:= $"../effects/tween"
 
-var npc_dialogue 	: Dictionary
 var dialogue 		: Dictionary
-var dialog_box 		: Dictionary
+var dialogue_box 		: Dictionary
 var talk_data 		= {}
 var branch 			= {}
 var replies 		= {}
 
 var dialogue_type
 
-onready var VIEWSIZE : Vector2 = get_viewport_rect().size
-
-var npc_name 		: String
 var avatar 	= null
 var npc 			: String
 
@@ -31,14 +26,12 @@ var reply_container 	:= []
 var reply_mouseover 	:= false
 var current_reply 	:= -1
 
-var mouse_position 		: Vector3
-
 var avatar_frame 	: int
 var avatar_type		: String
 
 func _ready():
 	# TODO: This is getting better but should be loaded from json, and needs further adjustable variables, like offset from bottom of screen, pos of avatar/name etc.
-	dialog_box = {
+	dialogue_box = {
 		"width": 1000, 
 		"height": 60, 
 		"margin": Vector2(100, 20), 
@@ -75,8 +68,8 @@ func _input(event):
 			if current_reply != -1:
 				if get_node(reply_container[current_reply]).text == "exit dialogue":
 					
-					effectBlurUI.interpolate_property(
-						screenBlur, 
+					blur_fx.interpolate_property(
+						screen_blur, 
 						"modulate", 
 						Color(1, 1, 1, 1), 
 						Color(1, 1, 1, 0), 
@@ -115,8 +108,8 @@ func talk_to(id, target_pos, type):
 		npc = id
 		dialogue_type = type
 		
-		effectBlurUI.interpolate_property(
-			screenBlur, 
+		blur_fx.interpolate_property(
+			screen_blur, 
 			"modulate", 
 			Color(1, 1, 1, 0), 
 			Color(1, 1, 1, 1), 
@@ -262,8 +255,8 @@ func pick_reply(n):
 		else:
 			global.charData[npc]["dialogue"][dialogue_type]["branch"] = replies[n]["next"]
 			
-		effectBlurUI.interpolate_property(
-			screenBlur, 
+		blur_fx.interpolate_property(
+			screen_blur, 
 			"modulate", 
 			Color(1, 1, 1, 1), 
 			Color(1, 1, 1, 0), 
@@ -300,14 +293,12 @@ func start_dialogue(json, type):
 	global.save_file(json, json)
 	
 	branch = talk_data["dialogue"][global.charData[npc]["dialogue"][type]["branch"]]
-	branch = talk_data["dialogue"][global.charData[npc]["dialogue"][type]["branch"]]
-	replies = talk_data["dialogue"][global.charData[npc]["dialogue"][type]["branch"]]["replies"]
-	npc_name = talk_data["name"]
+	replies = branch["replies"]
 
 	dialogue_text_size = branch["speech"].size()
 	
 	# if branch has replies, check how many. If no responses, replies_size is 0
-	if branch.has("replies"):
+	if replies:
 		replies_size = replies.size()
 	else:
 		reply_mouseover = false
@@ -335,7 +326,7 @@ func start_dialogue(json, type):
 	setup_avatar()
 	
 	#set text and reply in dialogue panel
-	$"ui_dialogue/dialogue/name".set_text(npc_name)
+	$"ui_dialogue/dialogue/name".set_text(npc)
 	$"ui_dialogue/dialogue".set_text(branch["speech"][page_index])
 	
 #	if page_index == dialogue_text_size-1 and replies_size > 0:
@@ -356,20 +347,20 @@ func setup_dialogue_window():
 	create_labels(labels)
 	
 	# TODO: The below could be made even more dynamic. Has some arbitrary values that don´t really work if we want diferent sized windows
-#	$"ui_dialogue/panel".set_size(Vector2(dialog_box.width, dialog_box.height + replies_size*30))
-	$"ui_dialogue/panel".set_size(Vector2(dialog_box.width, dialog_box.height + 240))
-	$"ui_dialogue/panel".set_position(Vector2(VIEWSIZE.x /2 - dialog_box.width / 2, VIEWSIZE.y / 2 - dialog_box.height / 2 + 200))
+#	$"ui_dialogue/panel".set_size(Vector2(dialogue_box.width, dialogue_box.height + replies_size*30))
+	$"ui_dialogue/panel".set_size(Vector2(dialogue_box.width, dialogue_box.height + 240))
+	$"ui_dialogue/panel".set_position(Vector2(VIEWSIZE.x /2 - dialogue_box.width / 2, VIEWSIZE.y / 2 - dialogue_box.height / 2 + 200))
 	$"ui_dialogue/panel".modulate.a = 0.5
 	
-	$"ui_dialogue/dialogue".set_size(Vector2(dialog_box.width, dialog_box.height + replies_size * 30))
-	$"ui_dialogue/dialogue".set_position(Vector2(VIEWSIZE.x / 2 - dialog_box.width / 2 + dialog_box.margin.x, 
-												 VIEWSIZE.y / 2 - dialog_box.height / 2 + dialog_box.margin.y + 200))
+	$"ui_dialogue/dialogue".set_size(Vector2(dialogue_box.width, dialogue_box.height + replies_size * 30))
+	$"ui_dialogue/dialogue".set_position(Vector2(VIEWSIZE.x / 2 - dialogue_box.width / 2 + dialogue_box.margin.x, 
+												 VIEWSIZE.y / 2 - dialogue_box.height / 2 + dialogue_box.margin.y + 200))
 	
 	if page_index == dialogue_text_size-1 and replies_size > 0:
 		for n in range(replies_size):
 			get_node("ui_dialogue/reply" + str(n+1)).set_size(Vector2(400, 50))
-			get_node("ui_dialogue/reply" + str(n+1)).set_position(Vector2(VIEWSIZE.x /2 - dialog_box.width / 2 + dialog_box.margin.x, 
-																		  VIEWSIZE.y / 2 - dialog_box.height / 2 + dialog_box.margin.y + reply_offset  + 200 + 40))
+			get_node("ui_dialogue/reply" + str(n+1)).set_position(Vector2(VIEWSIZE.x /2 - dialogue_box.width / 2 + dialogue_box.margin.x, 
+																		  VIEWSIZE.y / 2 - dialogue_box.height / 2 + dialogue_box.margin.y + reply_offset  + 200 + 40))
 			get_node("ui_dialogue/reply" + str(n+1)).num_reply = n
 			
 			for reply in range(0,replies_size):
@@ -390,7 +381,7 @@ func setup_avatar():
 			avatar = avatar.instance()
 			avatar.frame = avatar_frame
 			avatar.set_scale(Vector2(0.7,0.7))
-			avatar.set_position(Vector2(VIEWSIZE.x/2 - dialog_box.width/2, VIEWSIZE.y - dialog_box.posy + 200))
+			avatar.set_position(Vector2(VIEWSIZE.x/2 - dialogue_box.width/2, VIEWSIZE.y - dialogue_box.posy + 200))
 		else:
 			# if doesn´t end with TSCN, it´s a sprite
 			avatar_type = "static"
@@ -401,7 +392,7 @@ func setup_avatar():
 			texture.create_from_image(image)
 			sprite.texture = texture
 			avatar = sprite
-			avatar.set_position(Vector2(VIEWSIZE.x/2 - dialog_box.width/2, VIEWSIZE.y - dialog_box.posy + 200))	
+			avatar.set_position(Vector2(VIEWSIZE.x/2 - dialogue_box.width/2, VIEWSIZE.y - dialogue_box.posy + 200))	
 				
 		$"ui_dialogue".add_child(avatar)
 	else:
@@ -416,13 +407,13 @@ func create_labels(labels):
 			node.set_name(lbl)
 			$"ui_dialogue".add_child(node)
 		if lbl == "dialogue":
-			var node = dialogPanel.instance()
+			var node = dialogue_window.instance()
 			node.set_name(lbl)
 			node.connect("dialogue_clicked", self, "dialogue_clicked")
 			$"ui_dialogue".add_child(node)
 		if page_index == dialogue_text_size-1:
 			if "reply" in lbl:
-				var node = replyButton.instance()
+				var node = reply_button.instance()
 				node.set_name(lbl)
 				node.connect("reply_selected",self,"pick_reply",[], CONNECT_ONESHOT)
 				node.connect("reply_mouseover",self,"_reply_mouseover")

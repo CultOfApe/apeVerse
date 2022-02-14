@@ -1,11 +1,19 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://data/npcs/ellie_talkanim.tscn" type="PackedScene" id=1]
+[ext_resource path="res://data/npcs/graphics/avatars/ellie_indifferent.png" type="Texture" id=1]
 [ext_resource path="res://data/editor/graphics/add.png" type="Texture" id=2]
 [ext_resource path="res://data/editor/scripts/avatar.gd" type="Script" id=3]
+[ext_resource path="res://data/npcs/graphics/avatars/ellie_angry.png" type="Texture" id=4]
+[ext_resource path="res://data/npcs/graphics/avatars/ellie_laughing.png" type="Texture" id=5]
+[ext_resource path="res://data/npcs/graphics/avatars/ellie_surprise.png" type="Texture" id=6]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 65.8045, 75.8372 )
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 1 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 4 ) ],
+"loop": false,
+"name": "default",
+"speed": 5.0
+} ]
 
 [node name="avatar" type="Panel"]
 margin_right = 150.0
@@ -79,29 +87,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="avatar" parent="." instance=ExtResource( 1 )]
-position = Vector2( 76.3067, 96.4477 )
-
-[node name="Node2D" type="Area2D" parent="avatar"]
-position = Vector2( -152.613, -192.895 )
-scale = Vector2( 2, 2 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="avatar/Node2D"]
-position = Vector2( 75.4052, 97.318 )
-shape = SubResource( 1 )
-
-[node name="Button" type="Button" parent="."]
-margin_left = 9.3067
-margin_top = 20.9477
-margin_right = 272.307
-margin_bottom = 324.948
-flat = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="avatar" type="AnimatedSprite" parent="."]
+position = Vector2( 70, 95 )
+scale = Vector2( 0.5, 0.5 )
+frames = SubResource( 1 )
+frame = 2
 
 [connection signal="pressed" from="previous" to="." method="_on_previous_pressed"]
 [connection signal="pressed" from="next" to="." method="_on_next_pressed"]
-[connection signal="input_event" from="avatar/Node2D" to="." method="_on_Node2D_input_event"]
-[connection signal="mouse_entered" from="avatar/Node2D" to="." method="_on_Node2D_mouse_entered"]
-[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
