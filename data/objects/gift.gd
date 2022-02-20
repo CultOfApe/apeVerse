@@ -3,17 +3,22 @@ extends StaticBody
 signal look_at(a,b)
 signal highlight(a)
 signal dialogue(a,b,c)
+signal picked_up(id)
 
 #will just carry character name, all other data will be moved to charData in global.gd
-var identity 	: String 		= "giftbox"
+var identity 	: String 		= "gift"
 var branch 		: String 		= ""
 var gender		: Array			= []
 var pickupable	: bool			= true
 
+onready var game_root 			= get_tree().get_root().get_node("game")
+onready var game_ui 			= game_root.get_node("ui")
+onready var inventory_ui 		= game_ui.get_node("schoolbag_ui")
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	self.connect("picked_up", inventory_ui, "pickup")
 
 
 func _on_trigger_mouse_entered():
@@ -64,9 +69,11 @@ func _on_trigger_input_event(camera, event, click_position, click_normal, shape_
 			
 func pickup():
 	global.inventoryData["items"]["gift"] = {
-		"id" : "giftbox",
+		"id" : "gift",
 		"description" : "a giftbox"
 	}
+
+	emit_signal("picked_up", identity)
 
 	global.remove_from_scene("objects", "gift")
 	global.change_cursor("default")

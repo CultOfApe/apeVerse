@@ -116,6 +116,7 @@ func setup_game():
 	dialogue_running = false
 	
 	inventoryData 	= load_json("res://data/global/inventory_data.json")
+	print("inventory: " + str(inventoryData))
 	eventData 		= load_json("res://data/events/gameEvents.json")
 	gameData 		= load_json("res://data/global/game_data.json")
 	charData 		= load_json("res://data/global/character_data.json")
@@ -151,56 +152,6 @@ func setup_game():
 func change_cursor(id):
 	var cursor = load("res://data/ui/graphics/cursor_" + id + ".png")
 	Input.set_custom_mouse_cursor(cursor)
-	
-
-# Hack solution that doesn´t work very well, but low priority for now
-func grab_screen():
-	capture = null
-	get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
-	
-	yield(get_tree(), "idle_frame")
-	yield(get_tree(), "idle_frame")
-	
-	capture = get_viewport().get_texture().get_data()
-	
-	capture.flip_y()
-	capture.convert(5)
-	print("screenshot saved!")
-
-func list_files_in_directory(path):
-	
-	files.clear()
-	
-	var dir = Directory.new()
-	dir.open(path)
-	dir.list_dir_begin()
-
-	while true:
-		var file = dir.get_next()
-		if file == "":
-			break
-		elif not file.begins_with(".") and !file.ends_with("import"):
-			files.append(file)
-			
-	dir.list_dir_end()
-
-	return files
-	
-func load_json(json):
-		var file = File.new()
-		file.open(json, File.READ)
-		tempData = parse_json(file.get_as_text())
-		return tempData
-		tempData = null
-		file.close()
-		
-func load_user_image(id):
-	var image = Image.new()
-	var err = image.load("user://" + id + ".png")
-	if err != OK:
-			pass
-	var texture = ImageTexture.new()
-	return texture.create_from_image(image, 0)
 
 func goto_scene(scene):
 	get_tree().change_scene("res://"+scene)
@@ -376,40 +327,6 @@ func environmentLight(latitude, color, ambience, energy, rotation):
 	worldEnv.environment.ambient_light_energy = ambience
 	lightDir.light_energy = energy
 	lightDummy.rotation_degrees = rotation
-
-func event_notifier():
-	pass
-	
-func setup_grid(type, rows, cols): #type can be text, image or custom (load prefab node)
-	if type == "text":
-		for row in rows:
-			for cols in cols:
-				pass
-	elif type == "image":
-		for rows in rows:
-			for cols in cols:
-				pass
-	else:
-		for rows in rows:
-			for cols in cols:
-				pass
-
-func save_file(filename, data):
-	var file = File.new()
-	file.open("res://data/debug/debug.txt", File.WRITE)
-	file.store_line(to_json(data))
-	file.close()
-	
-func _save_game(id, page):
-	saveData["currentLocation"] = currentLocation
-	saveData["eventData"] = eventData
-	saveData["gameVars"] = gameVars
-	saveData["CharData"] = charData
-	
-	var file = File.new()
-	file.open("user://data/saves/" + id + ".save", File.WRITE)
-	file.store_line(to_json(saveData))
-	file.close()
 	
 func _load_game(id):
 	var file = File.new()
@@ -482,3 +399,90 @@ func proximity(origin, target, distance):
 #	timer.connect("timeout", object_target, string_function)
 #	object_target.add_child(timer)
 #	timer.start()
+
+func _save_game(id, page):
+	saveData["currentLocation"] = currentLocation
+	saveData["eventData"] = eventData
+	saveData["gameVars"] = gameVars
+	saveData["CharData"] = charData
+	
+	var file = File.new()
+	file.open("user://data/saves/" + id + ".save", File.WRITE)
+	file.store_line(to_json(saveData))
+	file.close()
+
+func event_notifier():
+	pass
+	
+func setup_grid(type, rows, cols): #type can be text, image or custom (load prefab node)
+	if type == "text":
+		for row in rows:
+			for cols in cols:
+				pass
+	elif type == "image":
+		for rows in rows:
+			for cols in cols:
+				pass
+	else:
+		for rows in rows:
+			for cols in cols:
+				pass
+
+func save_file(path, name, data):
+	var file = File.new()
+	file.open(path + name, File.WRITE)
+	file.store_line(to_json(data))
+	file.close()
+
+func copy_file(path_from, path_to, name):	
+	var dir = Directory.new()
+	dir.copy(path_from + name, path_to + name)
+	
+# Hack solution that doesn´t work very well, but low priority for now
+func grab_screen():
+	capture = null
+	get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
+	
+	yield(get_tree(), "idle_frame")
+	yield(get_tree(), "idle_frame")
+	
+	capture = get_viewport().get_texture().get_data()
+	
+	capture.flip_y()
+	capture.convert(5)
+
+func list_files_in_directory(path):
+	
+	files.clear()
+	
+	var dir = Directory.new()
+	dir.open(path)
+	dir.list_dir_begin()
+
+	while true:
+		var file = dir.get_next()
+		if file == "":
+			break
+		elif not file.begins_with(".") and !file.ends_with("import"):
+			files.append(file)
+			
+	dir.list_dir_end()
+
+	return files
+	
+func load_json(json):
+		var file = File.new()
+		file.open(json, File.READ)
+		tempData = parse_json(file.get_as_text())
+		return tempData
+		tempData = null
+		file.close()
+		
+func load_user_image(id):
+	var image = Image.new()
+	var err = image.load("user://" + id + ".png")
+	if err != OK:
+			pass
+	var texture = ImageTexture.new()
+	return texture.create_from_image(image, 0)
+	

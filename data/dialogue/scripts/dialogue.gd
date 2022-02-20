@@ -290,7 +290,7 @@ func start_dialogue(json, type):
 #	TODO: when calling a dialogue, call start_dialogue("ellie_date_0" + str(global.chardata["relationship"]) + ".json")
 	global.dialogue_running = true
 	talk_data = global.load_json(json)
-	global.save_file(json, json)
+	global.save_file("res://data/debug/", "debug.json", json)
 	
 	branch = talk_data["dialogue"][global.charData[npc]["dialogue"][type]["branch"]]
 	replies = branch["replies"]

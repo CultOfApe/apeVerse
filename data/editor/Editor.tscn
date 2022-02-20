@@ -87,6 +87,13 @@ margin_bottom = 634.0
 rect_rotation = -90.0
 text = "Dialogue files"
 
+[node name="variables" type="Panel" parent="main"]
+visible = false
+margin_left = 1690.0
+margin_top = 395.0
+margin_right = 1886.0
+margin_bottom = 749.0
+
 [connection signal="pressed" from="main/topMenu/saveSessionToFile" to="." method="_on_saveSessionToFile_pressed"]
 [connection signal="pressed" from="main/topMenu/openSessionFromFile" to="." method="_on_openSessionFromFile_pressed"]
 [connection signal="pressed" from="main/topMenu/setToActive" to="." method="_on_setToActive_pressed"]
