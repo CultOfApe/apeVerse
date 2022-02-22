@@ -62,7 +62,7 @@ func _setup_editor():
 		get_node("json_files/json_files_b" + str(i)).id = JSON_files[i]
 		get_node("json_files/json_files_b" + str(i)).branch = "1"
 		get_node("json_files/json_files_b" + str(i)).set_text(JSON_files[i])
-		get_node("json_files/json_files_b" + str(i)).connect("on_click",self,"_pop_nodes",[], CONNECT_ONESHOT)
+		get_node("json_files/json_files_b" + str(i)).connect("on_click",self,"new_dialogue",[], CONNECT_ONESHOT)
 		get_node("json_files/json_files_b" + str(i)).connect("button_hover",self,"_button_hover")	
 		
 func _kill_editor():			
@@ -98,14 +98,17 @@ func _create_instanced_UI_element(id, type, parent, xsize, ysize, xpos, ypos, ma
 	node.set_position(Vector2(xpos, ypos))
 	node.connect("on_click", self, "_on_node_click")
 	node.connect("on_hover", self, "_button_hover")	
+	node.connect("save_edit", self, "_save_edit")	
 	if parent != null:
 		parent.add_child(node) 
 
-# TODO: If existing nodes, spawn new nodes at x + 1080, and then move over $"nodes" x -1080
-func _pop_nodes(id, branch, reset, modifier):
-
+func new_dialogue(id, branch, reset, modifier):
 	current_dialogue = id
 	session_cache = global.load_json("res://data/dialogue/json/" + current_dialogue)
+	_pop_nodes(id, branch, reset, modifier)
+
+# TODO: If existing nodes, spawn new nodes at x + 1080, and then move over $"nodes" x -1080
+func _pop_nodes(id, branch, reset, modifier):
 	
 	for node in get_tree().get_nodes_in_group("editor_main"):
 		node.show()
@@ -129,7 +132,7 @@ func _pop_nodes(id, branch, reset, modifier):
 	if session_log == {}:
 		nodes_origin = $nodes.get_position()
 	
-	# only run when first opening dialogue
+	# only run when first opening dialogue, and no current dialogue has been set
 	if !session_log.has(current_dialogue):
 		session_log = {current_dialogue : [branch],
 					"active" : 0, "name" : session_cache.name.to_lower()}
@@ -141,6 +144,7 @@ func _pop_nodes(id, branch, reset, modifier):
 	session_log["active"] += modifier
 	
 	print("current dialogue: " + current_dialogue)
+	print("session log: " + str(session_log))
 		
 	if session_log[current_dialogue].size() > 1:
 		previous_branch = str(session_log[current_dialogue][(session_log.active) - 1])
@@ -294,6 +298,9 @@ func _on_node_click(branch, null, modifier):
 		modifier = 0
 	_pop_nodes(current_dialogue, branch, true, modifier)
 
+# save changes to reply text
+func _save_edit(text, branch, reply):
+	session_cache["dialogue"][current_branch]["replies"][reply]["reply"] = text
 	
 func _reply_clicked(a):
 	pass	
@@ -331,27 +338,16 @@ func _on_saveSessionToFile_pressed():
 func _on_openSessionFromFile_pressed():
 	pass # Replace with function body.
 
-#TODO: references dictionary local to editorNode.gd. Needs solution.
+
 func _on_setToActive_pressed():
-#	print("----------------------------")
-#	print("DEBUG Editor.gd - func _on_setToActive_pressed")
-#	print("----------------------------")
-#	print(" ")	
-#	print(" global.chardata: ")
-#	print(global.charData)
-#	print("global.editorData:  ")
-#	print(global.editorData)
-#	print("----------------------------")
-#	print("DEBUG end")
-#	print("----------------------------")
-#	print(" ")
 
 	var dir = Directory.new()
 	
-	dir.copy("res://data/dialogue/json/" + current_dialogue, "res://data/editor/cache/" + current_dialogue)
-	print("res://data/editor/cache/" + current_dialogue)
+#	dir.copy("res://data/dialogue/json/" + current_dialogue, "res://data/editor/cache/" + current_dialogue)
+	global.save_file("res://data/editor/cache/", current_dialogue, session_cache)
 	global.charData[session_cache.name.to_lower()]["dialogue"]["default"]["path"] = "res://data/editor/cache/" + current_dialogue
 	global.charData[session_cache.name.to_lower()]["dialogue"]["default"]["branch"] = current_branch
+	
 
 func _on_resetActiveDialogue_pressed():
 	global.charData["ellie"]["dialogue"]["default"]["branch"] = "1"

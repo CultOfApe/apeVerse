@@ -2,7 +2,7 @@ extends Panel
 
 signal on_click(a, b, c)
 signal on_hover(a, b, c)
-signal on_edit(a)
+signal save_edit(a, b, c)
 
 var id 			: String = ""
 var nodetype	: String = ""
@@ -22,11 +22,11 @@ func _on_Label_gui_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed() and !exit:
-				# TODO: emit this signal to edit text. $Edit.show - What variables do I need to emit?
 				if event.control:
 					$"advanced".show()
 					$"Label/Edit".show()
-					$"Label/Edit".grab_click_focus()
+#					$"Label/Edit".grab_click_focus()
+					$"Label/Edit".select_all()
 				else:
 					if nodetype == "reply":
 #						print("branch: " + branch)
@@ -51,6 +51,7 @@ func _on_Edit_gui_input(event):
 			$"Label".set_text($"Label/Edit".get_text())
 			$"Label/Edit".hide()
 			$"advanced".hide()
+			emit_signal("save_edit", $"Label/Edit".get_text(), branch, reply)
 			
 func _on_Area2D_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:

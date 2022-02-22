@@ -40,13 +40,13 @@ text = "open session from file"
 
 [node name="setToActive" type="Button" parent="main/topMenu"]
 margin_left = 298.0
-margin_right = 451.0
+margin_right = 497.0
 margin_bottom = 40.0
-text = "save changes to game"
+text = "set current dialogue to active"
 
 [node name="resetActiveDialogue" type="Button" parent="main/topMenu"]
-margin_left = 455.0
-margin_right = 613.0
+margin_left = 501.0
+margin_right = 659.0
 margin_bottom = 40.0
 text = "reset unsaved changes"
 
