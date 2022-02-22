@@ -25,7 +25,7 @@ func _on_Label_gui_input(event):
 				if event.control:
 					$"advanced".show()
 					$"Label/Edit".show()
-#					$"Label/Edit".grab_click_focus()
+					$"Label/Edit".grab_focus()
 					$"Label/Edit".select_all()
 				else:
 					if nodetype == "reply":
