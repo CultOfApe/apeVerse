@@ -1,12 +1,23 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://data/editor/scripts/clickbutton.gd" type="Script" id=1]
 
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="DynamicFontData" id=3]
+font_path = "res://data/fonts/ReemKufi-Regular.ttf"
+
+[sub_resource type="DynamicFont" id=2]
+size = 18
+font_data = SubResource( 3 )
+
 [node name="button" type="Label"]
-margin_right = 40.0
-margin_bottom = 14.0
+margin_right = 101.0
+margin_bottom = 28.0
 mouse_filter = 1
 size_flags_vertical = 0
+theme = SubResource( 1 )
+custom_fonts/font = SubResource( 2 )
 text = "This is a reply"
 script = ExtResource( 1 )
 __meta__ = {

@@ -3,6 +3,7 @@ extends Panel
 signal on_click(a, b, c)
 signal on_hover(a, b, c)
 signal save_edit(a, b, c)
+signal reply_added(a)
 
 var id 			: String = ""
 var nodetype	: String = ""
@@ -60,11 +61,13 @@ func _on_Area2D_input_event(viewport, event, shape_idx):
 				$"Panel/Label".show()
 				$"Label/Edit".show()
 				$add.hide()
+				emit_signal("reply_added", null)
 
 func _on_add_pressed():
 	$"Label".show()
 	$"Label/Edit".show()
 	$add.hide()
+	emit_signal("reply_added", null)
 # 	global.editorData[dialogue["file"]]["cache"]["dialogue"][branch]["replies"].push_back(
 #		{
 #			"reply": "",

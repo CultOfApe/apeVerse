@@ -22,7 +22,7 @@ var nodes_origin			# First position of nodes
 var JSON_files 	: Array
 
 func _ready():
-	pass
+	get_node("main/avatar").connect("avatar_changed", self, "save_avatar")
 
 func _input(event):
 	#show or hide editor
@@ -157,6 +157,8 @@ func _pop_nodes(id, branch, reset, modifier):
 	$"nodes".add_child(root)
 
 	if session_cache.dialogue["1"].has("avatar"):
+		$"main/avatar".dialogue = current_dialogue
+		$"main/avatar".branch = current_branch
 		$"main/avatar".show()
 		change_avatar(session_cache.dialogue, session_cache.dialogue["1"].avatar, "branch")
 	else:
@@ -266,6 +268,7 @@ func _pop_nodes(id, branch, reset, modifier):
 			get_node(trunk + "/Label/Edit").set_text("")
 			get_node(trunk + "/Label").hide()
 			get_node(trunk + "/add").show()
+			get_node(trunk).connect("reply_added", self, "reply_added")
 		
 		# CHECK save editor session to cache, only save to file if explicitly stated
 		global.editorData[current_dialogue] = session_log
@@ -301,6 +304,17 @@ func _on_node_click(branch, null, modifier):
 # save changes to reply text
 func _save_edit(text, branch, reply):
 	session_cache["dialogue"][current_branch]["replies"][reply]["reply"] = text
+	
+func save_avatar(branch, avatar):
+		session_cache.dialogue[current_branch].frame = get_node("main/avatar/avatar").get_frame()
+		
+func reply_added(id):
+	session_cache["dialogue"][current_branch]["replies"].push_back({
+					"reply": "edit text",
+					"next": "",
+					"exit": "false"
+				})
+	_pop_nodes(current_dialogue, current_branch, true, 0)
 	
 func _reply_clicked(a):
 	pass	
