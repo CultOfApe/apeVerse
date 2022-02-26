@@ -285,8 +285,12 @@ func _on_node_click(branch, null, modifier):
 	_pop_nodes(current_dialogue, branch, true, modifier)
 
 # save changes to reply text
-func _save_edit(text, branch, reply):
-	session_cache["dialogue"][current_branch]["replies"][reply]["reply"] = text
+func _save_edit(text, type, reply):
+	# TODO: this only saves replies properly, not the main dialogue text
+	if type == "reply":
+		session_cache["dialogue"][current_branch]["replies"][reply]["reply"] = text
+	elif type == "dialogue":
+		session_cache["dialogue"][current_branch]["speech"][0] = text
 	
 func save_avatar(branch, avatar):
 		session_cache.dialogue[current_branch].frame = get_node("main/avatar/avatar").get_frame()

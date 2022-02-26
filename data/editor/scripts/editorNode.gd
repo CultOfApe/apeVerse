@@ -52,7 +52,7 @@ func _on_Edit_gui_input(event):
 			$"Label".set_text($"Label/Edit".get_text())
 			$"Label/Edit".hide()
 			$"advanced".hide()
-			emit_signal("save_edit", $"Label/Edit".get_text(), branch, reply)
+			emit_signal("save_edit", $"Label/Edit".get_text(), nodetype, reply)
 			
 func _on_Area2D_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
