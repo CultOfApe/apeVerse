@@ -234,7 +234,7 @@ func advance_time():
 	
 #	keep track of day, week and month
 	
-	global.load_scene(global.scene)
+	global.load_scene(global.currentLocation)
 	get_parent().connect_stuff()
 	get_node("dateLabel").set_text(global.gameData.time[time] + ", " + global.weekday)		
 

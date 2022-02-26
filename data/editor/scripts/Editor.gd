@@ -14,6 +14,7 @@ var previous_session 	:= false
 var active_npc			: String
 var current_animation	: AnimatedSprite	
 var current_frame		: int
+var dialogue_size 		: int
 
 var session_log 	:= {} 	# Record of dialogue progression
 var session_cache			# Copy of the active dialogue tree
@@ -105,6 +106,7 @@ func _create_instanced_UI_element(id, type, parent, xsize, ysize, xpos, ypos, ma
 func new_dialogue(id, branch, reset, modifier):
 	current_dialogue = id
 	session_cache = global.load_json("res://data/dialogue/json/" + current_dialogue)
+	dialogue_size = session_cache["dialogue"].size()
 	_pop_nodes(id, branch, reset, modifier)
 
 # TODO: If existing nodes, spawn new nodes at x + 1080, and then move over $"nodes" x -1080
@@ -142,9 +144,6 @@ func _pop_nodes(id, branch, reset, modifier):
 		session_log[current_dialogue].push_back(branch)
 		
 	session_log["active"] += modifier
-	
-	print("current dialogue: " + current_dialogue)
-	print("session log: " + str(session_log))
 		
 	if session_log[current_dialogue].size() > 1:
 		previous_branch = str(session_log[current_dialogue][(session_log.active) - 1])
@@ -177,24 +176,8 @@ func _pop_nodes(id, branch, reset, modifier):
 	var replies_size = session_cache["dialogue"][branch]["replies"].size()
 	var offset = ((replies_size + 1) * 100 + (replies_size + 1) * 25 - 25) / 2
 	
-	if session_log.has(current_dialogue): #and session_log[current_dialogue].size() != 1:
-
-#		print("----------------------------")
-#		print("DEBUG Editor.gd")
-#		print("----------------------------")
-#		print(" ")	
-#		print(" " + String(session_log))
-#		print(" This chain has " + str(session_log[current_dialogue].size()) + " nodes and the current node has index no. " + str(session_log[current_dialogue].size() -1))
-#		print(" current node has value: " + session_log[current_dialogue][session_log[current_dialogue].size() - 1])
-#		print(" and has " + String(node["dialogue"][session_log[current_dialogue][(session_log.active) - 1]]["replies"].size()) + " replies")
-#		print(" ")	
-#		print("----------------------------")
-#		print("DEBUG end")
-#		print("----------------------------")
-#		print(" ")	
-	
+	if session_log.has(current_dialogue): #and session_log[current_dialogue].size() != 1:	
 		if session_log.active != 0: # calc by active-1 instead
-#			print("previous node has value: " + previous_branch)
 			var previous_replies_size = session_cache["dialogue"][session_log[current_dialogue][(session_log.active) - 1]]["replies"].size()
 			var previous_offset = (previous_replies_size * 100 + previous_replies_size * 25 - 25) / 2
 	
@@ -325,9 +308,6 @@ func _button_hover(a, b, c):
 	else:
 		get_node("main/variables").show()
 		variables(c)
-		print(a) # name of dialogue file
-		print(c) # number of reply
-#		variables(session_cache["dialogue"][branch]["replies"][i]["next"])
 
 func _on_help_toggled(button_pressed):
 	if button_pressed:
@@ -357,7 +337,6 @@ func _on_setToActive_pressed():
 
 	var dir = Directory.new()
 	
-#	dir.copy("res://data/dialogue/json/" + current_dialogue, "res://data/editor/cache/" + current_dialogue)
 	global.save_file("res://data/editor/cache/", current_dialogue, session_cache)
 	global.charData[session_cache.name.to_lower()]["dialogue"]["default"]["path"] = "res://data/editor/cache/" + current_dialogue
 	global.charData[session_cache.name.to_lower()]["dialogue"]["default"]["branch"] = current_branch

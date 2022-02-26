@@ -41,8 +41,6 @@ func _ready():
 	for object in get_parent().get_node("npcs").get_children():
 		object.connect("dialogue", self, "talk_to")
 	
-	print("chardata: ")
-	print(global.charData)
 		
 func event_handler():
 	pass
@@ -194,20 +192,20 @@ func pick_reply(n):
 					
 			}
 		
-		print("----------------------------")
-		print("DEBUG dialogue.gd")
-		print("----------------------------")
-		print(" global.eventData:")
-		print(" ")
-		print(" " + String(global.eventData))
-		print(" ")
-		print(" global.eventOverride:")
-		print(" " + String(global.eventOverride))
-		print(" ")
-		print("----------------------------")
-		print("DEBUG end")
-		print("----------------------------")
-		print(" ")
+#		print("----------------------------")
+#		print("DEBUG dialogue.gd")
+#		print("----------------------------")
+#		print(" global.eventData:")
+#		print(" ")
+#		print(" " + String(global.eventData))
+#		print(" ")
+#		print(" global.eventOverride:")
+#		print(" " + String(global.eventOverride))
+#		print(" ")
+#		print("----------------------------")
+#		print("DEBUG end")
+#		print("----------------------------")
+#		print(" ")
 			
 		# TODO: check if date is already present in eventData, and alert player if so
 		if global.eventData["date"][str(event_day)][event_cache["timeofday"]]["type"] == "oneoff":	
