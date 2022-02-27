@@ -32,7 +32,7 @@ func _on_Label_gui_input(event):
 					if nodetype == "reply":
 #						print("branch: " + branch)
 #						print("next: " + next)
-						emit_signal("on_click", next, true, modifier)
+						emit_signal("on_click", next, reply, modifier)
 
 
 func _on_Label_mouse_entered():

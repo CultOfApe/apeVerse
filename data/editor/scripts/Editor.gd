@@ -12,6 +12,7 @@ var previous_branch 	: String
 var reverse 			:= false
 var previous_session 	:= false
 var active_npc			: String
+var current_avatar_path	: String
 var current_animation	: AnimatedSprite	
 var current_frame		: int
 var dialogue_size 		: int
@@ -258,11 +259,12 @@ func _pop_nodes(id, branch, reset, modifier):
 		if !global.editorData[current_dialogue].has("cache"):
 			global.editorData[current_dialogue]["cache"] = global.load_json("res://data/dialogue/" + id)
 
-func change_avatar(dialogue, sprite, branch):
+func change_avatar(dialogue, path, branch):
+	current_avatar_path = path
 	if dialogue[session_log[current_dialogue][(session_log.active) - 1]].has("avatar"):
 		get_node("main/avatar/avatar").queue_free()
 		get_node("main/avatar/avatar").set_name("DELETED")
-		var avatar = load(sprite)
+		var avatar = load(path)
 		avatar = avatar.instance()	
 		avatar.set_name("avatar")
 		avatar.frame = dialogue[session_log[current_dialogue][(session_log.active) - 1]]["frame"]
@@ -271,22 +273,32 @@ func change_avatar(dialogue, sprite, branch):
 		var frames = $main/avatar/avatar.frames
 		var texture = frames.get_frame("default", avatar.frame)
 		$main/avatar.set_global_position(avatar_pos) #BAD: hardcoded
-		$main/avatar.id = sprite
+		$main/avatar.id = path
 	
-func _on_node_click(branch, null, modifier):
-	#TODO: shouldn´t be called if node has same id as current branch
-#	print("-------------------------------")
-#	if modifier == -1:
-#		reverse = true
-#	else:
-#		reverse = false
+func _on_node_click(branch, reply, modifier):
+	#TODO: if reply == 0, create new dialogue
+	print("reply clicked! " + branch)
+	if branch == "0":
+		branch = str(dialogue_size + 1)
+		session_cache["dialogue"][branch] = {}
+		session_cache["dialogue"][branch]["avatar"] = current_avatar_path
+		session_cache["dialogue"][branch]["animate"] = false
+		session_cache["dialogue"][branch]["frame"] = 0
+		session_cache["dialogue"][branch]["speech"] = "Edit this."
+		session_cache["dialogue"][branch]["replies"] = [{
+					"reply": "Edit this.",
+					"next": "0",
+					"exit": "false"
+				}]
+		# when clicked, need to change next from 0 to new dialogue branch
+		session_cache["dialogue"][current_branch]["replies"][reply]["next"] = str(dialogue_size + 1)
+
 	if branch == current_branch:
 		modifier = 0
 	_pop_nodes(current_dialogue, branch, true, modifier)
 
 # save changes to reply text
 func _save_edit(text, type, reply):
-	# TODO: this only saves replies properly, not the main dialogue text
 	if type == "reply":
 		session_cache["dialogue"][current_branch]["replies"][reply]["reply"] = text
 	elif type == "dialogue":
@@ -298,7 +310,7 @@ func save_avatar(branch, avatar):
 func reply_added(id):
 	session_cache["dialogue"][current_branch]["replies"].push_back({
 					"reply": "edit text",
-					"next": "",
+					"next": "0",
 					"exit": "false"
 				})
 	_pop_nodes(current_dialogue, current_branch, true, 0)
