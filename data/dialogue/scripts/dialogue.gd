@@ -294,6 +294,7 @@ func start_dialogue(json, type):
 	replies = branch["replies"]
 
 	dialogue_text_size = branch["speech"].size()
+	print("dialogue text size: " + str(dialogue_text_size))
 	
 	# if branch has replies, check how many. If no responses, replies_size is 0
 	if replies:

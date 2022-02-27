@@ -284,7 +284,7 @@ func _on_node_click(branch, reply, modifier):
 		session_cache["dialogue"][branch]["avatar"] = current_avatar_path
 		session_cache["dialogue"][branch]["animate"] = false
 		session_cache["dialogue"][branch]["frame"] = 0
-		session_cache["dialogue"][branch]["speech"] = "Edit this."
+		session_cache["dialogue"][branch]["speech"] = ["Edit this."]
 		session_cache["dialogue"][branch]["replies"] = [{
 					"reply": "Edit this.",
 					"next": "0",
