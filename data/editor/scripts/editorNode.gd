@@ -9,12 +9,18 @@ var id 			: String = ""
 var nodetype	: String = ""
 var dialogue	: String = ""
 var branch 		: String = ""
-var next		: String = ""
-var exit		: bool	 = false
 var reply		: int
 var modifier 	: int = 1
 var avatar 		= null
 var active		: bool
+
+var next	 	= null
+var exit		= null
+var progress	= null
+var variables	= null
+var events		= null
+var cutscene	= null
+var bubble		= null
 
 func _ready():
 	active = true
@@ -22,7 +28,7 @@ func _ready():
 func _on_Label_gui_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
-			if event.is_pressed() and !exit:
+			if event.is_pressed():
 				if event.control:
 					$"advanced".show()
 					$"Label/Edit".show()
@@ -38,12 +44,12 @@ func _on_Label_gui_input(event):
 func _on_Label_mouse_entered():
 	if nodetype == "reply" and !exit:
 		$"Label".add_color_override("font_color", Color(1,10,10))
-		emit_signal("on_hover", dialogue, branch, reply)
+	emit_signal("on_hover", dialogue, branch, reply)
 
 func _on_Label_mouse_exited():
 	if nodetype == "reply":
 		$"Label".add_color_override("font_color", Color(1,1,1))
-		emit_signal("on_hover", null, null, null)
+	emit_signal("on_hover", null, null, null)
 
 # key input to finalize and save edit. Enter, or CTRl+Enter
 func _on_Edit_gui_input(event):

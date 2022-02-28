@@ -48,54 +48,64 @@ __meta__ = {
 }
 
 [node name="next" type="CheckBox" parent="advanced"]
-margin_top = 14.0
+margin_top = -4.0
 margin_right = 56.0
-margin_bottom = 38.0
+margin_bottom = 20.0
+pressed = true
 text = "next"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="exit" type="CheckBox" parent="advanced"]
+margin_top = 10.0
 margin_right = 52.0
-margin_bottom = 24.0
+margin_bottom = 34.0
+pressed = true
 text = "exit"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="progress" type="CheckBox" parent="advanced"]
-margin_top = 28.0
+margin_top = 24.0
 margin_right = 83.0
-margin_bottom = 52.0
+margin_bottom = 48.0
 text = "progress"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="var" type="CheckBox" parent="advanced"]
-margin_top = 42.0
-margin_right = 47.0
-margin_bottom = 66.0
-text = "var"
+[node name="variables" type="CheckBox" parent="advanced"]
+margin_top = 38.0
+margin_right = 85.0
+margin_bottom = 62.0
+text = "variables"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="event" type="CheckBox" parent="advanced"]
-margin_top = 56.0
+[node name="events" type="CheckBox" parent="advanced"]
+margin_top = 52.0
 margin_right = 64.0
-margin_bottom = 80.0
-text = "event"
+margin_bottom = 76.0
+text = "events"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="cutscene" type="CheckBox" parent="advanced"]
-margin_top = 70.0
+margin_top = 66.0
 margin_right = 86.0
-margin_bottom = 94.0
+margin_bottom = 90.0
 text = "cutscene"
+
+[node name="bubble" type="CheckBox" parent="advanced"]
+margin_top = 80.0
+margin_right = 86.0
+margin_bottom = 104.0
+rect_min_size = Vector2( 0, 24 )
+text = "bubble"
 
 [connection signal="gui_input" from="Label" to="." method="_on_Label_gui_input"]
 [connection signal="mouse_entered" from="Label" to="." method="_on_Label_mouse_entered"]

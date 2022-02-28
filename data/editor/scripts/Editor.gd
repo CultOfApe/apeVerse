@@ -227,6 +227,30 @@ func _pop_nodes(id, branch, reset, modifier):
 			get_node(trunk).next = next
 			get_node(trunk).reply = i
 			get_node(trunk).modifier = 1
+			
+			# TODO: this can be made cleaner, reused node paths
+			if "next" in session_cache["dialogue"][branch]["replies"][i]:
+				get_node(trunk).next = session_cache["dialogue"][branch]["replies"][i]["next"]
+				get_node(trunk).get_node("advanced/next").pressed = true
+			if "exit" in session_cache["dialogue"][branch]["replies"][i]:
+				get_node(trunk).exit = session_cache["dialogue"][branch]["replies"][i]["exit"]
+				get_node(trunk).get_node("advanced/exit").pressed = true
+			if "progress" in session_cache["dialogue"][branch]["replies"][i]:
+				get_node(trunk).progress = session_cache["dialogue"][branch]["replies"][i]["progress"]
+				get_node(trunk).get_node("advanced/progress").pressed = true
+			if "variables" in session_cache["dialogue"][branch]["replies"][i]:
+				get_node(trunk).variables = session_cache["dialogue"][branch]["replies"][i]["variables"]
+				get_node(trunk).get_node("advanced/variables").pressed = true
+			if "event" in session_cache["dialogue"][branch]["replies"][i]:
+				get_node(trunk).events = session_cache["dialogue"][branch]["replies"][i]["event"]
+				get_node(trunk).get_node("advanced/events").pressed = true
+			if "cutscene" in session_cache["dialogue"][branch]["replies"][i]:
+				get_node(trunk).cutscene = session_cache["dialogue"][branch]["replies"][i]["cutscene"]
+				get_node(trunk).get_node("advanced/cutscene").pressed = true
+			if "bubble" in session_cache["dialogue"][branch]["replies"][i]:
+				get_node(trunk).bubble = session_cache["dialogue"][branch]["replies"][i]["bubble"]
+				get_node(trunk).get_node("advanced/bubble").pressed = true
+			
 			if session_cache["dialogue"][branch]["replies"][i]["exit"] == "true":
 				get_node(trunk).exit = true
 				get_node(trunk).active = false
@@ -276,8 +300,6 @@ func change_avatar(dialogue, path, branch):
 		$main/avatar.id = path
 	
 func _on_node_click(branch, reply, modifier):
-	#TODO: if reply == 0, create new dialogue
-	print("reply clicked! " + branch)
 	if branch == "0":
 		branch = str(dialogue_size + 1)
 		session_cache["dialogue"][branch] = {}
@@ -355,7 +377,7 @@ func _on_setToActive_pressed():
 	
 	global.save_file("res://data/editor/cache/", current_dialogue, session_cache)
 	global.charData[session_cache.name.to_lower()]["dialogue"]["default"]["path"] = "res://data/editor/cache/" + current_dialogue
-	global.charData[session_cache.name.to_lower()]["dialogue"]["default"]["branch"] = current_branch
+#	global.charData[session_cache.name.to_lower()]["dialogue"]["default"]["branch"] = current_branch
 	
 
 func _on_resetActiveDialogue_pressed():
