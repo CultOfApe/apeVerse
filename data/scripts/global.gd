@@ -99,6 +99,7 @@ var removedActors		: Array
 	
 var playerScript : Script = preload("res://data/scripts/player.gd")
 var playerPos
+var playerLocRotOverride = null
 
 var capture = null
 
@@ -175,7 +176,8 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 	
 	# ugly, hardcoded, placeholder daytime transition. Works fine for now.
 	# func environmentLight(latitude, color, ambience, energy, rotation)
-	if sceneData[scene]["environment"] == "exterior":
+	print(sceneData[sceneLocation]["environment"])
+	if sceneData[sceneLocation]["environment"] == "exterior":
 		if timeofday == "morning":
 			environmentLight(30, Color(0.8, 1, 0.8, 0.5), 0.7, 0.6, Vector3(0, 0, 0))
 		if timeofday == "noon":
@@ -185,7 +187,7 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 		if timeofday == "night":
 			environmentLight(0, Color(0.2, 0.2, 1, 1), 0.01, 0.05, Vector3(120, 0, 0))
 			
-	elif sceneData[scene]["environment"] == "interior":
+	elif sceneData[sceneLocation]["environment"] == "interior":
 		environmentLight(30, Color(0.8, 1, 0.8, 0.5), 0.7, 0.6, Vector3(0, 0, 0))
 	
 	if sceneData[sceneLocation].has(weekday):
@@ -229,6 +231,10 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 		gameType = "3D"
 		player.set_translation(Vector3(0,0.6,0))
 		player.set_rotation(Vector3(-0,0,-0))
+		if playerLocRotOverride != null:
+			player.set_translation(playerLocRotOverride[0])
+			player.set_rotation(playerLocRotOverride[1])
+			playerLocRotOverride = null
 	elif scene.is_class("Area2d"):
 		gameType = "2D"
 		player.set_translation(Vector2(0,0))

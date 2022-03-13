@@ -88,11 +88,67 @@ rect_rotation = -90.0
 text = "Dialogue files"
 
 [node name="variables" type="Panel" parent="main"]
-visible = false
 margin_left = 1690.0
 margin_top = 395.0
 margin_right = 1886.0
 margin_bottom = 749.0
+
+[node name="vbox" type="VBoxContainer" parent="main/variables"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="hbox" type="HBoxContainer" parent="main/variables/vbox"]
+margin_right = 138.0
+margin_bottom = 24.0
+
+[node name="check" type="CheckBox" parent="main/variables/vbox/hbox"]
+margin_right = 24.0
+margin_bottom = 24.0
+
+[node name="variable" type="Label" parent="main/variables/vbox/hbox"]
+margin_left = 28.0
+margin_top = 5.0
+margin_right = 79.0
+margin_bottom = 19.0
+text = "Variable"
+
+[node name="separator" type="VSeparator" parent="main/variables/vbox/hbox"]
+margin_left = 83.0
+margin_right = 87.0
+margin_bottom = 24.0
+
+[node name="value" type="Button" parent="main/variables/vbox/hbox"]
+margin_left = 91.0
+margin_right = 138.0
+margin_bottom = 24.0
+text = "Value"
+
+[node name="hbox2" type="HBoxContainer" parent="main/variables/vbox"]
+margin_top = 28.0
+margin_right = 138.0
+margin_bottom = 52.0
+
+[node name="check" type="CheckBox" parent="main/variables/vbox/hbox2"]
+margin_right = 24.0
+margin_bottom = 24.0
+
+[node name="variable" type="Label" parent="main/variables/vbox/hbox2"]
+margin_left = 28.0
+margin_top = 5.0
+margin_right = 79.0
+margin_bottom = 19.0
+text = "Variable"
+
+[node name="separator" type="VSeparator" parent="main/variables/vbox/hbox2"]
+margin_left = 83.0
+margin_right = 87.0
+margin_bottom = 24.0
+
+[node name="value" type="Button" parent="main/variables/vbox/hbox2"]
+margin_left = 91.0
+margin_right = 138.0
+margin_bottom = 24.0
+text = "Value"
 
 [connection signal="pressed" from="main/topMenu/saveSessionToFile" to="." method="_on_saveSessionToFile_pressed"]
 [connection signal="pressed" from="main/topMenu/openSessionFromFile" to="." method="_on_openSessionFromFile_pressed"]

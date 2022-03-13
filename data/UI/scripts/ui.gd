@@ -233,7 +233,7 @@ func advance_time():
 	transFX.start()
 	
 #	keep track of day, week and month
-	
+	global.playerLocRotOverride = [$"/root/game/player".get_global_transform().origin, $"/root/game/player".rotation]
 	global.load_scene(global.currentLocation)
 	get_parent().connect_stuff()
 	get_node("dateLabel").set_text(global.gameData.time[time] + ", " + global.weekday)		

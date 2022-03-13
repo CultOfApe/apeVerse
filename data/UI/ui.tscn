@@ -54,9 +54,6 @@ radius = 52.1685
 margin_right = 40.0
 margin_bottom = 40.0
 script = ExtResource( 2 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="dateLabel" type="Label" parent="."]
 margin_left = 1500.0
