@@ -11,14 +11,9 @@ var branch 		: String 		= ""
 var gender		: Array			= []
 var pickupable	: bool			= true
 
-onready var game_root 			= get_tree().get_root().get_node("game")
-onready var game_ui 			= game_root.get_node("ui")
-onready var inventory_ui 		= game_ui.get_node("schoolbag_ui")
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.connect("picked_up", inventory_ui, "pickup")
+	self.connect("picked_up", $"/root/game/ui/schoolbag_ui", "pickup")
 
 
 func _on_trigger_mouse_entered():
@@ -30,7 +25,7 @@ func _on_trigger_mouse_entered():
 	if global.itemInHand == "" and global.blocking_ui!=true:
 		global.change_cursor("hand")
 		emit_signal("highlight", identity)
-		if global.proximity(global.gameRoot.get_node("player").get_global_transform().origin,
+		if global.proximity($"/root/game/player".get_global_transform().origin,
 					self.get_global_transform().origin,
 					4):
 			global.change_cursor("hand")
@@ -54,12 +49,10 @@ func _on_trigger_input_event(camera, event, click_position, click_normal, shape_
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and global.blocking_ui!=true:
 		if event.is_pressed():
 			if global.itemInHand == "":	
-				if global.proximity(global.gameRoot.get_node("player").get_global_transform().origin,
+				if global.proximity($"/root/game/player".get_global_transform().origin,
 									self.get_global_transform().origin,
 									2):
 					pickup()
-#				else:
-#					global.balloon("Need to get closer.", global.gameRoot.get_node("player"), "player")
 			else:
 				global.balloon("That won´t work.", global.gameRoot.get_node("player"), "player")
 		
@@ -87,7 +80,7 @@ func pickup():
 			if location["default"][timeofday]["objects"].has(identity):
 					global.sceneData[global.currentLocation]["default"][timeofday]["objects"].erase(identity)
 	
-	var picked_up = get_node("../../ui/new_item")
+	var picked_up = $"/root/game/ui/new_item"
 	picked_up.show()
 	picked_up.get_node("item_text").text = identity
 	picked_up.get_node("materialize").interpolate_property(
@@ -100,6 +93,6 @@ func pickup():
 	picked_up.get_node("materialize").start()
 	
 	#todo: not working, try signal instead
-	get_node("../../soundfx").set_stream(load("res:/data/sounds/new_item.wav"))
-	get_node("../../soundfx").play()
+	$"/root/game/soundfx".set_stream(load("res:/data/sounds/new_item.wav"))
+	$"/root/game/soundfx".play()
 
