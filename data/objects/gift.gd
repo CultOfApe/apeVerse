@@ -80,6 +80,13 @@ func pickup():
 	global.update_points(2)
 	global.playerMoving = false
 	
+	var location = global.sceneData[global.currentLocation]
+	
+	for timeofday in location["default"].keys():
+		if location["default"][timeofday].has("objects"):
+			if location["default"][timeofday]["objects"].has(identity):
+					global.sceneData[global.currentLocation]["default"][timeofday]["objects"].erase(identity)
+	
 	var picked_up = get_node("../../ui/new_item")
 	picked_up.show()
 	picked_up.get_node("item_text").text = identity
