@@ -13,7 +13,7 @@ var pickupable	: bool			= true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.connect("picked_up", $"/root/game/ui/schoolbag_ui", "pickup")
+	self.connect("picked_up", $"/root/game/ui/schoolbag_ui", "pop_inventory")
 
 
 func _on_trigger_mouse_entered():
@@ -66,7 +66,7 @@ func pickup():
 		"description" : "a giftbox"
 	}
 
-	emit_signal("picked_up", identity)
+	emit_signal("picked_up")
 
 	global.remove_from_scene("objects", "gift")
 	global.change_cursor("default")

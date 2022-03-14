@@ -12,7 +12,6 @@ func _ready():
 
 func pop_inventory():
 	var items = global.inventoryData["items"]
-	print(items)
 
 	for item in $container/panel/inventory_items.get_children():
 		item.queue_free()
@@ -42,8 +41,5 @@ func pop_inventory():
 
 func _item_id(id):
 		get_node("container/panel/item").text = id
-		
-func pickup(id):
-	print("picked up a/an " + id)
-	pop_inventory()
+	
 

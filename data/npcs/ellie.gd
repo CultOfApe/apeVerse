@@ -3,6 +3,7 @@ extends StaticBody
 signal look_at(a,b)
 signal highlight(a)
 signal dialogue(a,b,c)
+signal remove_item(id)
 
 #will just carry character name, all other data will be moved to charData in global.gd
 var identity 	: String 		= "ellie"
@@ -44,13 +45,20 @@ func _ready():
 	$"Olga_animated/Armature/AnimationPlayer".play()
 #	$Character/AnimationPlayer.autoplay = "Idle-loop"
 	$"Olga_animated/Armature/AnimationPlayer".get_animation("idle").set_loop(true)
+	self.connect("remove_item", $"/root/game/ui/schoolbag_ui", "pop_inventory")
 		
 			
 # handles response to gifts
 func itemGiven(id):
 	print("Gift (" + id + ") given!")
 	global.playerMoving = false
-	var keys := global.inventoryData.keys()
+
+	inventory.push_back(id)
+	
+	if gifts.has(id):
+		global.inventoryData["items"].erase(id)
+		emit_signal("remove_item")
+
 	global.change_cursor("default")
 	#global.inventoryData["junk"].remove(0)
 	if gifts.has(global.itemInHand):
