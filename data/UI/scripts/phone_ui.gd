@@ -5,6 +5,7 @@ var gallery : Array
 var gallery_thumbs : Array
 
 onready var contactNode = get_node("apps/phone/contact_node")
+onready var contact_button = load("res://data/ui/nodes/contact_button.tscn")
 
 func _ready():
 	# TODO: This should only be run when the PhoneUI is envoked and then folder var should be emptied
@@ -15,8 +16,6 @@ func _ready():
 			gallery_thumbs.push_back(item)
 		elif !"import" in item:
 			gallery.push_back(item)
-			
-	contactNode.connect("call", self, "_on_call")
 
 func _input(event):
 	if event is InputEventKey:
@@ -79,6 +78,16 @@ func start_phone_app(app, event):
 				global.UI_lvl = 2
 				get_node("apps/" + app).show()
 				global.phone_app_running = true
+				if app == "phone":
+					for contact in $"apps/phone/contacts".get_children():
+						contact.queue_free()
+					for contact in global.contactData["contacts"].keys():
+						var node = contact_button.instance()
+						node.set_name(contact)
+						node.id = contact
+						node.set_text("Call " + contact)
+						node.connect("call", self, "_on_call")
+						$"apps/phone/contacts".add_child(node) 
 				
 func _on_phone_mouse_entered():
 	icon_fx($homescreen/phone, Vector2(0.9, 0.9))

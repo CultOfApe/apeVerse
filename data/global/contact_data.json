@@ -1,13 +1,11 @@
 {
 	"contacts" : {
-		"1" : {
-			"name" : "Devaun",
+		"Devaun" : {
 			"dialogue" : "devaun",
 			"status" : "Chillin n willin",
 			"number" : "648 459 865"
 		},
-		"2" : {
-			"name" : "Mom",
+		"Mom" : {
 			"dialogue" : "mom_phone",
 			"status" : "Cooking for the kids",
 			"number" : "985 457 125"		

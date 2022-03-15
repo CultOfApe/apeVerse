@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://data/UI/scripts/phone_ui.gd" type="Script" id=1]
 [ext_resource path="res://data/UI/graphics/phone_ui.png" type="Texture" id=2]
@@ -11,8 +11,6 @@
 [ext_resource path="res://data/UI/graphics/phone_internet.png" type="Texture" id=9]
 [ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=10]
 [ext_resource path="res://data/UI/graphics/phone_home.png" type="Texture" id=11]
-[ext_resource path="res://data/UI/nodes/contact_node.tscn" type="PackedScene" id=12]
-[ext_resource path="res://data/UI/nodes/contact_node_mom.tscn" type="PackedScene" id=13]
 [ext_resource path="res://data/UI/scripts/ui_archive.gd" type="Script" id=14]
 [ext_resource path="res://data/UI/graphics/gallery_page_highlight.png" type="Texture" id=16]
 
@@ -190,9 +188,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="phone" type="Panel" parent="apps" groups=[
-"UI_lvl_2",
-]]
+[node name="phone" type="Panel" parent="apps" groups=["UI_lvl_2"]]
 margin_left = 783.0
 margin_top = 1589.0
 margin_right = 1139.0
@@ -206,29 +202,11 @@ margin_right = 199.0
 margin_bottom = 61.8871
 text = "Contacts"
 
-[node name="pressQtoclose" type="Label" parent="apps/phone"]
-margin_left = 129.0
-margin_top = 595.0
-margin_right = 234.0
-margin_bottom = 609.0
-text = "Press Q to close"
+[node name="contacts" type="VBoxContainer" parent="apps/phone"]
+margin_right = 351.0
+margin_bottom = 568.0
 
-[node name="contact_node" parent="apps/phone" instance=ExtResource( 12 )]
-margin_left = 18.8366
-margin_top = 18.8365
-margin_right = 338.837
-margin_bottom = 78.8365
-mouse_filter = 2
-
-[node name="contact_node2" parent="apps/phone" instance=ExtResource( 13 )]
-margin_left = 18.0
-margin_top = 91.8398
-margin_right = 338.0
-margin_bottom = 151.84
-
-[node name="mail" type="Panel" parent="apps" groups=[
-"UI_lvl_2",
-]]
+[node name="mail" type="Panel" parent="apps" groups=["UI_lvl_2"]]
 visible = false
 margin_left = 783.0
 margin_top = 1590.0
@@ -249,9 +227,7 @@ margin_right = 234.0
 margin_bottom = 609.0
 text = "Press Q to close"
 
-[node name="internet" type="Panel" parent="apps" groups=[
-"UI_lvl_2",
-]]
+[node name="internet" type="Panel" parent="apps" groups=["UI_lvl_2"]]
 visible = false
 margin_left = 783.0
 margin_top = 1588.0
@@ -272,9 +248,7 @@ margin_right = 234.0
 margin_bottom = 609.0
 text = "Press Q to close"
 
-[node name="archive" type="Panel" parent="apps" groups=[
-"UI_lvl_2",
-]]
+[node name="archive" type="Panel" parent="apps" groups=["UI_lvl_2"]]
 visible = false
 margin_left = 783.0
 margin_top = 1588.0
@@ -297,9 +271,7 @@ margin_right = 234.0
 margin_bottom = 609.0
 text = "Press Q to close"
 
-[node name="Sprite1" type="Sprite" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="Sprite1" type="Sprite" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 100, 140 )
 z_index = 99
 
@@ -309,9 +281,7 @@ z_index = 99
 [node name="CollisionShape2D" type="CollisionShape2D" parent="apps/archive/Sprite1/sprite1"]
 shape = SubResource( 9 )
 
-[node name="Sprite2" type="Sprite" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="Sprite2" type="Sprite" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 260, 140 )
 
 [node name="sprite2" type="Area2D" parent="apps/archive/Sprite2"]
@@ -321,9 +291,7 @@ position = Vector2( -160, 0 )
 position = Vector2( 159.399, -0.773804 )
 shape = SubResource( 10 )
 
-[node name="Sprite3" type="Sprite" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="Sprite3" type="Sprite" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 100.992, 289.409 )
 
 [node name="sprite3" type="Area2D" parent="apps/archive/Sprite3"]
@@ -333,9 +301,7 @@ position = Vector2( -0.992004, -149.409 )
 position = Vector2( 0, 148.566 )
 shape = SubResource( 11 )
 
-[node name="Sprite4" type="Sprite" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="Sprite4" type="Sprite" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 260.77, 290.917 )
 
 [node name="sprite4" type="Area2D" parent="apps/archive/Sprite4"]
@@ -345,9 +311,7 @@ position = Vector2( -160.77, -150.917 )
 position = Vector2( 160.947, 150.887 )
 shape = SubResource( 12 )
 
-[node name="Sprite5" type="Sprite" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="Sprite5" type="Sprite" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 104.006, 438.636 )
 
 [node name="sprite5" type="Area2D" parent="apps/archive/Sprite5"]
@@ -357,9 +321,7 @@ position = Vector2( -4.00598, -298.636 )
 position = Vector2( 4.6427, 299.453 )
 shape = SubResource( 13 )
 
-[node name="Sprite6" type="Sprite" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="Sprite6" type="Sprite" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 262.277, 440.144 )
 
 [node name="sprite6" type="Area2D" parent="apps/archive/Sprite6"]
@@ -371,9 +333,7 @@ shape = SubResource( 14 )
 
 [node name="fx" type="Tween" parent="apps/archive"]
 
-[node name="page1" type="Area2D" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="page1" type="Area2D" parent="apps/archive" groups=["gallery"]]
 position = Vector2( -2.3327, 0 )
 
 [node name="highlight" type="Sprite" parent="apps/archive/page1"]
@@ -395,9 +355,7 @@ __meta__ = {
 position = Vector2( 55.3, 541.801 )
 shape = SubResource( 15 )
 
-[node name="page2" type="Area2D" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="page2" type="Area2D" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 48.9868, 0 )
 
 [node name="highlight" type="Sprite" parent="apps/archive/page2"]
@@ -416,9 +374,7 @@ text = "2"
 position = Vector2( 56.0501, 541.501 )
 shape = SubResource( 16 )
 
-[node name="page3" type="Area2D" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="page3" type="Area2D" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 101.473, 0 )
 
 [node name="highlight" type="Sprite" parent="apps/archive/page3"]
@@ -437,9 +393,7 @@ text = "3"
 position = Vector2( 56.05, 541.5 )
 shape = SubResource( 17 )
 
-[node name="page4" type="Area2D" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="page4" type="Area2D" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 152.792, 0 )
 
 [node name="highlight" type="Sprite" parent="apps/archive/page4"]
@@ -458,9 +412,7 @@ text = "4"
 position = Vector2( 57.0001, 541.5 )
 shape = SubResource( 18 )
 
-[node name="page5" type="Area2D" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="page5" type="Area2D" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 202.945, 0 )
 
 [node name="highlight" type="Sprite" parent="apps/archive/page5"]
@@ -479,9 +431,7 @@ text = "5"
 position = Vector2( 57.0002, 540.551 )
 shape = SubResource( 19 )
 
-[node name="page6" type="Area2D" parent="apps/archive" groups=[
-"gallery",
-]]
+[node name="page6" type="Area2D" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 255.431, 0 )
 
 [node name="highlight" type="Sprite" parent="apps/archive/page6"]
@@ -500,9 +450,7 @@ text = "6"
 position = Vector2( 56.05, 541.5 )
 shape = SubResource( 20 )
 
-[node name="calendar" type="Panel" parent="apps" groups=[
-"UI_lvl_2",
-]]
+[node name="calendar" type="Panel" parent="apps" groups=["UI_lvl_2"]]
 visible = false
 margin_left = 783.0
 margin_top = 1588.0
@@ -523,9 +471,7 @@ margin_right = 234.0
 margin_bottom = 609.0
 text = "Press Q to close"
 
-[node name="games" type="Panel" parent="apps" groups=[
-"UI_lvl_2",
-]]
+[node name="games" type="Panel" parent="apps" groups=["UI_lvl_2"]]
 visible = false
 margin_left = 783.0
 margin_top = 1589.0
@@ -557,9 +503,7 @@ margin_bottom = 1849.44
 position = Vector2( 79.3818, 79.4451 )
 z_index = 103
 
-[node name="contacts" type="Panel" parent="apps" groups=[
-"UI_lvl_2",
-]]
+[node name="contacts" type="Panel" parent="apps" groups=["UI_lvl_2"]]
 
 [connection signal="input_event" from="homescreen/phone/phone" to="." method="_on_phone_input_event"]
 [connection signal="mouse_entered" from="homescreen/phone/phone" to="." method="_on_phone_mouse_entered"]

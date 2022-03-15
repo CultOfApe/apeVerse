@@ -26,9 +26,6 @@ font_data = ExtResource( 3 )
 [node name="contact_node" type="Panel"]
 margin_right = 320.0
 margin_bottom = 60.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="fondo" type="Area2D" parent="."]
 

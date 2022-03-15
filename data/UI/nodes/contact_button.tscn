@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://data/UI/nodes/Button.gd" type="Script" id=1]
+[ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=21]
+size = 48
+font_data = ExtResource( 2 )
+
+[node name="Button" type="Button"]
+margin_right = 351.0
+margin_bottom = 79.0
+custom_fonts/font = SubResource( 21 )
+text = "Call Devaun"
+script = ExtResource( 1 )
+
+[connection signal="pressed" from="." to="." method="_on_Button_pressed"]

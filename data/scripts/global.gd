@@ -59,7 +59,6 @@ var previous_location 	: String
 var tempData
 var sceneData 		: Dictionary
 var locationData	: Dictionary
-var locData			: Dictionary # locationData should cover same function
 var gameData 		: Dictionary
 var eventData 		: Dictionary
 var charData 		: Dictionary
@@ -117,22 +116,17 @@ func setup_game():
 	dialogue_running = false
 	
 	inventoryData 	= load_json("res://data/global/inventory_data.json")
-	print("inventory: " + str(inventoryData))
 	eventData 		= load_json("res://data/events/gameEvents.json")
 	gameData 		= load_json("res://data/global/game_data.json")
 	charData 		= load_json("res://data/global/character_data.json")
 	locations 		= load_json("res://data/global/location_data.json")
+	contactData 	= load_json("res://data/global/contact_data.json")
 #	saveData 		= load_json("res://data/global/save_data.json")	
 		
-	for loc in locations:
-		locData[loc] = load_json("res://data/locations/" + loc + ".json")
-		
-	contactData 	= load_json("res://data/global/contact_data.json")
-	
 	for location in locations:
 		sceneData[location] = load_json("res://data/locations/" + location + ".json")
 	
-	# To facilitate coding, this game assumes a year of 360 days and 30 day months
+	# NOTE: To facilitate coding, this game assumes a year of 360 days and 30 day months
 	# weekday and month is calculated based on how many days of 360
 	gameday = 1	# actual day in game
 	day = 156	# day from the beginning of the year
@@ -147,7 +141,7 @@ func setup_game():
 	
 	transition.hide()
 		
-	audio.playing = true	
+	audio.playing = true
 	
 	
 func change_cursor(id):
@@ -384,7 +378,7 @@ func balloon(text, target, type):
 		
 func update_points(points):
 	completion_points += points
-	gameRoot.get_node("ui/pointsLabel").text = String(completion_points)
+	$"/root/game/ui/pointsLabel".text = String(completion_points)
 	
 func proximity(origin, target, distance):
 	if origin.distance_to(target) > distance:

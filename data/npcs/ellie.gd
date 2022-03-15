@@ -10,13 +10,15 @@ var identity 	: String 		= "ellie"
 var branch 		: String 		= "1"
 var gender		: Array			= ["she", "her"]
 
+#TODO: should be loaded from json
 var inventory 	: Array = [
 	"clothes",
 	"glasses",
 	"bag"
 ]
 
-# handles response to gifts
+# handles response to gifts 
+#TODO: should be loaded from json
 var gifts : Dictionary	= {
 	"default" : {
 		"response" 	: "...",
@@ -43,26 +45,23 @@ var gifts : Dictionary	= {
 
 func _ready():
 	$"Olga_animated/Armature/AnimationPlayer".play()
-#	$Character/AnimationPlayer.autoplay = "Idle-loop"
 	$"Olga_animated/Armature/AnimationPlayer".get_animation("idle").set_loop(true)
 	self.connect("remove_item", $"/root/game/ui/schoolbag_ui", "pop_inventory")
 		
 			
 # handles response to gifts
 func itemGiven(id):
-	print("Gift (" + id + ") given!")
 	global.playerMoving = false
-
+	global.change_cursor("default")
+	
 	inventory.push_back(id)
 	
 	if gifts.has(id):
 		global.inventoryData["items"].erase(id)
 		emit_signal("remove_item")
 
-	global.change_cursor("default")
-	#global.inventoryData["junk"].remove(0)
-	if gifts.has(global.itemInHand):
-		global.update_points(gifts[global.itemInHand]["points"])
+	if gifts.has(id):
+		global.update_points(gifts[id]["points"])
 	global.itemInHand = ""
 				
 	if gifts.has(id):
@@ -104,7 +103,6 @@ func _on_npc_trigger_input_event(camera, event, click_position, click_normal, sh
 		if event.is_pressed():
 			if global.itemInHand == "":	
 				emit_signal("dialogue", identity, self.get_transform().origin, "default")
-
 			else:
 				pass
 		

@@ -27,8 +27,6 @@ func _ready():
 	$"ui/dateLabel".set_text(global.gameData.time[time] + ", " + global.weekday)	
 	
 	global.scene = "schoolyard"
-	#Why? WHY does the below affect rotation of the NPC if I remove it?!
-#	sceneData = global.load_json("res://data/locations/location_schoolyard.json")
 	global.load_scene("schoolyard")
 
 	connect_stuff()

@@ -93,6 +93,7 @@ func pickup():
 	picked_up.get_node("materialize").start()
 	
 	#todo: not working, try signal instead
-	$"/root/game/soundfx".set_stream(load("res:/data/sounds/new_item.wav"))
-	$"/root/game/soundfx".play()
+#	$"soundfx".set_stream(load("res:/data/sounds/new_item.wav"))
+#	if !$"soundfx".playing:
+	get_node("soundfx").play()
 
