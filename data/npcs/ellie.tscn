@@ -30,6 +30,23 @@ shape = SubResource( 3 )
 
 [node name="Olga_animated" parent="." instance=ExtResource( 3 )]
 
+[node name="ui_anchor" type="Area2D" parent="."]
+
+[node name="text" type="Label" parent="ui_anchor"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "ELLIE"
+
+[node name="tweens" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="tween_in" type="Tween" parent="tweens"]
+
+[node name="tween_out" type="Tween" parent="tweens"]
+
 [connection signal="input_event" from="npc_trigger" to="." method="_on_npc_trigger_input_event"]
 [connection signal="mouse_entered" from="npc_trigger" to="." method="_on_npc_trigger_mouse_enter"]
 [connection signal="mouse_exited" from="npc_trigger" to="." method="_on_npc_trigger_mouse_exit"]
+[connection signal="tween_completed" from="tweens/tween_in" to="." method="_on_tween_in_tween_completed"]
+[connection signal="tween_completed" from="tweens/tween_out" to="." method="_on_tween_out_tween_completed"]

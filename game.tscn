@@ -139,12 +139,6 @@ __meta__ = {
 [node name="cuttlefish" type="Sprite" parent="effects"]
 visible = false
 
-[node name="materialize" type="Tween" parent="effects"]
-
-[node name="materialize2" type="Tween" parent="effects"]
-
-[node name="dissolve" type="Tween" parent="effects"]
-
 [node name="audio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 28 )
 volume_db = -35.0
@@ -163,8 +157,5 @@ frame = 2
 [node name="player" type="KinematicBody" parent="."]
 
 [node name="soundfx" type="AudioStreamPlayer" parent="."]
-
-[connection signal="tween_completed" from="effects/materialize" to="." method="_on_materialize_tween_completed"]
-[connection signal="tween_completed" from="effects/materialize2" to="." method="_on_materialize2_tween_completed"]
 
 [editable path="dialogue"]

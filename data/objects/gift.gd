@@ -54,6 +54,7 @@ func _on_trigger_input_event(camera, event, click_position, click_normal, shape_
 									2):
 					pickup()
 			else:
+				global.active_character = "player"
 				global.balloon("That won´t work.", global.gameRoot.get_node("player"), "player")
 		
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT:

@@ -42,7 +42,6 @@ func _setup_editor():
 	global.editor_lvl 	= 1
 	global.blocking_ui 	= true
 	global.editor 		= true
-	global.files 		= []
 
 	screen_blur.modulate = Color(1, 1, 1, 1)
 

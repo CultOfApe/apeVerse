@@ -1,3 +1,5 @@
+NOTE: In order to run this game with with apeverse.exe, the project needs to be loaded into Godot first, in order to create necessary import files
+
 # What is apeVerse?
 
 apeVERSE is an adventure game framework built with Godot (GDscript), currently in very early development.
@@ -14,7 +16,7 @@ Alpha one functionality:
 
 Editor functionality:
 
-- Basic dialogue editor (currently displays dialogue trees, editing possible, but edits are not propagated to game)
+- Basic dialogue editor (currently displays dialogue trees, editing possible but only dialogue changes propagated to game, no event and variable editing yet)
 
 # What are the future plans for apeVerse?
 

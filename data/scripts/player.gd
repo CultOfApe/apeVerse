@@ -1,3 +1,5 @@
+class_name Player
+
 extends KinematicBody
 
 # This whole script is a placeholder for a better player movement solution, and
@@ -8,8 +10,6 @@ extends KinematicBody
 # Furthermore it will eventually allow for 2d game movement as well
 export var SPEED 	: int 		= 150
 var safe_distance = 0.1
-
-var direction 		: Vector3
 var iterate 		: float 	= 0
 
 var delayed_dialogue := {
@@ -35,7 +35,6 @@ onready var helper 	:= $"rotation_helper/Position3D"
 onready var target_pos 	: Vector3
 onready var player_pos 	: Vector3 	= player.get_global_transform().origin
 onready var helper_pos 	: Vector3 	= helper.get_global_transform().origin	
-onready var camera_pos 	: Vector3	= global.gameRoot.get_node("Camera").get_camera_transform().origin
 
 var playerFacing 		: Vector3
 
@@ -54,6 +53,10 @@ func _ready():
 		pass
 	
 	run_anim = true
+	
+func _process(delta):
+	#set anchor for reactions slightly above head
+	$ui_anchor.set_position(global.camera.unproject_position(self.translation - Vector3(0, -2.2, 0)))
 
 func _physics_process(delta):
 	if global.gameType == "3D":
@@ -68,19 +71,19 @@ func _physics_process(delta):
 				if player_pos.distance_to(target_pos) < safe_distance:
 					global.playerMoving = false
 					if delayed_dialogue.id != null:
-						get_node("../dialogue").talk_to(delayed_dialogue.id, delayed_dialogue.pos, "default")
+						$"/root/game/dialogue".talk_to(delayed_dialogue.id, delayed_dialogue.pos, "default")
 						delayed_dialogue = {
 							"id"	:	null,
 							"pos"	:	null
 						}
 					if delayed_pickup.id != null:
-						get_node("../objects/" + delayed_pickup.id).pickup()
+						get_node("/root/game/objects/" + delayed_pickup.id).pickup()
 						delayed_pickup = {
 							"id"	:	null,
 							"pos"	:	null
 						}
 					if delayed_gift.id != null:
-						get_node("../npcs/" + delayed_gift.id).itemGiven(global.itemInHand)
+						get_node("/root/game/npcs/" + delayed_gift.id).itemGiven(global.itemInHand)
 						delayed_gift = {
 							"id"	:	null,
 							"pos"	:	null
@@ -127,7 +130,7 @@ func _input(event):
 func turn_towards(delta):
 	if global.gameType == "3D":
 		var player_transform := player.transform
-		var direction := player_transform.looking_at(target_pos,Vector3(0,1,0))
+		var direction = player_transform.looking_at(target_pos,Vector3(0,1,0))
 		var rotation := Quat(player_transform.basis).slerp(direction.basis, iterate*0.3)
 		
 		if iterate < 1:
@@ -144,10 +147,6 @@ func _on_scene_input_event(camera, event, click_position, click_normal, shape_id
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
 				move(click_position)
-
-	else:
-		#need to add this so player doesn´t move when exiting dialog
-		direction = Vector3(0,0,0)
 	
 func move(click_position):
 # if an object or npc under the mouse, walk to a safe distance, and then stop
@@ -166,16 +165,25 @@ func move(click_position):
 	helper_pos = helper.get_global_transform().origin
 	target_pos = click_position
 	
-	var cross := get_node("../cross")
-	var tween := get_node("../cross/tween")
+	var cross := $"/root/game/cross"
+	var tween := $"/root/game/cross/tween"
 	
 	cross.frame = 1
-	cross.position = get_node("../Camera").unproject_position(click_position)
+	cross.position = global.camera.unproject_position(click_position)
 	cross.play()
 	
 	tween.interpolate_property(cross, "modulate", Color(1,1,1,1), Color(1,1,1,0), 0.6, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
 	
 	run_anim = true
-		
 
+func dissolve():
+	$"tweens/tween_out".interpolate_property($"ui_anchor", "modulate", Color(1,1,1,1), Color(1,1,1,0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	$"tweens/tween_out".start()
+	global.lookingAt = false
+
+func _on_tween_in_tween_completed(object, key):
+	global.wait_and_execute(2, "dissolve", self)
+
+func _on_tween_out_tween_completed(object, key):
+	pass # Replace with function body.

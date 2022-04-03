@@ -1,8 +1,10 @@
+class_name UI
+
 extends Control
 
 onready var viewsize = get_viewport().get_visible_rect().size
 
-onready var screenBlur = $"../effects/blurfx"
+onready var screenBlur = $"/root/game/effects/blurfx"
 
 #var clickPos
 var hoverNode = null
@@ -18,14 +20,14 @@ var time 		: int = 0
 var month 		: int = 6
 var dayOfMonth 	: int = 1
 
-onready var effectHoverUI 		: Tween = $"../effects/tween"
-onready var effectToggleUI 		: Tween = $"../effects/tween"
-onready var effectBlurUI 		: Tween = $"../effects/tween"
-onready var fade_in 			: Tween = $"../effects/fade_in"
-onready var fade_out 			: Tween = $"../effects/fade_out"
+onready var effectHoverUI 		: Tween = $"/root/game/effects/tween"
+onready var effectToggleUI 		: Tween = $"/root/game/effects/tween"
+onready var effectBlurUI 		: Tween = $"/root/game/effects/tween"
+onready var fade_in 			: Tween = $"/root/game/effects/fade_in"
+onready var fade_out 			: Tween = $"/root/game/effects/fade_out"
 onready var descriptionLabel 	: Label = $descriptionLabel
-onready var sceneCol 			: CollisionShape= $"../scene/col"
-onready var transFX 			: Tween = $"../effects/scene_transition"
+onready var sceneCol 			: CollisionShape= $"/root/game/scene/col"
+onready var transFX 			: Tween = $"/root/game/effects/scene_transition"
 
 var phoneOpen 		: bool = false
 var schoolbagOpen 	: bool = false

@@ -9,7 +9,7 @@ outline_color = Color( 0.0901961, 0.0352941, 0.0352941, 1 )
 font_data = ExtResource( 2 )
 
 [node name="reply" type="Label"]
-margin_right = 800.0
+margin_right = 1100.0
 margin_bottom = 45.0
 rect_min_size = Vector2( 800, 45 )
 mouse_filter = 1
@@ -21,9 +21,6 @@ text = "This is a reply. This is a reply. This is a reply. This is a reply. This
 autowrap = true
 max_lines_visible = 2
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [connection signal="gui_input" from="." to="." method="_on_reply_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_reply_mouse_entered"]

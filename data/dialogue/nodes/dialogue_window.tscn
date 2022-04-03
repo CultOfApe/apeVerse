@@ -23,9 +23,6 @@ custom_colors/font_color = Color( 0.933333, 0.866667, 0.866667, 1 )
 custom_fonts/font = SubResource( 1 )
 text = "this is the characters dialogue"
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="name" type="Label" parent="."]
 margin_top = -56.0

@@ -1,5 +1,18 @@
 extends Node
 
+# TODO: Eveventually, all these should probably be store in a unified cache, instead of 10+
+var sceneData 		: Dictionary
+var locationData	: Dictionary
+var gameData 		: Dictionary	= load_json("res://data/global/game_data.json")
+var eventData 		: Dictionary	= load_json("res://data/events/gameEvents.json")
+var charData 		: Dictionary	= load_json("res://data/global/character_data.json")
+var inventoryData 	: Dictionary	= load_json("res://data/global/inventory_data.json")
+var contactData 	: Dictionary	= load_json("res://data/global/contact_data.json")
+var editorData		: Dictionary
+var saveData  		: Dictionary 
+var gameVars 		: Dictionary
+var completion_points := 0
+
 #TODO: add typing to these
 onready var gameRoot 		= get_tree().get_root().get_node("game")
 onready var sceneCol 		= get_tree().get_root().get_node("game").get_node("scene").get_node("col")
@@ -15,62 +28,36 @@ onready var lightDummy 		= get_tree().get_root().get_node("game").get_node("pos3
 
 onready var player 			= get_tree().get_root().get_node("game").get_node("player")
 onready var camera 			= get_tree().get_root().get_node("game").get_node("Camera")
-onready var playerBubble 	= get_tree().get_root().get_node("game").get_node("ui/bubble")
-onready var npcBubble 	= get_tree().get_root().get_node("game").get_node("ui/NPCbubble")
-onready var materialize : Tween = gameRoot.get_node("effects/materialize")
-onready var materialize2 : Tween = gameRoot.get_node("effects/materialize2")
-onready var dissolve 	: Tween = gameRoot.get_node("effects/dissolve")
+onready var speech_balloon	= load("res://data/UI/nodes/speech_balloon.tscn")
 
-#onready var thought_bubble 		: Node2D = $"ui/thoughtBubble"
-#onready var materialize 		: Node2D = $"effects/materialize"
-#onready var dissolve 			: Node2D = $"effects/dissolve"
+var gameType 		: String	# 3d or 2d
 
-var gameType 		: String
-
-
-#TODO: these variables are confusing. Go over and add clarifying comments to each
-var day 			: int		# day number from jan 1st, given all 30 day months
-var gameday 		: int		# day number from start of game
-var weekday 		: String	# monday through sunday
-var timeofday 		: String
-var month 		
-var monthNum		: int
-var firstofmonth	: int
-var date 			: int
-var calendarOffset  : int
-
-#	gameday = 1	# actual day in game
-#	day = 156	# day from the beginning of the year
-#	weekday = gameData["weekday"][(day % ((day / 7) * 7) - 1)] # assumes first day of the year is a monday, which is fine for now
-#	timeofday = "morning"
-#	monthNum = day / 30 +1
-#	month = gameData["month"][monthNum -1]
-#
-#	firstofmonth = (monthNum-1) * 30 + 1
-#	calendarOffset = firstofmonth % ((firstofmonth / 7) * 7) - 1
-#	date = day % (30 * monthNum) #gives day of month
+# day number from start of game
+var	gameday = 1					# actual day in game
+# day = 156	- day from the beginning of the year
+var	day = 156					# day from the beginning of the year
+# timeofday = "morning"
+var	timeofday = "morning"
+# monthNum = day / 30 +1
+var	monthNum = day / 30 +1
+# monday through sunday - gameData["weekday"][(day % ((day / 7) * 7) - 1)]
+var	weekday = gameData["weekday"][(day % ((day / 7) * 7) - 1)] # assumes first day of the year is a monday
+# month = gameData["month"][monthNum -1]
+var	month = gameData["month"][monthNum -1]
+# firstofmonth = (monthNum-1) * 30 + 1
+var firstofmonth = (monthNum-1) * 30 + 1
+# calendarOffset = firstofmonth % ((firstofmonth / 7) * 7) - 1
+var	calendarOffset = firstofmonth % ((firstofmonth / 7) * 7) - 1
+# date = day % (30 * monthNum) #gives day of month
+var	date = day % (30 * monthNum) #gives day of month
 
 var scene 				: String
-var locations 			: Array
+var locations 			: Array		= load_json("res://data/global/location_data.json")
 var currentLocation 	: String
 var previous_location 	: String
 
-# TODO: Eveventually, all these should probably be store in a unified cache, instead of 10+
-var tempData
-var sceneData 		: Dictionary
-var locationData	: Dictionary
-var gameData 		: Dictionary
-var eventData 		: Dictionary
-var charData 		: Dictionary
-var gameVars 		: Dictionary
-var inventoryData 	: Dictionary
-var contactData 	: Dictionary
-var editorData		: Dictionary
-var saveData  		: Dictionary 
-var completion_points := 0
-
 # REFACTOR: remove _running suffix from all
-var dialogue_running 	: bool
+var dialogue_running 	: bool		= false
 var blocking_ui 		: bool 		= false
 var phone_app_running 	: bool		= false
 var editor				: bool		= false
@@ -92,19 +79,17 @@ var dialogue_waiting 	: bool = false
 
 var gallery_page 		: int 		= 1
 var eventOverride = {}
-
-var files 				: Array
-var removedActors		: Array
 	
 var playerScript : Script = preload("res://data/scripts/player.gd")
 var playerPos
 var playerLocRotOverride = null
 
+var active_character : String
+
 var capture = null
 
 func _ready():
 	setup_game()
-
 
 func _process(delta):
 	if Input.is_action_pressed("ui_reload"):
@@ -112,37 +97,12 @@ func _process(delta):
 	if Input.is_action_pressed("ui_quit"):
 		get_tree().quit()
 		
-func setup_game():
-	dialogue_running = false
-	
-	inventoryData 	= load_json("res://data/global/inventory_data.json")
-	eventData 		= load_json("res://data/events/gameEvents.json")
-	gameData 		= load_json("res://data/global/game_data.json")
-	charData 		= load_json("res://data/global/character_data.json")
-	locations 		= load_json("res://data/global/location_data.json")
-	contactData 	= load_json("res://data/global/contact_data.json")
-#	saveData 		= load_json("res://data/global/save_data.json")	
-		
+func setup_game():		
 	for location in locations:
 		sceneData[location] = load_json("res://data/locations/" + location + ".json")
 	
-	# NOTE: To facilitate coding, this game assumes a year of 360 days and 30 day months
-	# weekday and month is calculated based on how many days of 360
-	gameday = 1	# actual day in game
-	day = 156	# day from the beginning of the year
-	weekday = gameData["weekday"][(day % ((day / 7) * 7) - 1)] # assumes first day of the year is a monday, which is fine for now
-	timeofday = "morning"
-	monthNum = day / 30 +1
-	month = gameData["month"][monthNum -1]
-	
-	firstofmonth = (monthNum-1) * 30 + 1
-	calendarOffset = firstofmonth % ((firstofmonth / 7) * 7) - 1
-	date = day % (30 * monthNum) #gives day of month
-	
 	transition.hide()
-		
 	audio.playing = true
-	
 	
 func change_cursor(id):
 	var cursor = load("res://data/ui/graphics/cursor_" + id + ".png")
@@ -153,14 +113,15 @@ func goto_scene(scene):
 
 func load_scene(sceneLocation): #change this first, see if any conflicts
 	
-	print("----------------------------")
-	print("DEBUG global.gd.gd")
-	print("----------------------------")
-	print(" ")
-	print(" loading: " + sceneLocation)
-	print(" ")
+#	print("----------------------------")
+#	print("DEBUG global.gd.gd")
+#	print("----------------------------")
+#	print(" ")
+#	print(" loading: " + sceneLocation)
+#	print(" ")
 	
 	var actor
+	var actors_removed		: Array
 	var object
 	var pos
 	var rot
@@ -194,9 +155,6 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 		if eventData["date"][str(gameday)][timeofday]["type"] == "oneoff":
 			eventOverride = load_json(
 				"res://data/events/" + eventData["date"][str(gameday)][timeofday]["event"] + ".json")
-
-	else:
-		pass
 	
 	gameRoot.get_node("player").queue_free()
 	gameRoot.get_node("player").set_name("DELETED")
@@ -248,9 +206,9 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 	if eventOverride and eventOverride.has("remove"):
 		if eventOverride["remove"].has("actor"): #and eventOverride["remove"]["actor"][0] != "all"    <-gives string/array error...
 			for i in eventOverride["remove"]["actor"]:
-				removedActors.push_back(i)
+				actors_removed.push_back(i)
 		elif eventOverride["remove"]["actor"] == "all":
-			removedActors.push_back("all")
+			actors_removed.push_back("all")
 					
 	if locationData.has("actors"):
 		for name in locationData["actors"].keys():
@@ -276,7 +234,7 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 	if eventOverride != null and eventOverride.has("add") and eventOverride["calendar"]["location"] == currentLocation:
 		if  eventOverride["add"].has("actor"):
 			for i in eventOverride["add"]["actor"].size():	
-				if !removedActors.has(i) or !removedActors.has("all"):
+				if !actors_removed.has(i) or !actors_removed.has("all"):
 					pos = eventOverride["add"]["actor"][i]["pos"]
 					rot = eventOverride["add"]["actor"][i]["rot"]
 					actor = load("res://data/npcs/" + eventOverride["add"]["actor"][i]["id"] + ".tscn")
@@ -342,39 +300,6 @@ func _load_game(id):
 	
 	load_scene(currentLocation)
 	
-func balloon(text, target, type):
-	if text != "": # and isLookingAt == false:
-		if global.gameType == "3D" and type == "player":
-			playerBubble.show()
-			playerBubble.set_position(gameRoot.get_node("Camera").unproject_position(target.translation + Vector3(0,2.5,0)) - Vector2(30,0))
-			
-			materialize.interpolate_property(
-				playerBubble, 
-				"modulate", 
-				Color(1,1,1,0), 
-				Color(1,1,1,1), 
-				1, 
-				Tween.TRANS_LINEAR, 
-				Tween.EASE_IN_OUT)
-				
-			materialize.start()
-			playerBubble.add_color_override("font_color", Color(0,0,0,1))
-			playerBubble.set_text(text)
-		elif global.gameType == "3D" and type == "npc":
-			npcBubble.show()
-			npcBubble.set_position(gameRoot.get_node("Camera").unproject_position(target.translation + Vector3(0,2.5,0)) - Vector2(30,0))
-			
-			materialize2.interpolate_property(
-				npcBubble, 
-				"modulate", 
-				Color(1,1,1,0), 
-				Color(1,1,1,1), 1, 
-				Tween.TRANS_LINEAR, 
-				Tween.EASE_IN_OUT)
-			materialize2.start()
-			npcBubble.add_color_override("font_color", Color(0,0,0,1))
-			npcBubble.set_text(text)
-		lookingAt = true
 		
 func update_points(points):
 	completion_points += points
@@ -385,20 +310,6 @@ func proximity(origin, target, distance):
 		return false
 	else:
 		return true
-		
-#func wait( seconds , id):
-#	#create and run timer only once, then run function dissolve()
-#	create_timer(id, seconds, true, "dissolve")
-#	yield(id,"timer_end")
-#
-#func create_timer(object_target, float_wait_time, bool_is_oneshot, string_function):
-#	var timer := Timer.new()
-#	timer.set_one_shot(bool_is_oneshot)
-#	timer.set_timer_process_mode(0)
-#	timer.set_wait_time(float_wait_time)
-#	timer.connect("timeout", object_target, string_function)
-#	object_target.add_child(timer)
-#	timer.start()
 
 func _save_game(id, page):
 	saveData["currentLocation"] = currentLocation
@@ -452,37 +363,95 @@ func grab_screen():
 	capture.convert(5)
 
 func list_files_in_directory(path):
-	
+	var files : Array
 	files.clear()
 	
-	var dir = Directory.new()
-	dir.open(path)
-	dir.list_dir_begin()
+	var directory = Directory.new()
+	directory.open(path)
+	directory.list_dir_begin()
 
 	while true:
-		var file = dir.get_next()
+		var file = directory.get_next()
 		if file == "":
 			break
 		elif not file.begins_with(".") and !file.ends_with("import"):
 			files.append(file)
 			
-	dir.list_dir_end()
+	directory.list_dir_end()
 
 	return files
 	
 func load_json(json):
 		var file = File.new()
 		file.open(json, File.READ)
-		tempData = parse_json(file.get_as_text())
-		return tempData
-		tempData = null
+		return parse_json(file.get_as_text())
 		file.close()
 		
 func load_user_image(id):
 	var image = Image.new()
-	var err = image.load("user://" + id + ".png")
-	if err != OK:
-			pass
+	var error = image.load("user://" + id + ".png")
+	if error != OK:
+			print("error: unable to load user image!")
 	var texture = ImageTexture.new()
 	return texture.create_from_image(image, 0)
+
+func dissolve():
+	$"/root/game/player/tweens/tween_out".interpolate_property($"/root/game/player/ui_anchor", "modulate", Color(1,1,1,1), Color(1,1,1,0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	$"/root/game/player/tweens/tween_out".start()
+	print("global dissolve")
+	active_character = ""
 	
+func wait_and_execute(seconds, function, target):
+	#create and run timer only once, then run function dissolve()
+	create_timer(target, seconds, true, function)
+#	yield(self,"timer_end")
+
+func create_timer(object_target, float_wait_time, bool_is_oneshot, string_function):
+	var timer := Timer.new()
+	timer.set_one_shot(bool_is_oneshot)
+	timer.set_timer_process_mode(0)
+	timer.set_wait_time(float_wait_time)
+	timer.connect("timeout", object_target, string_function)
+	self.add_child(timer)
+	timer.start()
+	
+func balloon(text, target, type):
+	var balloon
+	var tween_in 	: Tween
+	var tween_out	: Tween
+	var node = speech_balloon.instance()
+	
+	node.set_name("speech_balloon")
+	node.set_text("new way")
+	node.add_color_override("font_color", Color(0,0,0,1))
+	node.set_position(Vector2(-50, -60))
+	
+	if type == "player":
+		balloon = $"/root/game/ui/bubble"
+		tween_in = target.get_node("tweens").get_node("tween_in")
+		tween_out = target.get_node("tweens").get_node("tween_out")
+		target.get_node("ui_anchor").add_child(node) 
+	elif type == "npc":
+		balloon = $"/root/game/ui/bubble"
+		tween_in = target.get_node("tweens").get_node("tween_in")
+		tween_out = target.get_node("tweens").get_node("tween_out")
+		target.get_node("ui_anchor").add_child(node) 
+
+	
+	if text != "": # and isLookingAt == false:
+		if global.gameType == "3D":
+			node.show()
+			tween_in.interpolate_property(
+				node, 
+				"modulate", 
+				Color(1,1,1,0), 
+				Color(1,1,1,1), 
+				1, 
+				Tween.TRANS_LINEAR, 
+				Tween.EASE_IN_OUT)
+				
+			tween_in.start()
+			node.add_color_override("font_color", Color(0,0,0,1))
+			node.set_text(text)
+
+		lookingAt = true
