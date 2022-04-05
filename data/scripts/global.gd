@@ -104,6 +104,23 @@ func setup_game():
 	transition.hide()
 	audio.playing = true
 	
+func connect_stuff():
+	for object in $"/root/game/objects".get_children():
+		object.connect("look_at", self, "look_at")
+		object.connect("highlight", self, "highlight")
+		
+	for object in $"/root/game/npcs".get_children():
+		object.connect("look_at", self, "look_at")
+		object.connect("dialogue", $"/root/game/dialogue", "talk_to")
+		object.connect("highlight", self, "highlight")
+		
+func look_at(text):
+	global.balloon(text, $"/root/game/player", "player")
+
+# TODO: This can go to NPC or Object nodes
+func highlight(text):
+	$"/root/game/ui/description".set_text(text)
+	
 func change_cursor(id):
 	var cursor = load("res://data/ui/graphics/cursor_" + id + ".png")
 	Input.set_custom_mouse_cursor(cursor)
@@ -111,13 +128,13 @@ func change_cursor(id):
 func goto_scene(scene):
 	get_tree().change_scene("res://"+scene)
 
-func load_scene(sceneLocation): #change this first, see if any conflicts
+func load_scene(location): #change this first, see if any conflicts
 	
 #	print("----------------------------")
 #	print("DEBUG global.gd.gd")
 #	print("----------------------------")
 #	print(" ")
-#	print(" loading: " + sceneLocation)
+#	print(" loading: " + location)
 #	print(" ")
 	
 	var actor
@@ -127,12 +144,12 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 	var rot
 	
 	previous_location = currentLocation
-	currentLocation = sceneLocation
+	currentLocation = location
 	
 	# ugly, hardcoded, placeholder daytime transition. Works fine for now.
 	# func environmentLight(latitude, color, ambience, energy, rotation)
-	print(sceneData[sceneLocation]["environment"])
-	if sceneData[sceneLocation]["environment"] == "exterior":
+	print(sceneData[location]["environment"])
+	if sceneData[location]["environment"] == "exterior":
 		if timeofday == "morning":
 			environmentLight(30, Color(0.8, 1, 0.8, 0.5), 0.7, 0.6, Vector3(0, 0, 0))
 		if timeofday == "noon":
@@ -142,13 +159,13 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 		if timeofday == "night":
 			environmentLight(0, Color(0.2, 0.2, 1, 1), 0.01, 0.05, Vector3(120, 0, 0))
 			
-	elif sceneData[sceneLocation]["environment"] == "interior":
+	elif sceneData[location]["environment"] == "interior":
 		environmentLight(30, Color(0.8, 1, 0.8, 0.5), 0.7, 0.6, Vector3(0, 0, 0))
 	
-	if sceneData[sceneLocation].has(weekday):
-		locationData = sceneData[sceneLocation][weekday][timeofday]
+	if sceneData[location].has(weekday):
+		locationData = sceneData[location][weekday][timeofday]
 	else:
-		locationData = sceneData[sceneLocation]["default"][timeofday]
+		locationData = sceneData[location]["default"][timeofday]
 
 	#if today has event override
 	if eventData["date"].has(str(gameday)) and eventData["date"][str(gameday)].has(timeofday):
@@ -169,7 +186,7 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 		child.set_name("DELETED")
 		child.queue_free()
 			
-	var scene = load("res://data/locations/" + sceneLocation + ".tscn")
+	var scene = load("res://data/locations/" + location + ".tscn")
 	scene = scene.instance()
 	gameRoot.get_node("scene").add_child(scene)
 	
@@ -227,10 +244,8 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 
 			_add_to_scene("object", name, "objects", rot, pos)
 			
-	for child in gameRoot.get_node("objects").get_children():
-		print("list objects: " + child.name)
+	connect_stuff()
 			
-	#TODO: use the template above to complete this conditional
 	if eventOverride != null and eventOverride.has("add") and eventOverride["calendar"]["location"] == currentLocation:
 		if  eventOverride["add"].has("actor"):
 			for i in eventOverride["add"]["actor"].size():	
@@ -240,9 +255,7 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 					actor = load("res://data/npcs/" + eventOverride["add"]["actor"][i]["id"] + ".tscn")
 					print("Actor override: " + eventOverride["add"]["actor"][i]["id"])
 					_add_to_scene("actor", eventOverride["add"]["actor"][i]["id"], "npcs", rot, pos)
-		
-				
-	#TODO: use the template above to complete this conditional		
+			
 	if eventOverride != null and eventOverride.has("add"):
 		if eventOverride["add"].has("object"):
 			for name in locationData["object"].size():
@@ -266,7 +279,6 @@ func load_scene(sceneLocation): #change this first, see if any conflicts
 	print(" ")
 
 func _add_to_scene(type, id, group, rot, pos):
-	print("res://data/" + group + "/" + id + ".tscn")
 	var node = load("res://data/" + group + "/" + id + ".tscn")			
 	node = node.instance()
 	node.set_translation(Vector3(pos.x, pos.y, pos.z))
@@ -303,7 +315,7 @@ func _load_game(id):
 		
 func update_points(points):
 	completion_points += points
-	$"/root/game/ui/pointsLabel".text = String(completion_points)
+	$"/root/game/ui/points".text = String(completion_points)
 	
 func proximity(origin, target, distance):
 	if origin.distance_to(target) > distance:
@@ -437,7 +449,6 @@ func balloon(text, target, type):
 		tween_out = target.get_node("tweens").get_node("tween_out")
 		target.get_node("ui_anchor").add_child(node) 
 
-	
 	if text != "": # and isLookingAt == false:
 		if global.gameType == "3D":
 			node.show()

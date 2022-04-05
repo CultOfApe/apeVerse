@@ -77,7 +77,7 @@ func itemGiven(id):
 			node.set_name("reaction")
 			$ui_anchor.add_child(node) 
 		
-			$tween_in.interpolate_property(
+			$"tweens/tween_in".interpolate_property(
 				$reaction, 
 				"modulate", 
 				Color(1,1,1,0), 
@@ -86,7 +86,7 @@ func itemGiven(id):
 				Tween.TRANS_LINEAR, 
 				Tween.EASE_IN_OUT)
 
-			$tween_in.start()
+			$"tweens/tween_in".start()
 #		if gifts[id]["value"]:
 #			pass
 #		if gifts[id]["event"]:

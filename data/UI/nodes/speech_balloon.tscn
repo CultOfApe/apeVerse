@@ -9,6 +9,7 @@ use_filter = true
 font_data = ExtResource( 2 )
 
 [node name="bubble" type="Label" groups=["bubbles"]]
+visible = false
 margin_right = 159.0
 margin_bottom = 62.0
 size_flags_vertical = 0

@@ -1,11 +1,9 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://data/UI/nodes/game_settings.tscn" type="PackedScene" id=1]
 [ext_resource path="res://data/UI/scripts/ui.gd" type="Script" id=2]
 [ext_resource path="res://data/UI/nodes/new_item.tscn" type="PackedScene" id=3]
 [ext_resource path="res://data/fonts/adamwarrenpro-bold.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://data/UI/nodes/speech_balloon.tscn" type="PackedScene" id=5]
-[ext_resource path="res://data/UI/graphics/speech_bubble.png" type="Texture" id=6]
 [ext_resource path="res://data/UI/graphics/phone.png" type="Texture" id=7]
 [ext_resource path="res://data/UI/graphics/inventory.png" type="Texture" id=8]
 [ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=9]
@@ -34,11 +32,6 @@ size = 30
 use_filter = true
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=4]
-size = 15
-use_filter = true
-font_data = ExtResource( 9 )
-
 [sub_resource type="CircleShape2D" id=5]
 radius = 56.4041
 
@@ -56,7 +49,7 @@ margin_right = 40.0
 margin_bottom = 40.0
 script = ExtResource( 2 )
 
-[node name="dateLabel" type="Label" parent="."]
+[node name="date" type="Label" parent="."]
 margin_left = 1500.0
 margin_top = 899.0
 margin_right = 1882.0
@@ -70,7 +63,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="pointsLabel" type="Label" parent="."]
+[node name="points" type="Label" parent="."]
 margin_left = 1800.0
 margin_top = 17.0
 margin_right = 1893.0
@@ -82,7 +75,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="descriptionLabel" type="Label" parent="."]
+[node name="description" type="Label" parent="."]
 margin_left = 890.0
 margin_top = 884.0
 margin_right = 1049.0
@@ -94,24 +87,6 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="bubble" parent="." instance=ExtResource( 5 )]
-
-[node name="NPCbubble" type="Label" parent="." groups=["bubbles"]]
-visible = false
-margin_left = -185.998
-margin_top = 1015.0
-margin_right = -26.9977
-margin_bottom = 1077.0
-size_flags_vertical = 0
-custom_fonts/font = SubResource( 4 )
-text = "text"
-align = 1
-
-[node name="bubble" type="Sprite" parent="NPCbubble"]
-position = Vector2( 77.9949, 17.8947 )
-z_index = -99
-texture = ExtResource( 6 )
 
 [node name="inventory" type="Area2D" parent="." groups=["UI_icons", "UI_lvl_1"]]
 position = Vector2( 235, 536 )

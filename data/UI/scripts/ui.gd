@@ -3,10 +3,8 @@ class_name UI
 extends Control
 
 onready var viewsize = get_viewport().get_visible_rect().size
-
 onready var screenBlur = $"/root/game/effects/blurfx"
 
-#var clickPos
 var hoverNode = null
 
 var blockingUI 		: bool = false
@@ -25,7 +23,7 @@ onready var effectToggleUI 		: Tween = $"/root/game/effects/tween"
 onready var effectBlurUI 		: Tween = $"/root/game/effects/tween"
 onready var fade_in 			: Tween = $"/root/game/effects/fade_in"
 onready var fade_out 			: Tween = $"/root/game/effects/fade_out"
-onready var descriptionLabel 	: Label = $descriptionLabel
+onready var description 		: Label = $description
 onready var sceneCol 			: CollisionShape= $"/root/game/scene/col"
 onready var transFX 			: Tween = $"/root/game/effects/scene_transition"
 
@@ -84,9 +82,6 @@ func new_item_tween(id):
 	get_node("new_item/dissolve").start()	
 
 func _input(event):
-	#these need checks so you can´t press the same key twice, or the overlays will continue upwards
-	#pressing a second time should hide the overlays again 	
-	
 	if event.is_action_pressed("ui_exit") and global.UI_lvl == 0:
 		if !mapOpen and !schoolbagOpen and !phoneOpen and !calendarOpen and !global.dialogue_running and !global.editor:
 			toggle_game_settings()
@@ -125,6 +120,7 @@ func _input(event):
 #			toggle_ui_overlay("map_ui", "show", mapShowPos)
 #		else:
 #			toggle_ui_overlay("map_ui", "hide", mapHidePos)
+
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_RIGHT:
 			if event.pressed:
@@ -237,8 +233,7 @@ func advance_time():
 #	keep track of day, week and month
 	global.playerLocRotOverride = [$"/root/game/player".get_global_transform().origin, $"/root/game/player".rotation]
 	global.load_scene(global.currentLocation)
-	get_parent().connect_stuff()
-	get_node("dateLabel").set_text(global.gameData.time[time] + ", " + global.weekday)		
+	get_node("date").set_text(global.gameData.time[time] + ", " + global.weekday)		
 
 #the below functions handle hover animations for UI icons. This could probably be handled more efficiently in one generic function, not sure how
 func _on_phone_mouse_entered():
@@ -288,7 +283,7 @@ func _on_calendar_mouse_exited():
 
 #play effects when hovering over UI icons
 func ui_hover(name, gui_node, scale, move, node):
-	descriptionLabel.set_text(name)
+	description.set_text(name)
 	noMoveOnClick = move
 	effectHoverUI.interpolate_property (gui_node, "scale", gui_node.scale, scale, 1, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
 	effectHoverUI.start()
@@ -482,7 +477,7 @@ func load_map_location(location):
 		Tween.EASE_IN_OUT)
 	
 	transFX.start()
-	get_parent().change_location(location)
+	global.load_scene(location)
 	change_scene = false
 	trans_capture = null
 	
