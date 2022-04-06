@@ -32,7 +32,7 @@ func pop_inventory():
 			node.id = items[key].id
 			node.set_name(items[key].id)
 			node.set_position(Vector2(x_start + count * 64 - x_offset, y_start + y_offset))
-			node.connect("change_cursor", get_node("/root/game/ui"), "item_in_hand")
+			node.connect("change_cursor", $"/root/game/ui", "item_in_hand")
 			node.connect("item_id", self, "_item_id")
 			$container/panel/inventory_items.add_child(node)
 			$container/panel/inventory_items.get_node(items[key].id).set_texture(image)

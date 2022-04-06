@@ -10,7 +10,7 @@ func _ready():
 	_update()
 
 func _process(delta):
-	if global.calendarUpdate == true:
+	if global.update_calendar == true:
 		_update()
 	else:
 		pass
@@ -79,4 +79,4 @@ func _update():
 		get_node("nodes/"+str(offsetDay + (global.day - global.firstofmonth) - 1)+"/label_day").add_color_override("font_color", Color(1,1,1,1))
 		get_node("nodes/"+str(offsetDay + (global.day - global.firstofmonth))+"/label_day").add_color_override("font_color", Color(1,0,0,1))
 				
-	global.calendarUpdate = false
+	global.update_calendar = false

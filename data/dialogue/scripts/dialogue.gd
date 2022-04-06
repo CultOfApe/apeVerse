@@ -249,7 +249,7 @@ func pick_reply(n):
 		global.dialogue_running = false
 		kill_dialogue()
 		global.blocking_ui = false
-		global.sceneCol.disabled = false
+		global.floor_collision.disabled = false
 		get_parent().get_node("ui").toggle_ui_icons("show")
 		
 		if replies[n].has("bubble"):

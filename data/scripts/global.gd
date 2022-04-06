@@ -14,23 +14,23 @@ var gameVars 		: Dictionary
 var completion_points := 0
 
 #TODO: add typing to these
-onready var gameRoot 		= get_tree().get_root().get_node("game")
-onready var sceneCol 		= get_tree().get_root().get_node("game").get_node("scene").get_node("col")
-onready var sceneGeometry 	= get_tree().get_root().get_node("game").get_node("scene").get_node("Area")
-onready var transition 		= get_tree().get_root().get_node("game").get_node("ui/transition")
-onready var audio 			= get_tree().get_root().get_node("game").get_node("audio")
-onready var locLabel 		= get_tree().get_root().get_node("game").get_node("ui/location")
-onready var locTweenIn 		= get_tree().get_root().get_node("game").get_node("ui/location/tween_in")
-onready var locTweenOut 	= get_tree().get_root().get_node("game").get_node("ui/location/tween_out")
-onready var worldEnv 		= get_tree().get_root().get_node("game").get_node("Camera/env")
-onready var lightDir 		= get_tree().get_root().get_node("game").get_node("pos3d/DirectionalLight")
-onready var lightDummy 		= get_tree().get_root().get_node("game").get_node("pos3d")
+onready var game 		= $"/root/game/"
+onready var floor_collision = $"/root/game/scene/col"
+onready var sceneGeometry 	= $"/root/game/scene/Area"
+onready var transition 		= $"/root/game/ui/transition"
+onready var audio 			= $"/root/game/audio"
+onready var locLabel 		= $"/root/game/ui/location"
+onready var locTweenIn 		= $"/root/game/ui/location/tween_in"
+onready var locTweenOut 	= $"/root/game/ui/location/tween_out"
+onready var environment 	= $"/root/game/Camera/environment"
+onready var light 			= $"/root/game/light/DirectionalLight"
+onready var light_container = $"/root/game/light"
 
-onready var player 			= get_tree().get_root().get_node("game").get_node("player")
-onready var camera 			= get_tree().get_root().get_node("game").get_node("Camera")
+onready var player 			= $"/root/game/player"
+onready var camera 			= $"/root/game/Camera"
 onready var speech_balloon	= load("res://data/UI/nodes/speech_balloon.tscn")
 
-var gameType 		: String	# 3d or 2d
+var game_type 		: String	# 3d or 2d
 
 # day number from start of game
 var	gameday = 1					# actual day in game
@@ -63,7 +63,7 @@ var phone_app_running 	: bool		= false
 var editor				: bool		= false
 var settings			: bool		= false
 var playerMoving		: bool		= false
-var calendarUpdate		: bool		= false
+var update_calendar		: bool		= false
 var lookingAt 			: bool 		= false
 var itemInHand 			: String 	= ""
 
@@ -147,20 +147,20 @@ func load_scene(location): #change this first, see if any conflicts
 	currentLocation = location
 	
 	# ugly, hardcoded, placeholder daytime transition. Works fine for now.
-	# func environmentLight(latitude, color, ambience, energy, rotation)
+	# func set_environment(latitude, color, ambience, energy, rotation)
 	print(sceneData[location]["environment"])
 	if sceneData[location]["environment"] == "exterior":
 		if timeofday == "morning":
-			environmentLight(30, Color(0.8, 1, 0.8, 0.5), 0.7, 0.6, Vector3(0, 0, 0))
+			set_environment(30, Color(0.8, 1, 0.8, 0.5), 0.7, 0.6, Vector3(0, 0, 0))
 		if timeofday == "noon":
-			environmentLight(50, Color(1, 1, 1, 1), 1.5, 1, Vector3(50, 0, 0))
+			set_environment(50, Color(1, 1, 1, 1), 1.5, 1, Vector3(50, 0, 0))
 		if timeofday == "evening":
-			environmentLight(15, Color(0.2, 0.2, 1, 1), 0.2, 0.2, Vector3(100, 0, 0))
+			set_environment(15, Color(0.2, 0.2, 1, 1), 0.2, 0.2, Vector3(100, 0, 0))
 		if timeofday == "night":
-			environmentLight(0, Color(0.2, 0.2, 1, 1), 0.01, 0.05, Vector3(120, 0, 0))
+			set_environment(0, Color(0.2, 0.2, 1, 1), 0.01, 0.05, Vector3(120, 0, 0))
 			
 	elif sceneData[location]["environment"] == "interior":
-		environmentLight(30, Color(0.8, 1, 0.8, 0.5), 0.7, 0.6, Vector3(0, 0, 0))
+		set_environment(30, Color(0.8, 1, 0.8, 0.5), 0.7, 0.6, Vector3(0, 0, 0))
 	
 	if sceneData[location].has(weekday):
 		locationData = sceneData[location][weekday][timeofday]
@@ -173,22 +173,22 @@ func load_scene(location): #change this first, see if any conflicts
 			eventOverride = load_json(
 				"res://data/events/" + eventData["date"][str(gameday)][timeofday]["event"] + ".json")
 	
-	gameRoot.get_node("player").queue_free()
-	gameRoot.get_node("player").set_name("DELETED")
+	game.get_node("player").queue_free()
+	game.get_node("player").set_name("DELETED")
 
-	for child in gameRoot.get_node("scene").get_children():
+	for child in game.get_node("scene").get_children():
 		#check that we delete everything but the collision node
 		if child.name != "col":
 			child.set_name("DELETED")
 			child.queue_free()
 			
-	for child in gameRoot.get_node("objects").get_children():
+	for child in game.get_node("objects").get_children():
 		child.set_name("DELETED")
 		child.queue_free()
 			
 	var scene = load("res://data/locations/" + location + ".tscn")
 	scene = scene.instance()
-	gameRoot.get_node("scene").add_child(scene)
+	game.get_node("scene").add_child(scene)
 	
 #	Determine if we´re doing a 3d adventure game or Visual Novel-style game, by checking for type of first node in scene (Area/Area2D)
 #	This is just the first preparation. 
@@ -197,7 +197,7 @@ func load_scene(location): #change this first, see if any conflicts
 	player = player.instance()
 	
 	if scene.is_class("Area"):
-		gameType = "3D"
+		game_type = "3D"
 		player.set_translation(Vector3(0,0.6,0))
 		player.set_rotation(Vector3(-0,0,-0))
 		if playerLocRotOverride != null:
@@ -205,18 +205,18 @@ func load_scene(location): #change this first, see if any conflicts
 			player.set_rotation(playerLocRotOverride[1])
 			playerLocRotOverride = null
 	elif scene.is_class("Area2d"):
-		gameType = "2D"
+		game_type = "2D"
 		player.set_translation(Vector2(0,0))
 		player.set_rotation(Vector2(0,0))
 	else:
-		gameType = "Visual Novel"
+		game_type = "Visual Novel"
 		
 	player.set_name("player")
 	player.set_script(playerScript)
-	gameRoot.get_node("scene").connect("input_event", player,"_on_scene_input_event")
-	gameRoot.add_child(player)
+	game.get_node("scene").connect("input_event", player,"_on_scene_input_event")
+	game.add_child(player)
 
-	for child in gameRoot.get_node("npcs").get_children():
+	for child in game.get_node("npcs").get_children():
 		child.set_name("DELETED")
 		child.queue_free()
 	
@@ -235,14 +235,14 @@ func load_scene(location): #change this first, see if any conflicts
 			if locationData["actors"][name]["dialogue"] != "default":
 				global.charData[name]["dialogue"]["default"]["path"] = locationData["actors"][name]["dialogue"]
 			
-			_add_to_scene("actor", name, "npcs", rot, pos)
+			add_to_scene("actor", name, "npcs", rot, pos)
 			
 	if locationData.has("objects"):
 		for name in locationData["objects"].keys():
 			pos = locationData["objects"][name]["pos"]
 			rot = locationData["objects"][name]["rot"]
 
-			_add_to_scene("object", name, "objects", rot, pos)
+			add_to_scene("object", name, "objects", rot, pos)
 			
 	connect_stuff()
 			
@@ -254,7 +254,7 @@ func load_scene(location): #change this first, see if any conflicts
 					rot = eventOverride["add"]["actor"][i]["rot"]
 					actor = load("res://data/npcs/" + eventOverride["add"]["actor"][i]["id"] + ".tscn")
 					print("Actor override: " + eventOverride["add"]["actor"][i]["id"])
-					_add_to_scene("actor", eventOverride["add"]["actor"][i]["id"], "npcs", rot, pos)
+					add_to_scene("actor", eventOverride["add"]["actor"][i]["id"], "npcs", rot, pos)
 			
 	if eventOverride != null and eventOverride.has("add"):
 		if eventOverride["add"].has("object"):
@@ -262,12 +262,12 @@ func load_scene(location): #change this first, see if any conflicts
 				pos = eventOverride["add"]["object"][name]["pos"]
 				rot = eventOverride["add"]["object"][name]["rot"]
 				
-				_add_to_scene("object", name, "objects", rot, pos)
+				add_to_scene("object", name, "objects", rot, pos)
 
 	#set eventOverride back to null, as it´s only needed and updated when calling load_scene()
 	eventOverride = {}
 	
-	sceneGeometry 	= get_tree().get_root().get_node("game").get_node("scene").get_node("Area")
+	sceneGeometry 	= $"/root/game/scene/Area"
 	sceneGeometry.connect("on_click", self, "load_scene")
 		
 #	TODO: scene specific cameras
@@ -278,27 +278,27 @@ func load_scene(location): #change this first, see if any conflicts
 	print("----------------------------")
 	print(" ")
 
-func _add_to_scene(type, id, group, rot, pos):
+func add_to_scene(type, id, group, rot, pos):
 	var node = load("res://data/" + group + "/" + id + ".tscn")			
 	node = node.instance()
 	node.set_translation(Vector3(pos.x, pos.y, pos.z))
 	node.set_rotation(Vector3(rot.x,rot.y, rot.z))
 	node.set_name(id)
-	gameRoot.get_node(group).add_child(node)
+	game.get_node(group).add_child(node)
 	
 func remove_from_scene(type, id):
-	var node = gameRoot.get_node(type).get_node(id)
+	var node = game.get_node(type).get_node(id)
 	node.set_name("DELETED")
 	node.queue_free()	
 
-func environmentLight(latitude, color, ambience, energy, rotation):
-	worldEnv.environment.background_sky.sun_latitude = latitude
-	worldEnv.environment.background_sky.sun_color = color
-	worldEnv.environment.ambient_light_energy = ambience
-	lightDir.light_energy = energy
-	lightDummy.rotation_degrees = rotation
+func set_environment(latitude, color, ambience, energy, rotation):
+	environment.environment.background_sky.sun_latitude = latitude
+	environment.environment.background_sky.sun_color = color
+	environment.environment.ambient_light_energy = ambience
+	light.light_energy = energy
+	light_container.rotation_degrees = rotation
 	
-func _load_game(id):
+func load_game(id):
 	var file = File.new()
 	file.open("res://data/saves/" + id + ".save", File.READ)
 	saveData = parse_json(file.get_as_text())
@@ -450,7 +450,7 @@ func balloon(text, target, type):
 		target.get_node("ui_anchor").add_child(node) 
 
 	if text != "": # and isLookingAt == false:
-		if global.gameType == "3D":
+		if global.game_type == "3D":
 			node.show()
 			tween_in.interpolate_property(
 				node, 

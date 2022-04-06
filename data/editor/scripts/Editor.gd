@@ -1,6 +1,7 @@
 extends Control
 
-onready var screen_blur := $"../effects/blurfx"
+onready var blur_shader := $"/root/game/ui/shaders/blur"
+onready var blur_tween := $"/root/game/ui/tweens/blur"
 onready var click_node 	:= load("res://data/editor/assets/node_click_button.tscn") #PackedScene
 onready var editor_node := load("res://data/editor/assets/Editor_panel_label.tscn") #PackedScene
 onready var SCREENSIZE 	:= get_viewport().get_visible_rect().size
@@ -34,7 +35,7 @@ func _input(event):
 			_setup_editor()						
 		elif global.editor:
 			_kill_editor()
-			screen_blur.modulate = Color(1, 1, 1, 0)
+			blur_shader.modulate = Color(1, 1, 1, 0)
 	
 func _setup_editor():
 	global.change_cursor("arrow")
@@ -43,7 +44,7 @@ func _setup_editor():
 	global.blocking_ui 	= true
 	global.editor 		= true
 
-	screen_blur.modulate = Color(1, 1, 1, 1)
+	blur_shader.modulate = Color(1, 1, 1, 1)
 
 	#TODO: if a previous session has been initiated, remember and open with previous nodes visible
 	if previous_session == false:

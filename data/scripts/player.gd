@@ -45,11 +45,11 @@ func _ready():
 #	set_physics_process(true)
 #	set_process_input(true)
 	
-	if global.gameType == "3D":
+	if global.game_type == "3D":
 		$Oleg/Armature/AnimationPlayer.play("walk")
 		$Oleg/Armature/AnimationPlayer.get_animation("walk").set_loop(true)
 		$Oleg/Armature/AnimationPlayer.get_animation("idle").set_loop(true)
-	elif global.gameType == "2D":
+	elif global.game_type == "2D":
 		pass
 	
 	run_anim = true
@@ -59,7 +59,7 @@ func _process(delta):
 	$ui_anchor.set_position(global.camera.unproject_position(self.translation - Vector3(0, -2.2, 0)))
 
 func _physics_process(delta):
-	if global.gameType == "3D":
+	if global.game_type == "3D":
 		#move and rotate player towards set target
 		if is_rotating:
 			pass
@@ -97,7 +97,7 @@ func _physics_process(delta):
 		if global.playerMoving and global.blocking_ui == true:
 				$Oleg/Armature/AnimationPlayer.stop()
 
-	elif global.gameType == "2D":
+	elif global.game_type == "2D":
 		pass
 		
 func _input(event):
@@ -128,7 +128,7 @@ func _input(event):
 
 
 func turn_towards(delta):
-	if global.gameType == "3D":
+	if global.game_type == "3D":
 		var player_transform := player.transform
 		var direction = player_transform.looking_at(target_pos,Vector3(0,1,0))
 		var rotation := Quat(player_transform.basis).slerp(direction.basis, iterate*0.3)
@@ -139,7 +139,7 @@ func turn_towards(delta):
 		player_pos = player.get_global_transform().origin
 		helper_pos = helper.get_global_transform().origin	
 		playerFacing = (helper_pos - player_pos).normalized()
-	elif global.gameType == "2D":
+	elif global.game_type == "2D":
 		pass
 
 func _on_scene_input_event(camera, event, click_position, click_normal, shape_idx):
@@ -157,24 +157,13 @@ func move(click_position):
 		
 	$Character/AnimationPlayer.play("Run")
 	$Oleg/Armature/AnimationPlayer.play("walk")
-		
-	global.playerMoving = true
 	
 	iterate = 0 
 	player_pos = player.get_global_transform().origin
 	helper_pos = helper.get_global_transform().origin
 	target_pos = click_position
 	
-	var cross := $"/root/game/cross"
-	var tween := $"/root/game/cross/tween"
-	
-	cross.frame = 1
-	cross.position = global.camera.unproject_position(click_position)
-	cross.play()
-	
-	tween.interpolate_property(cross, "modulate", Color(1,1,1,1), Color(1,1,1,0), 0.6, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	tween.start()
-	
+	global.playerMoving = true
 	run_anim = true
 
 func dissolve():

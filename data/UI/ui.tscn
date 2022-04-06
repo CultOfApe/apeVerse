@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://data/UI/nodes/game_settings.tscn" type="PackedScene" id=1]
 [ext_resource path="res://data/UI/scripts/ui.gd" type="Script" id=2]
 [ext_resource path="res://data/UI/nodes/new_item.tscn" type="PackedScene" id=3]
 [ext_resource path="res://data/fonts/adamwarrenpro-bold.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://data/UI/graphics/white.png" type="Texture" id=5]
 [ext_resource path="res://data/UI/graphics/phone.png" type="Texture" id=7]
 [ext_resource path="res://data/UI/graphics/inventory.png" type="Texture" id=8]
 [ext_resource path="res://data/fonts/ReemKufi-Regular.ttf" type="DynamicFontData" id=9]
@@ -43,6 +44,20 @@ radius = 47.2968
 
 [sub_resource type="CircleShape2D" id=8]
 radius = 52.1685
+
+[sub_resource type="Shader" id=9]
+code = "shader_type canvas_item;
+
+uniform float amount : hint_range(0,5);
+
+void fragment() {
+
+	COLOR.rgb = textureLod(SCREEN_TEXTURE,SCREEN_UV,amount).rgb;
+}"
+
+[sub_resource type="ShaderMaterial" id=10]
+shader = SubResource( 9 )
+shader_param/amount = 4.0
 
 [node name="ui" type="Control"]
 margin_right = 40.0
@@ -147,29 +162,13 @@ z_index = 97
 position = Vector2( 285.992, 1079.71 )
 z_index = 96
 
-[node name="cursor_default" type="Panel" parent="."]
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="transition" type="Sprite" parent="."]
 visible = false
 position = Vector2( 959.825, 540.366 )
 z_index = 1
 
-[node name="dummy_node" type="Area2D" parent="."]
-visible = false
-
-[node name="dummy_tween" type="Tween" parent="dummy_node"]
-
 [node name="game_settings" parent="." instance=ExtResource( 1 )]
 visible = false
-
-[node name="debug" type="Label" parent="."]
-margin_left = 700.0
-margin_top = 50.0
-margin_right = 740.0
-margin_bottom = 64.0
 
 [node name="new_item" parent="." instance=ExtResource( 3 )]
 visible = false
@@ -177,6 +176,31 @@ margin_left = 710.0
 margin_top = 340.0
 margin_right = 670.0
 margin_bottom = 300.0
+
+[node name="tweens" type="Node" parent="."]
+
+[node name="fade_in" type="Tween" parent="tweens"]
+
+[node name="fade_out" type="Tween" parent="tweens"]
+
+[node name="hover" type="Tween" parent="tweens"]
+
+[node name="toggle" type="Tween" parent="tweens"]
+
+[node name="blur" type="Tween" parent="tweens"]
+
+[node name="shaders" type="Node" parent="."]
+
+[node name="blur" type="TextureRect" parent="shaders"]
+show_behind_parent = true
+material = SubResource( 10 )
+margin_right = 1920.0
+margin_bottom = 1080.0
+mouse_filter = 2
+size_flags_horizontal = 2
+size_flags_vertical = 2
+texture = ExtResource( 5 )
+expand = true
 
 [connection signal="mouse_entered" from="inventory" to="." method="_on_schoolbag_mouse_entered"]
 [connection signal="mouse_exited" from="inventory" to="." method="_on_schoolbag_mouse_exited"]
@@ -186,4 +210,3 @@ margin_bottom = 300.0
 [connection signal="mouse_exited" from="map" to="." method="_on_map_mouse_exited"]
 [connection signal="mouse_entered" from="calendar" to="." method="_on_calendar_mouse_entered"]
 [connection signal="mouse_exited" from="calendar" to="." method="_on_calendar_mouse_exited"]
-[connection signal="tween_completed" from="dummy_node/dummy_tween" to="." method="_on_dummy_tween_tween_completed"]

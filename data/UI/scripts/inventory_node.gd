@@ -13,7 +13,7 @@ func _on_area_input_event(viewport, event, shape_idx):
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
 				global.itemInHand = id
-				global.sceneCol.disabled = true
+				global.floor_collision.disabled = true
 				global.blocking_ui = true
 				emit_signal("change_cursor", "hand", "res://data/ui/graphics/inv_" + id + ".png")
 

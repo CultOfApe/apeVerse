@@ -2,10 +2,9 @@ class_name UI
 
 extends Control
 
-onready var viewsize = get_viewport().get_visible_rect().size
-onready var screenBlur = $"/root/game/effects/blurfx"
+onready var blur_shader = $"shaders/blur"
 
-var hoverNode = null
+var hover_node = null
 
 var blockingUI 		: bool = false
 var dialogueRunning : bool = false
@@ -18,14 +17,14 @@ var time 		: int = 0
 var month 		: int = 6
 var dayOfMonth 	: int = 1
 
-onready var effectHoverUI 		: Tween = $"/root/game/effects/tween"
-onready var effectToggleUI 		: Tween = $"/root/game/effects/tween"
-onready var effectBlurUI 		: Tween = $"/root/game/effects/tween"
+onready var hover_tween 		: Tween = $"/root/game/effects/tween"
+onready var toggle_tween 		: Tween = $"/root/game/effects/tween"
+onready var blur_tween			: Tween = $"tweens/blur"
 onready var fade_in 			: Tween = $"/root/game/effects/fade_in"
 onready var fade_out 			: Tween = $"/root/game/effects/fade_out"
 onready var description 		: Label = $description
-onready var sceneCol 			: CollisionShape= $"/root/game/scene/col"
-onready var transFX 			: Tween = $"/root/game/effects/scene_transition"
+onready var floor_collision 	: CollisionShape= $"/root/game/scene/col"
+onready var scene_transition 	: Tween = $"/root/game/effects/scene_transition"
 
 var phoneOpen 		: bool = false
 var schoolbagOpen 	: bool = false
@@ -63,7 +62,7 @@ func _ready():
 	calendarHidePos = $calendar_ui.position
 	calendarShowPos =  calendarHidePos - Vector2(0, 1000)
 	
-	screenBlur.modulate = Color(1, 1, 1, 0)
+	blur_shader.modulate = Color(1, 1, 1, 0)
 	
 	$new_item.connect("new_item_materialized", self, "new_item_tween")
 	$map_ui.connect("location_chosen", self, "load_map_location")
@@ -72,14 +71,14 @@ func _ready():
 func new_item_tween(id):
 #	global.wait(2, id)
 	yield(get_tree().create_timer(2.0), "timeout")
-	get_node("new_item/dissolve").interpolate_property(
+	$"new_item/dissolve".interpolate_property(
 		id, 
 		"modulate", 
 		Color(1,1,1,1), 
 		Color(1,1,1,0), 1, 
 		Tween.TRANS_LINEAR, 
 		Tween.EASE_IN_OUT)
-	get_node("new_item/dissolve").start()	
+	$"new_item/dissolve".start()	
 
 func _input(event):
 	if event.is_action_pressed("ui_exit") and global.UI_lvl == 0:
@@ -127,22 +126,22 @@ func _input(event):
 				if global.itemInHand != "":
 					global.itemInHand = ""
 					global.change_cursor("default")
-	if hoverNode:
-		if hoverNode.get_name() == "phone":	
+	if hover_node:
+		if hover_node.get_name() == "phone":	
 			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
 				global.UI_lvl = 1
 				toggle_ui_overlay("phone_ui", "show", phoneShowPos)
 				for app in $phone_ui/apps.get_children():
 					app.hide()	
-		elif hoverNode.get_name() == "inventory":	
+		elif hover_node.get_name() == "inventory":	
 			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():
 				global.UI_lvl = 1
 				toggle_ui_overlay("schoolbag_ui", "show", schoolbagShowPos)
-		elif hoverNode.get_name() == "map":	
+		elif hover_node.get_name() == "map":	
 			if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.is_pressed():	
 				global.UI_lvl = 1			
 				toggle_ui_overlay("map_ui", "show", mapShowPos)
-		elif hoverNode.get_name() == "calendar":	
+		elif hover_node.get_name() == "calendar":	
 			if event is InputEventMouseButton:
 				if event.button_index == BUTTON_LEFT:
 					if event.is_pressed():
@@ -187,13 +186,13 @@ func advance_time():
 		global.day += 1
 		global.gameday += 1
 		dayOfMonth += 1
-		global.calendarUpdate = true
+		global.update_calendar = true
 		if day == 7:
 			day = 0
 		if dayOfMonth == 30:
 			dayOfMonth = 1
 			month += 1
-			global.calendarUpdate = true
+			global.update_calendar = true
 			if month == 12:
 				month = 0
 	
@@ -219,7 +218,7 @@ func advance_time():
 
 	$transition.show()
 	
-	transFX.interpolate_property(
+	scene_transition.interpolate_property(
 		$transition, 
 		"modulate", 
 		Color(1,1,1,1), 
@@ -228,71 +227,71 @@ func advance_time():
 		Tween.TRANS_LINEAR, 
 		Tween.EASE_IN_OUT)
 		
-	transFX.start()
+	scene_transition.start()
 	
 #	keep track of day, week and month
 	global.playerLocRotOverride = [$"/root/game/player".get_global_transform().origin, $"/root/game/player".rotation]
 	global.load_scene(global.currentLocation)
-	get_node("date").set_text(global.gameData.time[time] + ", " + global.weekday)		
+	$"date".set_text(global.gameData.time[time] + ", " + global.weekday)		
 
 #the below functions handle hover animations for UI icons. This could probably be handled more efficiently in one generic function, not sure how
 func _on_phone_mouse_entered():
 	if global.itemInHand == "":
 		global.change_cursor("settings")
-	ui_hover("phone", get_node("phone/Sprite"), Vector2(1.1, 1.1), true, get_node("phone"))
+	ui_hover("phone", $"phone/Sprite", Vector2(1.1, 1.1), true, $"phone")
 
 func _on_phone_mouse_exited():
 	if global.itemInHand == "":
 		if global.blocking_ui != true:
 			global.change_cursor("default")
-	ui_hover("", get_node("phone/Sprite"), Vector2(1.0, 1.0), false, null)
+	ui_hover("", $"phone/Sprite", Vector2(1.0, 1.0), false, null)
 
 func _on_schoolbag_mouse_entered():
 	if global.itemInHand == "":
 		global.change_cursor("settings")
-	ui_hover("inventory", get_node("inventory/Sprite"), Vector2(1.1, 1.1), true, get_node("inventory"))
+	ui_hover("inventory", $"inventory/Sprite", Vector2(1.1, 1.1), true, $"inventory")
 
 func _on_schoolbag_mouse_exited():
 	if global.itemInHand == "":
 		if global.blocking_ui != true:
 			global.change_cursor("default")
-	ui_hover("", get_node("inventory/Sprite"), Vector2(1.0, 1.0), false, null)
+	ui_hover("", $"inventory/Sprite", Vector2(1.0, 1.0), false, null)
 
 func _on_map_mouse_entered():
 	if global.itemInHand == "":
 		global.change_cursor("settings")
-	ui_hover("map", get_node("map/Sprite"), Vector2(1.1, 1.1), true, get_node("map"))
+	ui_hover("map", $"map/Sprite", Vector2(1.1, 1.1), true, $"map")
 
 func _on_map_mouse_exited():
 	if global.itemInHand == "":
 		if global.blocking_ui != true:
 			var cursor := load("res://data/graphics/cursor_default.png")
 			Input.set_custom_mouse_cursor(cursor)
-	ui_hover("", get_node("map/Sprite"), Vector2(1.0, 1.0), false, null)
+	ui_hover("", $"map/Sprite", Vector2(1.0, 1.0), false, null)
 
 func _on_calendar_mouse_entered():
 	if global.itemInHand == "":
 		global.change_cursor("settings")
-	ui_hover("calendar", get_node("calendar/Sprite"), Vector2(1.1, 1.1), true, get_node("calendar"))
+	ui_hover("calendar", $"calendar/Sprite", Vector2(1.1, 1.1), true, $"calendar")
 
 func _on_calendar_mouse_exited():
 	if global.itemInHand == "":
 		if global.blocking_ui != true:
 			global.change_cursor("default")
-	ui_hover("", get_node("calendar/Sprite"), Vector2(1.0, 1.0), false, null)
+	ui_hover("", $"calendar/Sprite", Vector2(1.0, 1.0), false, null)
 
 #play effects when hovering over UI icons
 func ui_hover(name, gui_node, scale, move, node):
 	description.set_text(name)
 	noMoveOnClick = move
-	effectHoverUI.interpolate_property (gui_node, "scale", gui_node.scale, scale, 1, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
-	effectHoverUI.start()
-	hoverNode = node
+	hover_tween.interpolate_property (gui_node, "scale", gui_node.scale, scale, 1, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
+	hover_tween.start()
+	hover_node = node
 	#if mouse over a UI icon, disable the scene collision shape, preventing player move
-	sceneCol.disabled = move
+	floor_collision.disabled = move
 
 func toggle_ui_icons(toggle):
-	var startPos = get_node("map").position
+	var startPos = $"map".position
 	var positionDelta
 	if toggle == "show":
 		positionDelta = uiIconsShowPos - startPos
@@ -308,27 +307,25 @@ func toggle_ui_overlay(id, mode, deltaPos):
 	if mode == "show":
 		global.change_cursor("arrow")
 		global.blocking_ui = true
-		global.sceneCol.disabled = true
+		global.floor_collision.disabled = true
 		toggle_ui_icons("hide")
-		effectBlurUI.interpolate_property(screenBlur, "modulate", Color(1, 1, 1, 0), Color(1, 1, 1, 1), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		blur_tween.interpolate_property(blur_shader, "modulate", Color(1, 1, 1, 0), Color(1, 1, 1, 1), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		blur_tween.start()
 		positionDelta = ui_node.position - deltaPos
 	else:
 		if global.itemInHand == "":
 			global.change_cursor("default")
 			
-		$dummy_node/dummy_tween.interpolate_property(
-			$dummy_node, 
-			"position", 
-			$dummy_node.position, 
-			$dummy_node.position + Vector2(1,0), 
-			0.5, 
-			Tween.TRANS_LINEAR, 
-			Tween.EASE_IN)
-		
-		$dummy_node/dummy_tween.start()
 		toggle_ui_icons("show")
-		effectBlurUI.interpolate_property(screenBlur, "modulate", Color(1, 1, 1, 1), Color(1, 1, 1, 0), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		blur_tween.interpolate_property(blur_shader, "modulate", Color(1, 1, 1, 1), Color(1, 1, 1, 0), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		blur_tween.start()
+
 		positionDelta = deltaPos - ui_node.position
+		
+		# This is needed to avoid character moving immediately after loading new scene
+		yield(get_tree(), "idle_frame")
+		global.blocking_ui = false
+		floor_collision.disabled = false
 		
 	if id == "schoolbag_ui":
 		if mode == "show":
@@ -370,29 +367,29 @@ func toggle_ui_overlay(id, mode, deltaPos):
 	if id == "map_ui":
 		if mode == "show":
 			mapOpen = true
-			get_node("map_ui").show()
-			ui_hide_show(get_node("map_ui"), Vector2(0,-1000), Tween.TRANS_QUAD, Tween.EASE_OUT)
+			$"map_ui".show()
+			ui_hide_show($"map_ui", Vector2(0,-1000), Tween.TRANS_QUAD, Tween.EASE_OUT)
 		else:
 			mapOpen = false
-			ui_hide_show(get_node("map_ui"), Vector2(0,positionDelta.y), Tween.TRANS_QUAD, Tween.EASE_OUT)
+			ui_hide_show($"map_ui", Vector2(0,positionDelta.y), Tween.TRANS_QUAD, Tween.EASE_OUT)
 			
 	if id == "calendar_ui":
 		if mode == "show":
 			calendarOpen = true
 			#TODO: update calendar day highlight
-			ui_hide_show(get_node("calendar_ui"), Vector2(0,-1000), Tween.TRANS_QUAD, Tween.EASE_OUT)
+			ui_hide_show($"calendar_ui", Vector2(0,-1000), Tween.TRANS_QUAD, Tween.EASE_OUT)
 		else:
 			calendarOpen = false
-			ui_hide_show(get_node("calendar_ui"), Vector2(0,positionDelta.y), Tween.TRANS_QUAD, Tween.EASE_OUT)
+			ui_hide_show($"calendar_ui", Vector2(0,positionDelta.y), Tween.TRANS_QUAD, Tween.EASE_OUT)
 
 #hide or show UI icons when calling blocking UI elements, like phone, map or schoolbag
 func ui_hide_show(gui_node, move_delta, method1, method2):
-	effectToggleUI.interpolate_property (gui_node, "position", gui_node.position, gui_node.position + move_delta, 0.5, method1, method2)
-	effectToggleUI.start()
+	toggle_tween.interpolate_property (gui_node, "position", gui_node.position, gui_node.position + move_delta, 0.5, method1, method2)
+	toggle_tween.start()
 	
 func toggle_game_settings():
 	if !global.blocking_ui and !global.settings:
-		sceneCol.disabled = true
+		floor_collision.disabled = true
 		global.grab_screen()
 		$game_settings.show()
 		global.blocking_ui = true
@@ -411,13 +408,13 @@ func toggle_game_settings():
 #		toggle_ui_icons("hide")
 
 	else:
-		sceneCol.disabled = false
+		floor_collision.disabled = false
 		global.blocking_ui = false
 		global.settings = false
-		$game_settings.hide()
+		$"game_settings".hide()
 		
 		fade_out.interpolate_property(
-			$game_settings, 
+			$"game_settings", 
 			"modulate", 
 			Color(1,1,1,1), 
 			Color(1,1,1,0), 
@@ -431,29 +428,24 @@ func toggle_game_settings():
 
 func _on_fade_out_tween_completed(object, key):
 	#hide game settings from game after faded out, since it will interfere with other UI overlays even when not visible
-	$game_settings.hide()
+	$"game_settings".hide()
 
 
-func _on_tween_in_tween_completed(object, key):
-	pass
-
-
-func _on_tween_out_tween_completed(object, key):
-	pass
-
-#use to delay blocking_ui = false flag
-func _on_dummy_tween_tween_completed(object, key):
-	global.blocking_ui = false
-	sceneCol.disabled = false
-
-#TODO: remove this trigger from tween
-func _on_tween_tween_completed(object, key):
-	pass
+#func _on_tween_in_tween_completed(object, key):
+#	pass
+#
+#
+#func _on_tween_out_tween_completed(object, key):
+#	pass
+#
+##TODO: remove this trigger from tween
+#func _on_tween_tween_completed(object, key):
+#	pass
 	
 func load_map_location(location):
 
 	ui_exit("blocking")
-	get_node("map_ui").hide()
+	$"map_ui".hide()
 	
 
 	var trans_tex := ImageTexture.new()
@@ -463,12 +455,12 @@ func load_map_location(location):
 	trans_capture.flip_y()
 	trans_capture.convert(5)
 	trans_tex.create_from_image(trans_capture)
-	$transition.set_texture(trans_tex)
+	$"transition".set_texture(trans_tex)
 	
-	$transition.show()
+	$"transition".show()
 	
-	transFX.interpolate_property(
-		$transition, 
+	scene_transition.interpolate_property(
+		$"transition", 
 		"modulate", 
 		Color(1,1,1,1), 
 		Color(1,1,1,0), 
@@ -476,10 +468,8 @@ func load_map_location(location):
 		Tween.TRANS_LINEAR, 
 		Tween.EASE_IN_OUT)
 	
-	transFX.start()
+	scene_transition.start()
 	global.load_scene(location)
+	$"transition".hide()
 	change_scene = false
 	trans_capture = null
-	
-	
-	

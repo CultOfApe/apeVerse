@@ -7,8 +7,6 @@ onready var map03 = $"map03/Sprite"
 
 onready var label = $label
 
-#onready var sceneCol = get_tree().get_root().get_node("Node").get_node("scene").get_node("col")
-
 signal location_chosen(a)
 
 func _ready():
