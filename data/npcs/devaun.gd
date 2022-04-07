@@ -34,9 +34,7 @@ var gifts : Dictionary	= {
 
 
 func _ready():
-	$Character/AnimationPlayer.play()
-#	$Character/AnimationPlayer.autoplay = "Idle-loop"
-	$Character/AnimationPlayer.get_animation("Run").set_loop(true)
+	pass
 		
 
 # handles response to gifts

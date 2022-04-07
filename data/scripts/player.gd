@@ -57,8 +57,6 @@ func _process(delta):
 func _physics_process(delta):
 	if global.game_type == "3D":
 		#move and rotate player towards set target
-		if is_rotating:
-			pass
 		if global.playerMoving:
 			if !global.blocking_ui:
 				$Oleg/Armature/AnimationPlayer.play("walk")
@@ -127,7 +125,7 @@ func turn_towards(delta):
 	if global.game_type == "3D":
 		var player_transform := player.transform
 		var direction = player_transform.looking_at(target_pos,Vector3(0,1,0))
-		var rotation := Quat(player_transform.basis).slerp(direction.basis, iterate*0.3)
+		var rotation := Quat(player_transform.basis).slerp(direction.basis, iterate * 0.3)
 		
 		if iterate < 1:
 			iterate += delta
