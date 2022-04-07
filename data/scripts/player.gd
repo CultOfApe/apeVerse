@@ -30,13 +30,9 @@ var delayed_gift := {
 var is_rotating 		: bool 		= false
 
 onready var player 	:= self
-onready var helper 	:= $"rotation_helper/Position3D"
 
 onready var target_pos 	: Vector3
 onready var player_pos 	: Vector3 	= player.get_global_transform().origin
-onready var helper_pos 	: Vector3 	= helper.get_global_transform().origin	
-
-var playerFacing 		: Vector3
 
 var run_anim 			: bool
 
@@ -67,7 +63,7 @@ func _physics_process(delta):
 			if !global.blocking_ui:
 				$Oleg/Armature/AnimationPlayer.play("walk")
 				turn_towards(delta)
-				move_and_slide(Vector3(playerFacing) * get_physics_process_delta_time() * SPEED)
+				move_and_slide(-get_global_transform().basis.z * get_physics_process_delta_time() * SPEED)
 				if player_pos.distance_to(target_pos) < safe_distance:
 					global.playerMoving = false
 					if delayed_dialogue.id != null:
@@ -137,8 +133,6 @@ func turn_towards(delta):
 			iterate += delta
 		player.transform = Transform(rotation, player_transform.origin)
 		player_pos = player.get_global_transform().origin
-		helper_pos = helper.get_global_transform().origin	
-		playerFacing = (helper_pos - player_pos).normalized()
 	elif global.game_type == "2D":
 		pass
 
@@ -154,13 +148,11 @@ func move(click_position):
 		safe_distance = 1.5
 	else:
 		safe_distance = 0.1
-		
-	$Character/AnimationPlayer.play("Run")
+
 	$Oleg/Armature/AnimationPlayer.play("walk")
 	
 	iterate = 0 
 	player_pos = player.get_global_transform().origin
-	helper_pos = helper.get_global_transform().origin
 	target_pos = click_position
 	
 	global.playerMoving = true
