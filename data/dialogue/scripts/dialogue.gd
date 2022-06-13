@@ -134,6 +134,10 @@ func pick_reply(n):
 			else:
 				global.gameData[npc] = replies[n]["variables"][item]["value"]
 	
+	if replies[n].has("teleport"):
+		global.date(replies[n]["teleport"]["day"])
+		global.load_scene(replies[n]["teleport"]["to"])
+		
 	#This should probably be written from scratch with all the changes made to the event system since written		
 	if replies[n].has("event"):
 		

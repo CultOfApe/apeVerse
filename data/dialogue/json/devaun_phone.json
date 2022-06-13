@@ -3,6 +3,11 @@
 	"background": "background.png",
 	"dialogue": {
 		"1": {
+			"origin": {
+				"id": "Ellie", 
+				"branch": "5", 
+				"context": "Ellie asked me to buy weed"
+			},
 			"animate": "false",
 			"loop": "false",
 			"frame": 1,

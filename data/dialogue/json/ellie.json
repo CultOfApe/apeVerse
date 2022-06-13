@@ -113,6 +113,11 @@
 			}]
 		},
 		"8": {
+			"origin": {
+				"id": "devan_phone", 
+				"branch": "3", 
+				"context": "Called devaun. Set up time to buy weed."
+			},
 			"avatar": "res://data/npcs/ellie_talkanim.tscn",
 			"animate": "false",
 			"loop": "false",
@@ -185,6 +190,11 @@
 			}]
 		},
 		"13": {
+			"origin": {
+				"id": "devaun", 
+				"branch": "2", 
+				"context": "Bought the weed from Devaun."
+			},
 			"avatar": "res://data/npcs/ellie_talkanim.tscn",
 			"frame": 0,
 			"speech": ["You got it?."],
