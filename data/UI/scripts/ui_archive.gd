@@ -2,13 +2,34 @@ extends Panel
 
 onready var phone = get_parent().get_parent()
 onready var viewer = load("res://data/ui/nodes/image_viewer.tscn")
+var gallery_image
 
 func _ready():
 	pass
+	
+func _input(event):
+	if event.is_action_pressed("ui_left") and global.UI_lvl == 3:
+		if gallery_image != 0:
+			gallery_image = gallery_image - 1
+			get_node("header/viewer").set_texture(load("res://data/UI/gallery/" + phone.gallery[gallery_image]))
+	if event.is_action_pressed("ui_right") and global.UI_lvl == 3:
+		if gallery_image != phone.gallery.size() - 1:
+			gallery_image = gallery_image  + 1
+			get_node("header/viewer").set_texture(load("res://data/UI/gallery/" + phone.gallery[gallery_image]))
 
 func icon_fx(photo, scale):
 	$fx.interpolate_property (photo, "scale", photo.scale, scale, 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT)
 	$fx.start()
+	
+func new_viewer(num):
+	global.UI_lvl = 3
+	gallery_image = global.gallery_page * 6 - num
+	var node = viewer.instance()
+	node.set_name("viewer")
+	node.add_to_group("UI_lvl_3")
+	node.set_texture(load("res://data/UI/gallery/" + phone.gallery[gallery_image]))
+	node.set_global_position(Vector2(40, 120))
+	$header.add_child(node)
 
 func _on_sprite1_mouse_entered():
 	icon_fx($Sprite1, Vector2(1.1, 1.1))
@@ -20,13 +41,7 @@ func _on_sprite1_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
-				global.UI_lvl = 3
-				var node = viewer.instance()
-				node.set_name("viewer")
-				node.add_to_group("UI_lvl_3")
-				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 6 - 6]))
-				node.set_global_position(Vector2(40, 120))
-				$header.add_child(node)
+				new_viewer(6)
 				
 func _on_sprite2_mouse_entered():
 	icon_fx($Sprite2, Vector2(1.1, 1.1))
@@ -38,14 +53,7 @@ func _on_sprite2_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
-				global.UI_lvl = 3
-				var node = viewer.instance()
-				node.set_name("viewer")
-				node.add_to_group("UI_lvl_3")
-				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 6 - 5]))
-				node.set_global_position(Vector2(40, 120))
-				$header.add_child(node)
-
+				new_viewer(5)
 
 func _on_sprite3_mouse_entered():
 	icon_fx($Sprite3, Vector2(1.1, 1.1))
@@ -57,13 +65,7 @@ func _on_sprite3_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
-				global.UI_lvl = 3
-				var node = viewer.instance()
-				node.set_name("viewer")
-				node.add_to_group("UI_lvl_3")
-				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 6 - 4]))
-				node.set_global_position(Vector2(40, 120))
-				$header.add_child(node)
+				new_viewer(4)
 
 
 func _on_sprite4_mouse_entered():
@@ -76,13 +78,7 @@ func _on_sprite4_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
-				global.UI_lvl = 3
-				var node = viewer.instance()
-				node.set_name("viewer")
-				node.add_to_group("UI_lvl_3")
-				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 6 - 3]))
-				node.set_global_position(Vector2(40, 120))
-				$header.add_child(node)
+				new_viewer(3)
 
 
 func _on_sprite5_mouse_entered():
@@ -95,13 +91,7 @@ func _on_sprite5_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
-				global.UI_lvl = 3
-				var node = viewer.instance()
-				node.set_name("viewer")
-				node.add_to_group("UI_lvl_3")
-				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 6 - 2]))
-				node.set_global_position(Vector2(40, 120))
-				$header.add_child(node)
+				new_viewer(2)
 
 
 func _on_sprite6_mouse_entered():
@@ -114,13 +104,7 @@ func _on_sprite6_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
-				global.UI_lvl = 3
-				var node = viewer.instance()
-				node.set_name("viewer")
-				node.add_to_group("UI_lvl_3")
-				node.set_texture(load("res://data/UI/gallery/" + phone.gallery[global.gallery_page * 6 - 1]))
-				node.set_global_position(Vector2(40, 120))
-				$header.add_child(node)
+				new_viewer(1)
 
 
 func _on_page1_mouse_entered():

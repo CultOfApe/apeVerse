@@ -12,10 +12,12 @@ func _ready():
 	folder = global.list_files_in_directory("res://data/ui/gallery/")
 	#list all files in given directory and sort into fullsized photos (gallery) and thumbnails (gallery_thumbs) 
 	for item in folder:
-		if "thumb" in item:
-			gallery_thumbs.push_back(item)
-		elif !"import" in item:
-			gallery.push_back(item)
+		if !"import" in item:
+			if "thumb" in item:
+				gallery_thumbs.push_back(item)
+			else:
+				gallery.push_back(item)
+	print(gallery)
 
 func _input(event):
 	if event is InputEventKey:
