@@ -190,6 +190,13 @@ func load_scene(location): #change this first, see if any conflicts
 	# Connect player to scene input event
 	game.get_node("scene").connect("input_event", game.get_node("player"),"_on_scene_input_event")
 
+	game.get_node("player").set_rotation(Vector3(-0,0,-0))
+	game.get_node("player").set_translation(Vector3(0,0.6,0))
+	if playerLocRotOverride != null:
+		game.get_node("player").set_translation(playerLocRotOverride[0])
+		game.get_node("player").set_rotation(playerLocRotOverride[1])
+		playerLocRotOverride = null
+
 	for child in game.get_node("npcs").get_children():
 		child.set_name("DELETED")
 		child.queue_free()

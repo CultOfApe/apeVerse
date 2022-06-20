@@ -139,7 +139,7 @@ volume_db = -35.0
 [node name="player" parent="." instance=ExtResource( 4 )]
 
 [node name="camera_target" type="Spatial" parent="."]
-transform = Transform( 0.942773, 0.224187, -0.246817, 0.0134577, 0.71404, 0.699976, 0.333163, -0.66324, 0.67016, -1.95267, 6.30665, 4.64187 )
+transform = Transform( 0.942773, 0.224187, -0.246817, 0.0134577, 0.71404, 0.699976, 0.333163, -0.66324, 0.67016, -1.65409, 7.18762, 5.73668 )
 script = ExtResource( 5 )
 
 [editable path="dialogue"]
