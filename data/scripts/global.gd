@@ -172,9 +172,6 @@ func load_scene(location): #change this first, see if any conflicts
 		if eventData["date"][str(gameday)][timeofday]["type"] == "oneoff":
 			eventOverride = load_json(
 				"res://data/events/" + eventData["date"][str(gameday)][timeofday]["event"] + ".json")
-	
-	game.get_node("player").queue_free()
-	game.get_node("player").set_name("DELETED")
 
 	for child in game.get_node("scene").get_children():
 		#check that we delete everything but the collision node
@@ -189,32 +186,9 @@ func load_scene(location): #change this first, see if any conflicts
 	var scene = load("res://data/locations/" + location + ".tscn")
 	scene = scene.instance()
 	game.get_node("scene").add_child(scene)
-	
-#	Determine if we´re doing a 3d adventure game or Visual Novel-style game, by checking for type of first node in scene (Area/Area2D)
-#	This is just the first preparation. 
-#	Still TODO: code currently assumes 3d meshes when placing NPCs and Objects (Using a Vector3) - need to allow for Vector2 position
-	var player = load("res://data/asset scenes/player.tscn")
-	player = player.instance()
-	
-	if scene.is_class("Area"):
-		game_type = "3D"
-		player.set_translation(Vector3(0,0.6,0))
-		player.set_rotation(Vector3(-0,0,-0))
-		if playerLocRotOverride != null:
-			player.set_translation(playerLocRotOverride[0])
-			player.set_rotation(playerLocRotOverride[1])
-			playerLocRotOverride = null
-	elif scene.is_class("Area2d"):
-		game_type = "2D"
-		player.set_translation(Vector2(0,0))
-		player.set_rotation(Vector2(0,0))
-	else:
-		game_type = "Visual Novel"
-		
-	player.set_name("player")
-	player.set_script(playerScript)
-	game.get_node("scene").connect("input_event", player,"_on_scene_input_event")
-	game.add_child(player)
+
+	# Connect player to scene input event
+	game.get_node("scene").connect("input_event", game.get_node("player"),"_on_scene_input_event")
 
 	for child in game.get_node("npcs").get_children():
 		child.set_name("DELETED")

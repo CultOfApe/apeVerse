@@ -264,13 +264,6 @@ margin_right = 199.0
 margin_bottom = 61.8871
 text = "Archive"
 
-[node name="pressQtoclose" type="Label" parent="apps/archive"]
-margin_left = 129.0
-margin_top = 595.0
-margin_right = 234.0
-margin_bottom = 609.0
-text = "Press Q to close"
-
 [node name="Sprite1" type="Sprite" parent="apps/archive" groups=["gallery"]]
 position = Vector2( 100, 140 )
 z_index = 99

@@ -37,16 +37,9 @@ onready var player_pos 	: Vector3 	= player.get_global_transform().origin
 var run_anim 			: bool
 
 func _ready():
-#	set_process(true)
-#	set_physics_process(true)
-#	set_process_input(true)
-	
-	if global.game_type == "3D":
-		$Oleg/Armature/AnimationPlayer.play("walk")
-		$Oleg/Armature/AnimationPlayer.get_animation("walk").set_loop(true)
-		$Oleg/Armature/AnimationPlayer.get_animation("idle").set_loop(true)
-	elif global.game_type == "2D":
-		pass
+	$Oleg/Armature/AnimationPlayer.play("walk")
+	$Oleg/Armature/AnimationPlayer.get_animation("walk").set_loop(true)
+	$Oleg/Armature/AnimationPlayer.get_animation("idle").set_loop(true)
 	
 	run_anim = true
 	
@@ -55,44 +48,40 @@ func _process(delta):
 	$ui_anchor.set_position(global.camera.unproject_position(self.translation - Vector3(0, -2.2, 0)))
 
 func _physics_process(delta):
-	if global.game_type == "3D":
-		#move and rotate player towards set target
-		if global.playerMoving:
-			if !global.blocking_ui:
-				$Oleg/Armature/AnimationPlayer.play("walk")
-				turn_towards(delta)
-				move_and_slide(-get_global_transform().basis.z * get_physics_process_delta_time() * SPEED)
-				if player_pos.distance_to(target_pos) < safe_distance:
-					global.playerMoving = false
-					if delayed_dialogue.id != null:
-						$"/root/game/dialogue".talk_to(delayed_dialogue.id, delayed_dialogue.pos, "default")
-						delayed_dialogue = {
-							"id"	:	null,
-							"pos"	:	null
-						}
-					if delayed_pickup.id != null:
-						get_node("/root/game/objects/" + delayed_pickup.id).pickup()
-						delayed_pickup = {
-							"id"	:	null,
-							"pos"	:	null
-						}
-					if delayed_gift.id != null:
-						get_node("/root/game/npcs/" + delayed_gift.id).itemGiven(global.itemInHand)
-						delayed_gift = {
-							"id"	:	null,
-							"pos"	:	null
-						}
+	#move and rotate player towards set target
+	if global.playerMoving:
+		if !global.blocking_ui:
+			$Oleg/Armature/AnimationPlayer.play("walk")
+			turn_towards(delta)
+			move_and_slide(-get_global_transform().basis.z * get_physics_process_delta_time() * SPEED)
+			if player_pos.distance_to(target_pos) < safe_distance:
+				global.playerMoving = false
+				if delayed_dialogue.id != null:
+					$"/root/game/dialogue".talk_to(delayed_dialogue.id, delayed_dialogue.pos, "default")
+					delayed_dialogue = {
+						"id"	:	null,
+						"pos"	:	null
+					}
+				if delayed_pickup.id != null:
+					get_node("/root/game/objects/" + delayed_pickup.id).pickup()
+					delayed_pickup = {
+						"id"	:	null,
+						"pos"	:	null
+					}
+				if delayed_gift.id != null:
+					get_node("/root/game/npcs/" + delayed_gift.id).itemGiven(global.itemInHand)
+					delayed_gift = {
+						"id"	:	null,
+						"pos"	:	null
+					}
 
-					
-		elif global.playerMoving == false and run_anim == true:
-			$Oleg/Armature/AnimationPlayer.play("idle")
-			run_anim = false
-			
-		if global.playerMoving and global.blocking_ui == true:
-				$Oleg/Armature/AnimationPlayer.stop()
-
-	elif global.game_type == "2D":
-		pass
+				
+	elif global.playerMoving == false and run_anim == true:
+		$Oleg/Armature/AnimationPlayer.play("idle")
+		run_anim = false
+		
+	if global.playerMoving and global.blocking_ui == true:
+			$Oleg/Armature/AnimationPlayer.stop()
 		
 func _input(event):
 	if event is InputEventMouseButton:
@@ -122,17 +111,14 @@ func _input(event):
 
 
 func turn_towards(delta):
-	if global.game_type == "3D":
-		var player_transform := player.transform
-		var direction = player_transform.looking_at(target_pos,Vector3(0,1,0))
-		var rotation := Quat(player_transform.basis).slerp(direction.basis, iterate * 0.3)
-		
-		if iterate < 1:
-			iterate += delta
-		player.transform = Transform(rotation, player_transform.origin)
-		player_pos = player.get_global_transform().origin
-	elif global.game_type == "2D":
-		pass
+	var player_transform := player.transform
+	var direction = player_transform.looking_at(target_pos,Vector3(0,1,0))
+	var rotation := Quat(player_transform.basis).slerp(direction.basis, iterate * 0.3)
+	
+	if iterate < 1:
+		iterate += delta
+	player.transform = Transform(rotation, player_transform.origin)
+	player_pos = player.get_global_transform().origin
 
 func _on_scene_input_event(camera, event, click_position, click_normal, shape_idx):
 	if event is InputEventMouseButton and !global.blocking_ui:

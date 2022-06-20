@@ -16,6 +16,10 @@ func _input(event):
 		if gallery_image != phone.gallery.size() - 1:
 			gallery_image = gallery_image  + 1
 			get_node("header/viewer").set_texture(load("res://data/UI/gallery/" + phone.gallery[gallery_image]))
+	if event.is_action_pressed("ui_select") and global.UI_lvl == 3:
+		if gallery_image != phone.gallery.size() - 1:
+			gallery_image = gallery_image  + 1
+			get_node("header/viewer").set_texture(load("res://data/UI/gallery/" + phone.gallery[gallery_image]))
 
 func icon_fx(photo, scale):
 	$fx.interpolate_property (photo, "scale", photo.scale, scale, 0.3, Tween.TRANS_QUAD, Tween.EASE_OUT)
@@ -28,7 +32,8 @@ func new_viewer(num):
 	node.set_name("viewer")
 	node.add_to_group("UI_lvl_3")
 	node.set_texture(load("res://data/UI/gallery/" + phone.gallery[gallery_image]))
-	node.set_global_position(Vector2(40, 120))
+	# TODO: still should be dynamically calculated
+	node.set_global_position(Vector2(40, 180))
 	$header.add_child(node)
 
 func _on_sprite1_mouse_entered():

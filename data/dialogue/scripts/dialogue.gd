@@ -133,10 +133,6 @@ func pick_reply(n):
 				global.gameData[npc] += replies[n]["variables"][item]["value"]
 			else:
 				global.gameData[npc] = replies[n]["variables"][item]["value"]
-	
-	if replies[n].has("teleport"):
-		global.date(replies[n]["teleport"]["day"])
-		global.load_scene(replies[n]["teleport"]["to"])
 		
 	#This should probably be written from scratch with all the changes made to the event system since written		
 	if replies[n].has("event"):
@@ -215,10 +211,6 @@ func pick_reply(n):
 				
 	if replies[n].has("points"):
 		global.update_points((replies[n]["points"]))
-			
-	# TODO: a reply can trigger a change of location(and time)
-	if replies[n].has("goto"):	
-		pass
 							
 	#if "exit" is "false" take value from "next" and start next dialogue
 	if replies[n]["exit"] != "true":
@@ -260,6 +252,12 @@ func pick_reply(n):
 			global.balloon(replies[n]["bubble"], $"/root/game/player", "player")
 		
 		global.change_cursor("default")
+		
+	# TODO: add timer delay
+#	if replies[n].has("teleport"):
+#		global.day = replies[n]["teleport"]["day"]
+#		global.timeofday = replies[n]["teleport"]["timeofday"]
+#		global.load_scene(replies[n]["teleport"]["to"])
 	
 func _reply_mouseover(mouseover, reply):
 	if mouseover == true:

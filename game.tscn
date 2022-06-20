@@ -1,8 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://data/scripts/game.gd" type="Script" id=1]
 [ext_resource path="res://data/asset scenes/Camera.gd" type="Script" id=2]
 [ext_resource path="res://data/UI/ui.tscn" type="PackedScene" id=3]
+[ext_resource path="res://data/asset scenes/player.tscn" type="PackedScene" id=4]
+[ext_resource path="res://data/scripts/camera_target.gd" type="Script" id=5]
 [ext_resource path="res://data/editor/Editor.tscn" type="PackedScene" id=11]
 [ext_resource path="res://data/dialogue/dialogue.tscn" type="PackedScene" id=17]
 [ext_resource path="res://data/UI/graphics/white.png" type="Texture" id=26]
@@ -73,9 +75,12 @@ extents = Vector3( 14.7751, 12.9545, 14.3391 )
 energy = 0.1
 data = SubResource( 1 )
 
-[node name="Camera" type="Camera" parent="."]
+[node name="Camera" type="InterpolatedCamera" parent="."]
 transform = Transform( 0.83795, 0.233588, -0.493231, 0.104116, 0.818749, 0.564633, 0.535724, -0.524487, 0.66175, -5.25547, 5.74719, 7.60784 )
 fov = 50.0
+target = NodePath("../camera_target")
+speed = 3.0
+enabled = true
 script = ExtResource( 2 )
 
 [node name="environment" type="WorldEnvironment" parent="Camera"]
@@ -129,8 +134,12 @@ volume_db = -35.0
 
 [node name="Editor" parent="." instance=ExtResource( 11 )]
 
-[node name="player" type="KinematicBody" parent="."]
-
 [node name="soundfx" type="AudioStreamPlayer" parent="."]
+
+[node name="player" parent="." instance=ExtResource( 4 )]
+
+[node name="camera_target" type="Spatial" parent="."]
+transform = Transform( 0.942773, 0.224187, -0.246817, 0.0134577, 0.71404, 0.699976, 0.333163, -0.66324, 0.67016, -1.95267, 6.30665, 4.64187 )
+script = ExtResource( 5 )
 
 [editable path="dialogue"]
