@@ -21,14 +21,3 @@ transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 0, 0
 
 [node name="text" type="Label" parent="ui_anchor"]
 text = "PLAYER"
-
-[node name="tweens" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-
-[node name="tween_in" type="Tween" parent="tweens"]
-
-[node name="tween_out" type="Tween" parent="tweens"]
-
-[connection signal="tween_completed" from="tweens/tween_in" to="." method="_on_tween_in_tween_completed"]
-[connection signal="tween_completed" from="tweens/tween_out" to="." method="_on_tween_out_tween_completed"]

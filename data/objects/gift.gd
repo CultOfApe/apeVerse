@@ -83,15 +83,14 @@ func pickup():
 	
 	var picked_up = $"/root/game/ui/new_item"
 	picked_up.show()
+	picked_up.modulate = Color(1,1,1,0)
 	picked_up.get_node("item_text").text = identity
-	picked_up.get_node("materialize").interpolate_property(
-		picked_up, 
-		"modulate", 
-		Color(1,1,1,0), 
-		Color(1,1,1,1), 1, 
-		Tween.TRANS_LINEAR, 
-		Tween.EASE_IN_OUT)
-	picked_up.get_node("materialize").start()
+	
+	var tween := get_tree().create_tween()
+
+	tween.tween_property(picked_up, "modulate", Color(1,1,1,1), 1)
+	tween.tween_interval(1)
+	tween.tween_property(picked_up, "modulate", Color(1,1,1,0), 1)
 	
 	#todo: not working, try signal instead
 #	$"soundfx".set_stream(load("res:/data/sounds/new_item.wav"))

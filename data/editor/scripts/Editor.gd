@@ -1,9 +1,10 @@
 extends Control
 
 onready var blur_shader := $"/root/game/ui/shaders/blur"
-onready var blur_tween := $"/root/game/ui/tweens/blur"
 onready var click_node 	:= load("res://data/editor/assets/node_click_button.tscn") #PackedScene
 onready var editor_node := load("res://data/editor/assets/Editor_panel_label.tscn") #PackedScene
+onready var dialogue_trees = $"dialogue_picker/dialogue_trees"
+onready var dialogue_branches = $"dialogue_picker/dialogue_branches"
 onready var SCREENSIZE 	:= get_viewport().get_visible_rect().size
 
 var current_dialogue	: String
@@ -26,6 +27,8 @@ var JSON_files 	: Array
 
 func _ready():
 	get_node("main/avatar").connect("avatar_changed", self, "save_avatar")
+	print(dialogue_trees.name)
+	print(dialogue_branches.name)
 
 func _input(event):
 	#show or hide editor
@@ -55,22 +58,50 @@ func _setup_editor():
 	for item in json_folder:
 		JSON_files.push_back(item)
 
-	_create_new_UI_element("json_files", VBoxContainer, self, 0, 0, 0, 0)	
+	# TODO: instead of starting dialogue, populate dialogue branches vbox
+	for i in range(JSON_files.size()):
+		_create_instanced_UI_element("json_files_b" + str(i), click_node, dialogue_trees, 0, 0, 0, 0, null)
 
 	for i in range(JSON_files.size()):
-		_create_instanced_UI_element("json_files_b" + str(i), click_node, $"json_files", 0, 0, 0, 0, null)
+		dialogue_trees.get_node("json_files_b" + str(i)).id = JSON_files[i]
+		dialogue_trees.get_node("json_files_b" + str(i)).branch = "1"
+		dialogue_trees.get_node("json_files_b" + str(i)).set_text(JSON_files[i])
+		dialogue_trees.get_node("json_files_b" + str(i)).connect("on_click",self,"new_dialogue",[], CONNECT_ONESHOT)
+		dialogue_trees.get_node("json_files_b" + str(i)).connect("on_hover",self,"hover_dialogue")	
+		dialogue_trees.get_node("json_files_b" + str(i)).add_to_group("dialogue_select")
+		
+	pop_branch_tree("ellie.json")
 
-	for i in range(JSON_files.size()):
-		get_node("json_files/json_files_b" + str(i)).id = JSON_files[i]
-		get_node("json_files/json_files_b" + str(i)).branch = "1"
-		get_node("json_files/json_files_b" + str(i)).set_text(JSON_files[i])
-		get_node("json_files/json_files_b" + str(i)).connect("on_click",self,"new_dialogue",[], CONNECT_ONESHOT)
-		get_node("json_files/json_files_b" + str(i)).connect("button_hover",self,"_button_hover")	
+func hover_dialogue(flag, id):
+	if flag == true:
+		for node in $dialogue_picker/dialogue_branches.get_children():
+			node.queue_free()
+		pop_branch_tree(id)
+	
+func pop_branch_tree(id):
+	
+	var tree = global.load_json("res://data/dialogue/json/" + id)
+#	var branch_cache = global.load_json("res://data/dialogue/json/" + current_dialogue)
+	
+	for i in range(tree.dialogue.size()):
+		_create_instanced_UI_element("branch" + str(i+1), click_node, dialogue_branches, 0, 0, 0, 0, null)
+
+	for i in range(tree.dialogue.size()):
+		dialogue_branches.get_node("branch" + str(i+1)).id = id
+		dialogue_branches.get_node("branch" + str(i+1)).branch = str(i+1)
+		dialogue_branches.get_node("branch" + str(i+1)).set_text(tree.dialogue[str(i+1)]["speech"][0].left(25))
+		dialogue_branches.get_node("branch" + str(i+1)).connect("on_click",self,"new_dialogue",[], CONNECT_ONESHOT)
+#		dialogue_branches.get_node("branch" + str(i+1)).connect("button_hover",self,"_button_hover")
+#		print("tree: " + id)
+#		print("branch: " + str(i+1))
+#		print("text: " + tree.dialogue[str(i+1)]["speech"][0].left(25))
+
 		
 func _kill_editor():			
 	global.change_cursor("default")
 			
-	get_node("json_files").queue_free()
+	get_node("dialogue_picker/dialogue_trees/").queue_free()
+	get_node("dialogue_picker/dialogue_branches/").queue_free()
 	if get_node("nodes"):
 		get_node("nodes").queue_free()
 	
@@ -78,6 +109,7 @@ func _kill_editor():
 		
 	for node in get_tree().get_nodes_in_group("editor_main"):
 		node.hide()
+		$head.hide()
 		
 	global.blocking_ui = false
 	global.editor = false
@@ -117,7 +149,8 @@ func _pop_nodes(id, branch, reset, modifier):
 		node.show()
 	
 	# Hide away json files
-	$json_files.set_position(Vector2(($json_files.get_position() - Vector2(150, 0))))
+	# TODO: twee animation
+	$dialogue_picker.set_position(Vector2(($dialogue_picker.get_position() - Vector2(150, 0))))
 		
 	# CHECK: Is this needed? We always reset?
 	if reset:
@@ -340,6 +373,7 @@ func reply_added(id):
 func _reply_clicked(a):
 	pass	
 	
+# WTF
 func _button_hover(a, b, c):
 	if a == null:
 		get_node("main/variables").hide()
@@ -386,10 +420,10 @@ func _on_resetActiveDialogue_pressed():
 #	expands dialogue tree. Wonky righ now, so v
 func _on_expand_pressed():
 
-	$json_files.set_position(Vector2(($json_files.get_position() + Vector2(150, 0))))
+	$dialogue_picker.set_position(Vector2(($dialogue_picker.get_position() + Vector2(150, 0))))
 	$nodes.set_position(Vector2($nodes.get_position() + Vector2(150, 0)))
 	$main.set_position(Vector2($main.get_position() + Vector2(150, 0)))
-	$expand.hide()
+	$"main/expand".set_position(Vector2($"main/expand".get_position() + Vector2(150, 0)))
 	
 func variables(id):
 

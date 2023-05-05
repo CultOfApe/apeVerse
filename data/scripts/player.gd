@@ -68,6 +68,7 @@ func _physics_process(delta):
 						"id"	:	null,
 						"pos"	:	null
 					}
+					delayed_pickup.id = null
 				if delayed_gift.id != null:
 					get_node("/root/game/npcs/" + delayed_gift.id).itemGiven(global.itemInHand)
 					delayed_gift = {

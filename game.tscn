@@ -76,9 +76,8 @@ energy = 0.1
 data = SubResource( 1 )
 
 [node name="Camera" type="InterpolatedCamera" parent="."]
-transform = Transform( 0.83795, 0.233588, -0.493231, 0.104116, 0.818749, 0.564633, 0.535724, -0.524487, 0.66175, -5.25547, 5.74719, 7.60784 )
+transform = Transform( 0.83795, 0.233588, -0.493231, 0.104116, 0.818749, 0.564633, 0.535724, -0.524487, 0.66175, -8.31033, 9.12643, 7.50077 )
 fov = 50.0
-target = NodePath("../camera_target")
 speed = 3.0
 enabled = true
 script = ExtResource( 2 )
@@ -119,14 +118,6 @@ size_flags_horizontal = 2
 size_flags_vertical = 2
 texture = ExtResource( 26 )
 expand = true
-
-[node name="fade_in" type="Tween" parent="effects"]
-
-[node name="fade_out" type="Tween" parent="effects"]
-
-[node name="tween" type="Tween" parent="effects"]
-
-[node name="scene_transition" type="Tween" parent="effects"]
 
 [node name="audio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 28 )

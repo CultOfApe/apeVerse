@@ -7,8 +7,7 @@ onready var VIEWSIZE : Vector2 = get_viewport_rect().size
 #some of the below cannot be cast as dictionaries, because of array and dictionary mixing in the code
 onready var dialogue_box 	:= load("res://data/dialogue/nodes/dialogue_window.tscn")
 onready var reply_button 	:= load("res://data/dialogue/nodes/reply.tscn")
-onready var screen_blur 	:= $"/root/game/effects/blurfx"
-onready var blur_fx 		:= $"/root/game/effects/tween"
+onready var blur_shader 	:= $"/root/game/ui/shaders/blur"
 
 var dialogue 		: Dictionary
 var frame 			: Dictionary
@@ -65,14 +64,10 @@ func _input(event):
 			if current_reply != -1:
 				if get_node(reply_container[current_reply]).text == "exit dialogue":
 					
-					blur_fx.interpolate_property(
-						screen_blur, 
-						"modulate", 
-						Color(1, 1, 1, 1), 
-						Color(1, 1, 1, 0), 
-						0.5, 
-						Tween.TRANS_LINEAR, 
-						Tween.EASE_IN)
+					
+					blur_shader.modulate = Color(1,1,1,1)
+					var tween := get_tree().create_tween()
+					tween.tween_property(blur_shader, "modulate", Color(1,1,1,0), 1)
 						
 					kill_dialogue()
 				else:
@@ -104,15 +99,10 @@ func talk_to(id, target_pos, type):
 		global.blocking_ui = true
 		npc = id
 		dialogue_type = type
-		
-		blur_fx.interpolate_property(
-			screen_blur, 
-			"modulate", 
-			Color(1, 1, 1, 0), 
-			Color(1, 1, 1, 1), 
-			0.5, 
-			Tween.TRANS_LINEAR, 
-			Tween.EASE_IN)
+
+		blur_shader.modulate = Color(1,1,1,0)
+		var tween := get_tree().create_tween()
+		tween.tween_property(blur_shader, "modulate", Color(1,1,1,1), 1)
 			
 		get_parent().get_node("ui").toggle_ui_icons("hide")
 		start_dialogue(global.charData[id]["dialogue"][dialogue_type]["path"], dialogue_type)
@@ -232,15 +222,10 @@ func pick_reply(n):
 			global.charData[npc]["dialogue"][dialogue_type]["path"] = replies[n]["next"]
 		else:
 			global.charData[npc]["dialogue"][dialogue_type]["branch"] = replies[n]["next"]
-			
-		blur_fx.interpolate_property(
-			screen_blur, 
-			"modulate", 
-			Color(1, 1, 1, 1), 
-			Color(1, 1, 1, 0), 
-			0.5, 
-			Tween.TRANS_LINEAR, 
-			Tween.EASE_IN)
+
+		blur_shader.modulate = Color(1,1,1,1)
+		var tween := get_tree().create_tween()
+		tween.tween_property(blur_shader, "modulate", Color(1,1,1,0), 1)
 			
 		global.dialogue_running = false
 		kill_dialogue()

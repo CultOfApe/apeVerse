@@ -69,16 +69,13 @@ func _ready():
 	
 	
 func new_item_tween(id):
-#	global.wait(2, id)
-	yield(get_tree().create_timer(2.0), "timeout")
-	$"new_item/dissolve".interpolate_property(
-		id, 
-		"modulate", 
-		Color(1,1,1,1), 
-		Color(1,1,1,0), 1, 
-		Tween.TRANS_LINEAR, 
-		Tween.EASE_IN_OUT)
-	$"new_item/dissolve".start()	
+
+	var tween := get_tree().create_tween()
+	id.modulate = Color(1,1,1,0)
+	tween.tween_property(id, "modulate", Color(1,1,1,1), 1)
+	tween.tween_interval(1)
+	tween.tween_property(id, "modulate", Color(1,1,1,0), 1)
+	tween.tween_callback(id, "queue_free")
 
 func _input(event):
 	if event.is_action_pressed("ui_exit") and global.UI_lvl == 0:
@@ -218,16 +215,10 @@ func advance_time():
 
 	$transition.show()
 	
-	scene_transition.interpolate_property(
-		$transition, 
-		"modulate", 
-		Color(1,1,1,1), 
-		Color(1,1,1,0), 
-		1.5, 
-		Tween.TRANS_LINEAR, 
-		Tween.EASE_IN_OUT)
-		
-	scene_transition.start()
+	
+	$transition.modulate = Color(1,1,1,1)
+	var tween := get_tree().create_tween()
+	tween.tween_property($transition, "modulate", Color(1,1,1,0), 1)
 	
 #	keep track of day, week and month
 	global.playerLocRotOverride = [$"/root/game/player".get_global_transform().origin, $"/root/game/player".rotation]
@@ -284,8 +275,10 @@ func _on_calendar_mouse_exited():
 func ui_hover(name, gui_node, scale, move, node):
 	description.set_text(name)
 	noMoveOnClick = move
-	hover_tween.interpolate_property (gui_node, "scale", gui_node.scale, scale, 1, Tween.TRANS_ELASTIC, Tween.EASE_OUT)
-	hover_tween.start()
+	
+	var tween = get_tree().create_tween().set_trans(Tween.TRANS_ELASTIC).set_trans(Tween.EASE_OUT)
+	tween.tween_property (gui_node, "scale", scale, .2)#.set_trans(Tween.TRANS_ELASTIC) #Tween.EASE_OUT
+	
 	hover_node = node
 	#if mouse over a UI icon, disable the scene collision shape, preventing player move
 	floor_collision.disabled = move
@@ -309,16 +302,21 @@ func toggle_ui_overlay(id, mode, deltaPos):
 		global.blocking_ui = true
 		global.floor_collision.disabled = true
 		toggle_ui_icons("hide")
-		blur_tween.interpolate_property(blur_shader, "modulate", Color(1, 1, 1, 0), Color(1, 1, 1, 1), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
-		blur_tween.start()
+		
+		blur_shader.modulate = Color(1,1,1,0)
+		var tween := get_tree().create_tween()
+		tween.tween_property(blur_shader, "modulate", Color(1,1,1,1), 0.5)
+		
 		positionDelta = ui_node.position - deltaPos
 	else:
 		if global.itemInHand == "":
 			global.change_cursor("default")
 			
 		toggle_ui_icons("show")
-		blur_tween.interpolate_property(blur_shader, "modulate", Color(1, 1, 1, 1), Color(1, 1, 1, 0), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN)
-		blur_tween.start()
+		
+		blur_shader.modulate = Color(1,1,1,1)
+		var tween := get_tree().create_tween()
+		tween.tween_property(blur_shader, "modulate", Color(1,1,1,0), 0.5)
 
 		positionDelta = deltaPos - ui_node.position
 		
@@ -340,29 +338,24 @@ func toggle_ui_overlay(id, mode, deltaPos):
 			phoneOpen = true
 			ui_hide_show(get_node(id), Vector2(0, -positionDelta.y), Tween.TRANS_QUAD, Tween.EASE_OUT)
 			
-			fade_in.interpolate_property(
+			var tween = create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+			get_node(id + "/homescreen").modulate = Color(1,1,1,0)						
+			tween.tween_property(
 				get_node(id + "/homescreen"), 
 				"modulate", 
-				Color(1,1,1,0), 
 				Color(1,1,1,1), 
-				0.5, 
-				Tween.TRANS_LINEAR, 
-				Tween.EASE_IN_OUT)
-			
-			fade_in.start()
+				0.5)
 		else:
 			phoneOpen = false
 			ui_hide_show(get_node(id), Vector2(0,positionDelta.y), Tween.TRANS_QUAD, Tween.EASE_OUT)
 			
-			fade_out.interpolate_property(
+			var tween = create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN_OUT)
+			get_node(id + "/homescreen").modulate = Color(1,1,1,1)						
+			tween.tween_property(
 				get_node(id + "/homescreen"), 
 				"modulate", 
-				Color(1,1,1,1), 
 				Color(1,1,1,0), 
-				0.5, 
-				Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-			
-			fade_out.start()
+				0.5)
 			
 	if id == "map_ui":
 		if mode == "show":
@@ -383,9 +376,11 @@ func toggle_ui_overlay(id, mode, deltaPos):
 			ui_hide_show($"calendar_ui", Vector2(0,positionDelta.y), Tween.TRANS_QUAD, Tween.EASE_OUT)
 
 #hide or show UI icons when calling blocking UI elements, like phone, map or schoolbag
-func ui_hide_show(gui_node, move_delta, method1, method2):
-	toggle_tween.interpolate_property (gui_node, "position", gui_node.position, gui_node.position + move_delta, 0.5, method1, method2)
-	toggle_tween.start()
+func ui_hide_show(gui_node, move_delta, trans, easer):
+	var tween = get_tree().create_tween().set_trans(trans).set_ease(easer)
+	
+	tween.tween_property (gui_node, "position", gui_node.position + move_delta, 0.5)
+#	toggle_tween.start()
 	
 func toggle_game_settings():
 	if !global.blocking_ui and !global.settings:
@@ -394,16 +389,11 @@ func toggle_game_settings():
 		$game_settings.show()
 		global.blocking_ui = true
 		global.settings = true
+
+		$game_settings.modulate = Color(1,1,1,0)
+		var tween := get_tree().create_tween()
+		tween.tween_property($game_settings, "modulate", Color(1,1,1,1), 0.3)
 		
-		fade_in.interpolate_property(
-			$game_settings, 
-			"modulate", 
-			Color(1,1,1,0), 
-			Color(1,1,1,1), 0.3, 
-			Tween.TRANS_LINEAR, 
-			Tween.EASE_IN_OUT)
-		
-		fade_in.start()
 		global.change_cursor("arrow")
 #		toggle_ui_icons("hide")
 
@@ -411,41 +401,23 @@ func toggle_game_settings():
 		floor_collision.disabled = false
 		global.blocking_ui = false
 		global.settings = false
+		
+		$game_settings.modulate = Color(1,1,1,1)
+		var tween := get_tree().create_tween()
+		tween.tween_property($game_settings, "modulate", Color(1,1,1,0), 0.3)
+		
 		$"game_settings".hide()
-		
-		fade_out.interpolate_property(
-			$"game_settings", 
-			"modulate", 
-			Color(1,1,1,1), 
-			Color(1,1,1,0), 
-			0.3, 
-			Tween.TRANS_LINEAR, 
-			Tween.EASE_IN_OUT)
-		
-		fade_out.start()
 		global.change_cursor("default")
 #		toggle_ui_icons("show")
 
-func _on_fade_out_tween_completed(object, key):
-	#hide game settings from game after faded out, since it will interfere with other UI overlays even when not visible
-	$"game_settings".hide()
-
-
-#func _on_tween_in_tween_completed(object, key):
-#	pass
-#
-#
-#func _on_tween_out_tween_completed(object, key):
-#	pass
-#
-##TODO: remove this trigger from tween
-#func _on_tween_tween_completed(object, key):
-#	pass
+#func _on_fade_out_tween_completed(object, key):
+#	#hide game settings from game after faded out, since it will interfere with other UI overlays even when not visible
+#	$"game_settings".hide()
 	
 func load_map_location(location):
 
 	ui_exit("blocking")
-	$"map_ui".hide()
+	$map_ui.hide()
 	
 
 	var trans_tex := ImageTexture.new()
@@ -455,21 +427,15 @@ func load_map_location(location):
 	trans_capture.flip_y()
 	trans_capture.convert(5)
 	trans_tex.create_from_image(trans_capture)
-	$"transition".set_texture(trans_tex)
+	$transition.set_texture(trans_tex)
 	
-	$"transition".show()
+	$transition.show()
 	
-	scene_transition.interpolate_property(
-		$"transition", 
-		"modulate", 
-		Color(1,1,1,1), 
-		Color(1,1,1,0), 
-		0.7, 
-		Tween.TRANS_LINEAR, 
-		Tween.EASE_IN_OUT)
-	
-	scene_transition.start()
+	$transition.modulate = Color(1,1,1,1)
+	var tween := get_tree().create_tween()
+	tween.tween_property($transition, "modulate", Color(1,1,1,0), 0.7)
+
 	global.load_scene(location)
-	$"transition".hide()
+	$transition.hide()
 	change_scene = false
 	trans_capture = null

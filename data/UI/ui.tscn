@@ -177,18 +177,6 @@ margin_top = 340.0
 margin_right = 670.0
 margin_bottom = 300.0
 
-[node name="tweens" type="Node" parent="."]
-
-[node name="fade_in" type="Tween" parent="tweens"]
-
-[node name="fade_out" type="Tween" parent="tweens"]
-
-[node name="hover" type="Tween" parent="tweens"]
-
-[node name="toggle" type="Tween" parent="tweens"]
-
-[node name="blur" type="Tween" parent="tweens"]
-
 [node name="shaders" type="Node" parent="."]
 
 [node name="blur" type="TextureRect" parent="shaders"]

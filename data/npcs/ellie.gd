@@ -72,21 +72,19 @@ func itemGiven(id):
 		if gifts[id]["response"] is String:
 			global.active_character = identity
 			global.balloon(gifts[id]["response"], self, "npc")
+			print("1")
 		else:
+			print("2")
 			var node = reaction.instance()
 			node.set_name("reaction")
+			node.modulate = Color(1,1,1,0)
 			$ui_anchor.add_child(node) 
-		
-			$"tweens/tween_in".interpolate_property(
-				$reaction, 
-				"modulate", 
-				Color(1,1,1,0), 
-				Color(1,1,1,1), 
-				1, 
-				Tween.TRANS_LINEAR, 
-				Tween.EASE_IN_OUT)
-
-			$"tweens/tween_in".start()
+			
+			var tween := create_tween()
+			tween.tween_property($ui_anchor/reaction, "modulate", Color(1,1,1,1), 1)
+			tween.tween_property($ui_anchor/reaction, "modulate", Color(1,1,1,0), 1)
+			tween.tween_callback($ui_anchor/reaction, "queue_free")
+			
 #		if gifts[id]["value"]:
 #			pass
 #		if gifts[id]["event"]:
@@ -129,14 +127,3 @@ func _on_npc_trigger_input_event(camera, event, click_position, click_normal, sh
 	if event is InputEventMouseButton and event.button_index == BUTTON_RIGHT:
 		if event.is_pressed():
 			emit_signal("look_at", "That´s Ellie. She´s cute!")
-
-func dissolve():
-	$"tweens/tween_out".interpolate_property($"ui_anchor", "modulate", Color(1,1,1,1), Color(1,1,1,0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	$"tweens/tween_out".start()
-	global.lookingAt = false
-
-func _on_tween_in_tween_completed(object, key):
-	global.wait_and_execute(2, "dissolve", self)
-
-func _on_tween_out_tween_completed(object, key):
-	pass # Replace with function body.

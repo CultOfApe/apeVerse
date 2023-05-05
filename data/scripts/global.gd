@@ -30,7 +30,7 @@ onready var player 			= $"/root/game/player"
 onready var camera 			= $"/root/game/Camera"
 onready var speech_balloon	= load("res://data/UI/nodes/speech_balloon.tscn")
 
-var game_type 		: String	# 3d or 2d
+var game_type 		: String	= "3D"	# 3d or 2d
 
 # day number from start of game
 var	gameday = 1					# actual day in game
@@ -190,12 +190,13 @@ func load_scene(location): #change this first, see if any conflicts
 	# Connect player to scene input event
 	game.get_node("scene").connect("input_event", game.get_node("player"),"_on_scene_input_event")
 
-	game.get_node("player").set_rotation(Vector3(-0,0,-0))
-	game.get_node("player").set_translation(Vector3(0,0.6,0))
 	if playerLocRotOverride != null:
 		game.get_node("player").set_translation(playerLocRotOverride[0])
 		game.get_node("player").set_rotation(playerLocRotOverride[1])
 		playerLocRotOverride = null
+	else:
+		game.get_node("player").set_rotation(Vector3(-0,0,-0))
+		game.get_node("player").set_translation(Vector3(0,0.6,0))
 
 	for child in game.get_node("npcs").get_children():
 		child.set_name("DELETED")
@@ -388,11 +389,10 @@ func load_user_image(id):
 	var texture = ImageTexture.new()
 	return texture.create_from_image(image, 0)
 
-func dissolve():
-	$"/root/game/player/tweens/tween_out".interpolate_property($"/root/game/player/ui_anchor", "modulate", Color(1,1,1,1), Color(1,1,1,0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	$"/root/game/player/tweens/tween_out".start()
-	print("global dissolve")
-	active_character = ""
+#func dissolve():
+#	$"/root/game/player/tweens/tween_out".interpolate_property($"/root/game/player/ui_anchor", "modulate", Color(1,1,1,1), Color(1,1,1,0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+#	$"/root/game/player/tweens/tween_out".start()
+#	active_character = ""
 	
 func wait_and_execute(seconds, function, target):
 	#create and run timer only once, then run function dissolve()
@@ -409,9 +409,7 @@ func create_timer(object_target, float_wait_time, bool_is_oneshot, string_functi
 	timer.start()
 	
 func balloon(text, target, type):
-	var balloon
-	var tween_in 	: Tween
-	var tween_out	: Tween
+	var balloon := $"/root/game/ui/bubble"
 	var node = speech_balloon.instance()
 	
 	node.set_name("speech_balloon")
@@ -419,30 +417,19 @@ func balloon(text, target, type):
 	node.add_color_override("font_color", Color(0,0,0,1))
 	node.set_position(Vector2(-50, -60))
 	
-	if type == "player":
-		balloon = $"/root/game/ui/bubble"
-		tween_in = target.get_node("tweens").get_node("tween_in")
-		tween_out = target.get_node("tweens").get_node("tween_out")
-		target.get_node("ui_anchor").add_child(node) 
-	elif type == "npc":
-		balloon = $"/root/game/ui/bubble"
-		tween_in = target.get_node("tweens").get_node("tween_in")
-		tween_out = target.get_node("tweens").get_node("tween_out")
-		target.get_node("ui_anchor").add_child(node) 
+	target.get_node("ui_anchor").add_child(node) 
 
 	if text != "": # and isLookingAt == false:
-		if global.game_type == "3D":
+		if game_type == "3D":
 			node.show()
-			tween_in.interpolate_property(
-				node, 
-				"modulate", 
-				Color(1,1,1,0), 
-				Color(1,1,1,1), 
-				1, 
-				Tween.TRANS_LINEAR, 
-				Tween.EASE_IN_OUT)
-				
-			tween_in.start()
+			node.modulate = Color(1,1,1,0)
+			
+			var tween := get_tree().create_tween()
+			tween.tween_property(node, "modulate", Color(1,1,1,1), 1)
+			tween.tween_interval(1)
+			tween.tween_property(node, "modulate", Color(1,1,1,0), 1)
+			tween.tween_callback(node, "queue_free")
+
 			node.add_color_override("font_color", Color(0,0,0,1))
 			node.set_text(text)
 

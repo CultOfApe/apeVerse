@@ -3,7 +3,7 @@
 [ext_resource path="res://data/editor/scripts/Editor.gd" type="Script" id=1]
 [ext_resource path="res://data/editor/assets/avatar.tscn" type="PackedScene" id=2]
 
-[node name="Editor" type="Control"]
+[node name="Editor" type="Control" groups=["dialogue_select"]]
 visible = false
 script = ExtResource( 1 )
 __meta__ = {
@@ -19,36 +19,6 @@ margin_left = 760.0
 margin_top = 180.0
 margin_right = 910.0
 margin_bottom = 385.0
-
-[node name="topMenu" type="HBoxContainer" parent="main"]
-margin_right = 1000.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="saveSessionToFile" type="Button" parent="main/topMenu"]
-margin_right = 135.0
-margin_bottom = 40.0
-text = "save session to file"
-
-[node name="openSessionFromFile" type="Button" parent="main/topMenu"]
-margin_left = 139.0
-margin_right = 294.0
-margin_bottom = 40.0
-text = "open session from file"
-
-[node name="setToActive" type="Button" parent="main/topMenu"]
-margin_left = 298.0
-margin_right = 497.0
-margin_bottom = 40.0
-text = "set current dialogue to active"
-
-[node name="resetActiveDialogue" type="Button" parent="main/topMenu"]
-margin_left = 501.0
-margin_right = 659.0
-margin_bottom = 40.0
-text = "reset unsaved changes"
 
 [node name="options" type="VBoxContainer" parent="main"]
 margin_top = 60.0
@@ -150,10 +120,63 @@ margin_right = 138.0
 margin_bottom = 24.0
 text = "Value"
 
-[connection signal="pressed" from="main/topMenu/saveSessionToFile" to="." method="_on_saveSessionToFile_pressed"]
-[connection signal="pressed" from="main/topMenu/openSessionFromFile" to="." method="_on_openSessionFromFile_pressed"]
-[connection signal="pressed" from="main/topMenu/setToActive" to="." method="_on_setToActive_pressed"]
-[connection signal="pressed" from="main/topMenu/resetActiveDialogue" to="." method="_on_resetActiveDialogue_pressed"]
+[node name="dialogue_picker" type="HBoxContainer" parent="."]
+margin_top = 40.0
+margin_right = 40.0
+margin_bottom = 80.0
+
+[node name="dialogue_trees" type="VBoxContainer" parent="dialogue_picker"]
+margin_bottom = 39.0
+
+[node name="dialogue_branches" type="VBoxContainer" parent="dialogue_picker"]
+margin_left = 4.0
+margin_right = 4.0
+margin_bottom = 39.0
+
+[node name="head" type="VBoxContainer" parent="."]
+margin_right = 659.0
+margin_bottom = 40.0
+
+[node name="header" type="Label" parent="head"]
+margin_right = 659.0
+margin_bottom = 14.0
+text = "Dialogue ID"
+
+[node name="topMenu" type="HBoxContainer" parent="head"]
+margin_top = 18.0
+margin_right = 659.0
+margin_bottom = 38.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="saveSessionToFile" type="Button" parent="head/topMenu"]
+margin_right = 135.0
+margin_bottom = 20.0
+text = "save session to file"
+
+[node name="openSessionFromFile" type="Button" parent="head/topMenu"]
+margin_left = 139.0
+margin_right = 294.0
+margin_bottom = 20.0
+text = "open session from file"
+
+[node name="setToActive" type="Button" parent="head/topMenu"]
+margin_left = 298.0
+margin_right = 497.0
+margin_bottom = 20.0
+text = "set current dialogue to active"
+
+[node name="resetActiveDialogue" type="Button" parent="head/topMenu"]
+margin_left = 501.0
+margin_right = 659.0
+margin_bottom = 20.0
+text = "reset unsaved changes"
+
 [connection signal="toggled" from="main/options/help" to="." method="_on_help_toggled"]
 [connection signal="toggled" from="main/options/advanced" to="." method="_on_advanced_toggled"]
 [connection signal="pressed" from="main/expand" to="." method="_on_expand_pressed"]
+[connection signal="pressed" from="head/topMenu/saveSessionToFile" to="." method="_on_saveSessionToFile_pressed"]
+[connection signal="pressed" from="head/topMenu/openSessionFromFile" to="." method="_on_openSessionFromFile_pressed"]
+[connection signal="pressed" from="head/topMenu/setToActive" to="." method="_on_setToActive_pressed"]
+[connection signal="pressed" from="head/topMenu/resetActiveDialogue" to="." method="_on_resetActiveDialogue_pressed"]

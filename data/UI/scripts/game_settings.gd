@@ -100,8 +100,8 @@ func flush_paginator():
 		get_node("savegames").get_child(node).show()
 
 func save_fx(save, opacity):
-	$fx.interpolate_property(save, "modulate", save.modulate, opacity, 0.2, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	$fx.start()
+	var tween = create_tween().set_trans(Tween.TRANS_SINE)
+	tween.tween_property(save, "modulate", opacity, 0.2)
 			
 func _on_save1_mouse_entered():
 	save_fx($savegames/save1, Color(1,1,1,1))
