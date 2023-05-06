@@ -43,7 +43,7 @@ func _ready():
 	
 	run_anim = true
 	
-func _process(delta):
+func _process(_delta):
 	#set anchor for reactions slightly above head
 	$ui_anchor.set_position(global.camera.unproject_position(self.translation - Vector3(0, -2.2, 0)))
 
@@ -121,7 +121,7 @@ func turn_towards(delta):
 	player.transform = Transform(rotation, player_transform.origin)
 	player_pos = player.get_global_transform().origin
 
-func _on_scene_input_event(camera, event, click_position, click_normal, shape_idx):
+func _on_scene_input_event(_camera, event, click_position, _click_normal, _shape_idx):
 	if event is InputEventMouseButton and !global.blocking_ui:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
@@ -143,13 +143,13 @@ func move(click_position):
 	global.playerMoving = true
 	run_anim = true
 
-func dissolve():
-	$"tweens/tween_out".interpolate_property($"ui_anchor", "modulate", Color(1,1,1,1), Color(1,1,1,0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	$"tweens/tween_out".start()
-	global.lookingAt = false
-
-func _on_tween_in_tween_completed(object, key):
-	global.wait_and_execute(2, "dissolve", self)
-
-func _on_tween_out_tween_completed(object, key):
-	pass # Replace with function body.
+#func dissolve():
+#	$"tweens/tween_out".interpolate_property($"ui_anchor", "modulate", Color(1,1,1,1), Color(1,1,1,0), 1, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+#	$"tweens/tween_out".start()
+#	global.lookingAt = false
+#
+#func _on_tween_in_tween_completed(object, key):
+#	global.wait_and_execute(2, "dissolve", self)
+#
+#func _on_tween_out_tween_completed(object, key):
+#	pass # Replace with function body.

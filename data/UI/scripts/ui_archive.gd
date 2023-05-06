@@ -42,7 +42,7 @@ func _on_sprite1_mouse_entered():
 func _on_sprite1_mouse_exited():
 	icon_fx($Sprite1, Vector2(1, 1))
 
-func _on_sprite1_input_event(viewport, event, shape_idx):
+func _on_sprite1_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -54,7 +54,7 @@ func _on_sprite2_mouse_entered():
 func _on_sprite2_mouse_exited():
 	icon_fx($Sprite2, Vector2(1, 1))
 
-func _on_sprite2_input_event(viewport, event, shape_idx):
+func _on_sprite2_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -66,7 +66,7 @@ func _on_sprite3_mouse_entered():
 func _on_sprite3_mouse_exited():
 	icon_fx($Sprite3, Vector2(1, 1))
 
-func _on_sprite3_input_event(viewport, event, shape_idx):
+func _on_sprite3_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -79,7 +79,7 @@ func _on_sprite4_mouse_entered():
 func _on_sprite4_mouse_exited():
 	icon_fx($Sprite4, Vector2(1, 1))
 
-func _on_sprite4_input_event(viewport, event, shape_idx):
+func _on_sprite4_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -92,7 +92,7 @@ func _on_sprite5_mouse_entered():
 func _on_sprite5_mouse_exited():
 	icon_fx($Sprite5, Vector2(1, 1))
 
-func _on_sprite5_input_event(viewport, event, shape_idx):
+func _on_sprite5_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -105,7 +105,7 @@ func _on_sprite6_mouse_entered():
 func _on_sprite6_mouse_exited():
 	icon_fx($Sprite6, Vector2(1, 1))
 
-func _on_sprite6_input_event(viewport, event, shape_idx):
+func _on_sprite6_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -153,42 +153,42 @@ func _on_page6_mouse_entered():
 func _on_page6_mouse_exited():
 	$page6/highlight.hide()
 
-func _on_page1_input_event(viewport, event, shape_idx):
+func _on_page1_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
 				global.gallery_page = 1
 				phone.start_phone_app("archive", event)	
 
-func _on_page2_input_event(viewport, event, shape_idx):
+func _on_page2_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
 				global.gallery_page = 2
 				phone.start_phone_app("archive", event)	
 
-func _on_page3_input_event(viewport, event, shape_idx):
+func _on_page3_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
 				global.gallery_page = 3
 				phone.start_phone_app("archive", event)	
 
-func _on_page4_input_event(viewport, event, shape_idx):
+func _on_page4_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
 				global.gallery_page = 4
 				phone.start_phone_app("archive", event)	
 
-func _on_page5_input_event(viewport, event, shape_idx):
+func _on_page5_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
 				global.gallery_page = 5
 				phone.start_phone_app("archive", event)	
 
-func _on_page6_input_event(viewport, event, shape_idx):
+func _on_page6_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():

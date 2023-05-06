@@ -45,7 +45,7 @@ func _on_trigger_mouse_exited():
 	emit_signal("look_at", "")
 
 
-func _on_trigger_input_event(camera, event, click_position, click_normal, shape_idx):
+func _on_trigger_input_event(_camera, event, _click_position, _click_normal, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and global.blocking_ui!=true:
 		if event.is_pressed():
 			if global.itemInHand == "":	

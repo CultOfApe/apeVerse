@@ -23,7 +23,7 @@ func _on_map01_mouse_exited():
 	map01.hide()
 	label.set_text("")
 	
-func _on_map01_input_event(viewport, event, shape_idx):
+func _on_map01_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
 		if global.currentLocation != "schoolyard":
 			global.playerMoving = false
@@ -40,7 +40,7 @@ func _on_map02_mouse_exited():
 	map02.hide()
 	label.set_text("")
 
-func _on_map02_input_event(viewport, event, shape_idx):
+func _on_map02_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
 		if global.currentLocation != "schoolhall":
 			global.playerMoving = false
@@ -57,7 +57,7 @@ func _on_map03_mouse_exited():
 	map03.hide()
 	label.set_text("")
 
-func _on_map03_input_event(viewport, event, shape_idx):
+func _on_map03_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
 		if global.currentLocation != "myroom":
 			global.playerMoving = false

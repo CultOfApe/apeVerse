@@ -97,7 +97,7 @@ func _on_phone_mouse_entered():
 func _on_phone_mouse_exited():
 	icon_fx($homescreen/phone, Vector2(1, 1))
 
-func _on_phone_input_event(viewport, event, shape_idx):
+func _on_phone_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -110,7 +110,7 @@ func _on_mail_mouse_entered():
 func _on_mail_mouse_exited():
 	icon_fx($homescreen/mail, Vector2(1, 1))
 
-func _on_mail_input_event(viewport, event, shape_idx):
+func _on_mail_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -123,7 +123,7 @@ func _on_internet_mouse_entered():
 func _on_internet_mouse_exited():
 	icon_fx($homescreen/internet, Vector2(1, 1))
 
-func _on_internet_input_event(viewport, event, shape_idx):
+func _on_internet_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -136,7 +136,7 @@ func _on_archive_mouse_entered():
 func _on_archive_mouse_exited():
 	icon_fx($homescreen/archive, Vector2(1, 1))
 
-func _on_archive_input_event(viewport, event, shape_idx):
+func _on_archive_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -149,7 +149,7 @@ func _on_calendar_mouse_entered():
 func _on_calendar_mouse_exited():
 	icon_fx($homescreen/calendar, Vector2(1, 1))
 
-func _on_calendar_input_event(viewport, event, shape_idx):
+func _on_calendar_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -162,7 +162,7 @@ func _on_games_mouse_entered():
 func _on_games_mouse_exited():
 	icon_fx($homescreen/games, Vector2(1, 1))
 
-func _on_games_input_event(viewport, event, shape_idx):
+func _on_games_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():

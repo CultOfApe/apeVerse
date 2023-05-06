@@ -111,7 +111,7 @@ func _on_save1_mouse_exited():
 	save_fx($savegames/save1, Color(1,1,1,0.5))
 	$mode.hide()
 
-func _on_save1_input_event(viewport, event, shape_idx):
+func _on_save1_input_event(_viewport, event, _shape_idx):
 	# compare save_page and savenode 1 to local_savedata
 #	if get_node("savegames/save1").texture.get_path() == "res://data/graphics/saves/save_add.png":
 	if local_savedata["page" + String(save_page)]["save1"].thumb == "save_add":
@@ -129,7 +129,7 @@ func _on_save2_mouse_exited():
 	save_fx($savegames/save2, Color(1,1,1,0.5))
 	$mode.hide()
 	
-func _on_save2_input_event(viewport, event, shape_idx):
+func _on_save2_input_event(_viewport, event, _shape_idx):
 	if local_savedata["page" + String(save_page)]["save2"].thumb =="save_add":
 #	if get_node("savegames/save1").texture:
 			if event is InputEventMouseButton:
@@ -146,7 +146,7 @@ func _on_save3_mouse_exited():
 	save_fx($savegames/save3, Color(1,1,1,0.5))
 	$mode.hide()
 
-func _on_save3_input_event(viewport, event, shape_idx):
+func _on_save3_input_event(_viewport, event, _shape_idx):
 	if local_savedata["page" + String(save_page)]["save3"].thumb == "save_add":
 			if event is InputEventMouseButton:
 				if event.button_index == BUTTON_LEFT:
@@ -162,7 +162,7 @@ func _on_save4_mouse_exited():
 	save_fx($savegames/save4, Color(1,1,1,0.5))
 	$mode.hide()
 
-func _on_save4_input_event(viewport, event, shape_idx):
+func _on_save4_input_event(_viewport, event, _shape_idx):
 	if local_savedata["page" + String(save_page)]["save4"].thumb == "save_add":
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
@@ -178,7 +178,7 @@ func _on_save5_mouse_exited():
 	save_fx($savegames/save5, Color(1,1,1,0.5))
 	$mode.hide()
 
-func _on_save5_input_event(viewport, event, shape_idx):
+func _on_save5_input_event(_viewport, event, _shape_idx):
 	if local_savedata["page" + String(save_page)]["save5"].thumb == "save_add":
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
@@ -195,7 +195,7 @@ func _on_save6_mouse_exited():
 	save_fx($savegames/save6, Color(1,1,1,0.5))
 	$mode.hide()
 
-func _on_save6_input_event(viewport, event, shape_idx):
+func _on_save6_input_event(_viewport, event, _shape_idx):
 	if local_savedata["page" + String(save_page)]["save6"].thumb == "save_add":
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
@@ -241,7 +241,7 @@ func _on_page1_mouse_exited():
 	if save_page != 1:
 		$savegames/page1/label_background.show()
 
-func _on_page1_input_event(viewport, event, shape_idx):
+func _on_page1_input_event(_viewport, event, _shape_idx):
 	if save_page != 1:
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
@@ -258,7 +258,7 @@ func _on_page2_mouse_exited():
 	if save_page != 2:
 		$savegames/page2/label_background.show()
 
-func _on_page2_input_event(viewport, event, shape_idx):
+func _on_page2_input_event(_viewport, event, _shape_idx):
 	if save_page != 2:
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
@@ -275,7 +275,7 @@ func _on_page3_mouse_exited():
 	if save_page != 3:
 		$savegames/page3/label_background.show()
 
-func _on_page3_input_event(viewport, event, shape_idx):
+func _on_page3_input_event(_viewport, event, _shape_idx):
 	if save_page != 3:
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
@@ -293,7 +293,7 @@ func _on_page4_mouse_exited():
 	if save_page != 4:
 		$savegames/page4/label_background.show()
 
-func _on_page4_input_event(viewport, event, shape_idx):
+func _on_page4_input_event(_viewport, event, _shape_idx):
 	if save_page != 4:
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
@@ -311,7 +311,7 @@ func _on_page5_mouse_exited():
 	if save_page != 5:
 		$savegames/page5/label_background.show()
 
-func _on_page5_input_event(viewport, event, shape_idx):
+func _on_page5_input_event(_viewport, event, _shape_idx):
 	if save_page != 5:
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
@@ -329,7 +329,7 @@ func _on_page6_mouse_exited():
 	if save_page != 6:
 		$savegames/page6/label_background.show()
 
-func _on_page6_input_event(viewport, event, shape_idx):
+func _on_page6_input_event(_viewport, event, _shape_idx):
 	if save_page != 6:
 		if event is InputEventMouseButton:
 			if event.button_index == BUTTON_LEFT:
@@ -347,7 +347,7 @@ func _on_page7_mouse_exited():
 	if save_page != 7:
 		$savegames/page7/label_background.show()
 
-func _on_page7_input_event(viewport, event, shape_idx):
+func _on_page7_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():
@@ -364,7 +364,7 @@ func _on_page8_mouse_exited():
 	if save_page != 8:
 		$savegames/page8/label_background.show()
 
-func _on_page8_input_event(viewport, event, shape_idx):
+func _on_page8_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.is_pressed():

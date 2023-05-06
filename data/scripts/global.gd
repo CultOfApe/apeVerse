@@ -20,8 +20,8 @@ onready var sceneGeometry 	= $"/root/game/scene/Area"
 onready var transition 		= $"/root/game/ui/transition"
 onready var audio 			= $"/root/game/audio"
 onready var locLabel 		= $"/root/game/ui/location"
-onready var locTweenIn 		= $"/root/game/ui/location/tween_in"
-onready var locTweenOut 	= $"/root/game/ui/location/tween_out"
+#onready var locTweenIn 		= $"/root/game/ui/location/tween_in"
+#onready var locTweenOut 	= $"/root/game/ui/location/tween_out"
 onready var environment 	= $"/root/game/Camera/environment"
 onready var light 			= $"/root/game/light/DirectionalLight"
 onready var light_container = $"/root/game/light"
@@ -91,7 +91,7 @@ var capture = null
 func _ready():
 	setup_game()
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_pressed("ui_reload"):
 		get_tree().reload_current_scene()
 	if Input.is_action_pressed("ui_quit"):
@@ -125,8 +125,8 @@ func change_cursor(id):
 	var cursor = load("res://data/ui/graphics/cursor_" + id + ".png")
 	Input.set_custom_mouse_cursor(cursor)
 
-func goto_scene(scene):
-	get_tree().change_scene("res://"+scene)
+func goto_scene(id):
+	get_tree().change_scene("res://"+id)
 
 func load_scene(location): #change this first, see if any conflicts
 	
@@ -260,7 +260,7 @@ func load_scene(location): #change this first, see if any conflicts
 	print("----------------------------")
 	print(" ")
 
-func add_to_scene(type, id, group, rot, pos):
+func add_to_scene(_type, id, group, rot, pos):
 	var node = load("res://data/" + group + "/" + id + ".tscn")			
 	node = node.instance()
 	node.set_translation(Vector3(pos.x, pos.y, pos.z))
@@ -379,7 +379,7 @@ func load_json(json):
 		var file = File.new()
 		file.open(json, File.READ)
 		return parse_json(file.get_as_text())
-		file.close()
+#		file.close()
 		
 func load_user_image(id):
 	var image = Image.new()
@@ -409,7 +409,7 @@ func create_timer(object_target, float_wait_time, bool_is_oneshot, string_functi
 	timer.start()
 	
 func balloon(text, target, type):
-	var balloon := $"/root/game/ui/bubble"
+#	var balloon := $"/root/game/ui/bubble"
 	var node = speech_balloon.instance()
 	
 	node.set_name("speech_balloon")

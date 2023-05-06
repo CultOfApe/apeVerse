@@ -8,6 +8,6 @@ func _ready():
 	global.scene = "schoolyard"
 	global.load_scene("schoolyard")
 
-func _process(delta):
+func _process(_delta):
 	pass
 

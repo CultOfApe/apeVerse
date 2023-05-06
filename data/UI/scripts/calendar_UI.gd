@@ -9,7 +9,7 @@ var currentDay 		: int = global.day - 1 # set to less than current day, to ensur
 func _ready():
 	_update()
 
-func _process(delta):
+func _process(_delta):
 	if global.update_calendar == true:
 		_update()
 	else:

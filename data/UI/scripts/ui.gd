@@ -17,14 +17,14 @@ var time 		: int = 0
 var month 		: int = 6
 var dayOfMonth 	: int = 1
 
-onready var hover_tween 		: Tween = $"/root/game/effects/tween"
-onready var toggle_tween 		: Tween = $"/root/game/effects/tween"
-onready var blur_tween			: Tween = $"tweens/blur"
-onready var fade_in 			: Tween = $"/root/game/effects/fade_in"
-onready var fade_out 			: Tween = $"/root/game/effects/fade_out"
+#onready var hover_tween 		: Tween = $"/root/game/effects/tween"
+#onready var toggle_tween 		: Tween = $"/root/game/effects/tween"
+#onready var blur_tween			: Tween = $"tweens/blur"
+#onready var fade_in 			: Tween = $"/root/game/effects/fade_in"
+#onready var fade_out 			: Tween = $"/root/game/effects/fade_out"
 onready var description 		: Label = $description
 onready var floor_collision 	: CollisionShape= $"/root/game/scene/col"
-onready var scene_transition 	: Tween = $"/root/game/effects/scene_transition"
+#onready var scene_transition 	: Tween = $"/root/game/effects/scene_transition"
 
 var phoneOpen 		: bool = false
 var schoolbagOpen 	: bool = false

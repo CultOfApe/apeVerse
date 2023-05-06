@@ -50,7 +50,7 @@ func _ready():
 	$"Olga_animated/Armature/AnimationPlayer".get_animation("idle").set_loop(true)
 	self.connect("remove_item", $"/root/game/ui/schoolbag_ui", "pop_inventory")
 	
-func _process(delta):
+func _process(_delta):
 	#set anchor for UI elements slightly above head
 	$ui_anchor.set_position(global.camera.unproject_position(self.translation - Vector3(0, -2.2, 0)))
 		
@@ -116,7 +116,7 @@ func _on_npc_trigger_mouse_exit():
 	emit_signal("highlight", "")
 	emit_signal("look_at", "")
 
-func _on_npc_trigger_input_event(camera, event, click_position, click_normal, shape_idx):
+func _on_npc_trigger_input_event(_camera, event, _click_position, _click_normal, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and !global.blocking_ui:
 		if event.is_pressed():
 			if global.itemInHand == "":	

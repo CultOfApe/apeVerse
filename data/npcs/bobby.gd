@@ -15,7 +15,7 @@ func _on_npc_trigger_mouse_enter():
 func _on_npc_trigger_mouse_exit():
 	emit_signal("look_at", "")
 
-func _on_npc_trigger_gui_input( camera, event, click_pos, click_normal, shape_idx ):
+func _on_npc_trigger_gui_input(_camera, event, _click_pos, _click_normal, _shape_idx):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
 		if event.is_pressed():
 			emit_signal("dialogue", identity, self.get_transform().origin)

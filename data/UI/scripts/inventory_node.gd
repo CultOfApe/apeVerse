@@ -8,7 +8,7 @@ signal item_id(a)
 func _ready():
 	var ui_node = get_node("/root/world/ui")
 
-func _on_area_input_event(viewport, event, shape_idx):
+func _on_area_input_event(_viewport, event, _shape_idx):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
